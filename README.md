@@ -10,6 +10,8 @@
 
 Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khiển các hoạt động. Nhấn **F1** trong game để mở quản trị.
 
+**Tự động bật sẵn:** sự kiện đầu tiên xuất hiện sau khoảng 15 giây. Sau mỗi vòng, nghỉ ngẫu nhiên 30–60 giây rồi tự mở vòng mới. Đấu đội, bình chọn sàn và cùng nhảy được trộn thứ tự, không lặp cùng loại liên tiếp. Mỗi lúc chỉ có một vòng; không bỏ qua màn kết quả. Có thể tạm dừng hoặc chỉnh thời gian nghỉ trong mục **Sự kiện ngẫu nhiên**; thiết lập được nhớ khi khởi động lại.
+
 | Tính năng | Người xem tham gia | Kết quả |
 |---|---|---|
 | Đấu đội Đỏ – Xanh | Chat `đỏ` / `xanh`, thả tim | Vòng 3 phút, vòng sáng theo đội, đội thắng lên sân khấu |

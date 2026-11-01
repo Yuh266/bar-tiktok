@@ -2,7 +2,8 @@
 
 Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tiktok`:
 
-- `npm test`: 37 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
+- `npm test`: 40 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
+- Tự chạy: chờ 15 giây khi bật, nghỉ ngẫu nhiên giữa các vòng, trộn đủ ba loại, không lặp liên tiếp, không chồng vòng hoặc bỏ qua kết quả; tạm dừng không cắt vòng đang chơi, cài đặt được lưu qua lần khởi động lại.
 - Đấu đội: khóa đội đã chọn, giới hạn 300 tim/người/vòng, tự kết thúc và công bố kết quả; điểm quà không cộng vào điểm đội.
 - Bình chọn: mỗi người một phiếu, hết giờ tự chọn sàn, xử lý hòa phiếu.
 - Cùng nhảy: bỏ qua chat trước hiệu lệnh và chat lặp; xét số người duy nhất, cả trường hợp đủ/thiếu người.

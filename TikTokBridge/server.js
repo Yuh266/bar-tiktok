@@ -805,9 +805,9 @@ async function handleClientMessage(ws, message) {
     if (message.type === 'engagement_command') {
         try {
             engagement.command(message.action, message);
-            if (message.action === 'floor_set' || message.action === 'energy_goal') {
+            if (['floor_set', 'energy_goal', 'auto_config'].includes(message.action)) {
                 await fs.mkdir(dataDir, { recursive: true });
-                await fs.writeFile(path.join(dataDir, 'engagement-settings.json'), JSON.stringify({ floorTheme: engagement.floorTheme, energyGoal: engagement.energy.goal }));
+                await fs.writeFile(path.join(dataDir, 'engagement-settings.json'), JSON.stringify(engagement.settings()));
             }
             broadcast(engagementMessage());
             return send(ws, { type: 'engagement_ack', message: 'Đã áp dụng hoạt động.' });

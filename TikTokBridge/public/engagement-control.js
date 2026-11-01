@@ -3,6 +3,7 @@
 const liveActivities = {
     state: null,
     receivedAt: 0,
+    autoInitialized: false,
     onOpen() { if (speechActive) send({ type: 'speech_claim', enabled: true }); },
     onMessage(data) {
         if (data.type === 'error') document.getElementById('engagement-message').textContent = data.message;
@@ -22,6 +23,19 @@ const liveActivities = {
         if (!state) return;
         const names = { battle: 'Đấu đội Đỏ – Xanh', vote: 'Bình chọn sàn', dance: 'Cả phòng cùng nhảy' };
         const active = state[state.activity];
+        if (state.auto) {
+            const auto = state.auto;
+            const next = Math.max(0, Math.ceil((auto.nextAt - state.serverTime - (Date.now() - this.receivedAt)) / 1000));
+            document.getElementById('auto-toggle').textContent = auto.enabled ? 'Tạm dừng tự chạy' : 'Bật tự chạy';
+            document.getElementById('auto-status').textContent = !auto.enabled ? 'Đã tạm dừng tự động.'
+                : state.activity ? 'Tự động đang bật · Vòng tiếp theo sẽ được chọn khi vòng này kết thúc.'
+                : `Tự động đang bật · Sự kiện tiếp theo sau ${next}s`;
+            if (!this.autoInitialized) {
+                document.getElementById('auto-min-gap').value = auto.minGapSeconds;
+                document.getElementById('auto-max-gap').value = auto.maxGapSeconds;
+                this.autoInitialized = true;
+            }
+        }
         const remaining = active ? Math.max(0, Math.ceil((active.endsAt - state.serverTime - (Date.now() - this.receivedAt)) / 1000)) : 0;
         document.getElementById('activity-status').textContent = state.activity ? `${names[state.activity]} · ${remaining}s` : state.lastResult || 'Sẵn sàng mở hoạt động';
         document.getElementById('battle-score').textContent = `Đỏ ${state.battle.red} (${state.battle.redMembers} người) — Xanh ${state.battle.blue} (${state.battle.blueMembers} người)`;
@@ -52,6 +66,12 @@ for (const button of document.querySelectorAll('[data-floor-theme]')) button.add
     send({ type: 'engagement_command', action: 'floor_set', theme: button.dataset.floorTheme }));
 document.getElementById('activity-stop').addEventListener('click', () => send({ type: 'engagement_command', action: 'activity_stop' }));
 document.getElementById('energy-save').addEventListener('click', () => send({ type: 'engagement_command', action: 'energy_goal', goal: Number(document.getElementById('energy-goal').value) }));
+document.getElementById('auto-toggle').addEventListener('click', () => send({ type: 'engagement_command', action: 'auto_config', enabled: !liveActivities.state?.auto?.enabled }));
+document.getElementById('auto-save').addEventListener('click', () => {
+    liveActivities.autoInitialized = false;
+    send({ type: 'engagement_command', action: 'auto_config',
+        minGapSeconds: Number(document.getElementById('auto-min-gap').value), maxGapSeconds: Number(document.getElementById('auto-max-gap').value) });
+});
 
 let speechActive = false;
 const synth = window.speechSynthesis;

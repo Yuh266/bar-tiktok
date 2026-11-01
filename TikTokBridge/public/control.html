@@ -261,6 +261,18 @@
         <button id="activity-stop" class="btn btn-secondary" disabled>Kết thúc sớm</button>
     </div>
     <div class="grid-2 engagement-grid">
+        <article class="card col-span-2">
+            <p class="card-label">Tự động · Không cần bấm từng vòng</p>
+            <h2 class="card-title">Sự kiện ngẫu nhiên</h2>
+            <p class="help">Tự chọn đấu đội, bình chọn sàn hoặc cùng nhảy. Các vòng chạy lần lượt, không lặp cùng loại liên tiếp; kết quả được giữ 12 giây trước khi sang vòng sau. Khi tạm dừng, vòng đang chơi vẫn hoàn tất.</p>
+            <p id="auto-status" class="activity-score" role="status">Đang kết nối…</p>
+            <div class="activity-controls">
+                <button id="auto-toggle" class="btn btn-gold">Tạm dừng tự chạy</button>
+                <label>Nghỉ ít nhất (giây)<input id="auto-min-gap" type="number" min="15" max="600" value="30"></label>
+                <label>Nghỉ nhiều nhất (giây)<input id="auto-max-gap" type="number" min="15" max="900" value="60"></label>
+                <button id="auto-save" class="btn btn-secondary">Lưu thời gian nghỉ</button>
+            </div>
+        </article>
         <article class="card">
             <p class="card-label">01 · Chọn phe</p><h2 class="card-title">Đấu đội Đỏ – Xanh</h2>
             <p class="help">Chat <strong>đỏ</strong> hoặc <strong>xanh</strong> để vào đội: +1 điểm. Mỗi 20 tim thêm 1 điểm, tối đa 300 tim/người/vòng. Điểm chơi tách riêng BXH quà.</p>

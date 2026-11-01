@@ -13,6 +13,14 @@ const path = require('node:path');
         await page.goto(`${base}/control.html`);
         await page.getByRole('button', { name: 'Tương tác', exact: true }).click();
         await page.waitForFunction(() => window.liveActivities?.state);
+        if (await page.evaluate(() => window.liveActivities.state.auto?.enabled)) {
+            await page.getByRole('button', { name: 'Tạm dừng tự chạy', exact: true }).click();
+            await page.waitForFunction(() => !window.liveActivities.state.auto.enabled);
+        }
+        await page.locator('#auto-min-gap').fill('30');
+        await page.locator('#auto-max-gap').fill('60');
+        await page.getByRole('button', { name: 'Lưu thời gian nghỉ', exact: true }).click();
+        await page.waitForFunction(() => window.liveActivities.state.auto.minGapSeconds === 30 && window.liveActivities.state.auto.maxGapSeconds === 60);
         await page.getByRole('button', { name: 'Bắt đầu đấu đội', exact: true }).click();
         await page.waitForFunction(() => window.liveActivities.state.activity === 'battle');
         assert.equal(await page.getByRole('button', { name: 'Mở bình chọn', exact: true }).isDisabled(), true);

@@ -4,5 +4,8 @@
   "danceSeconds": 10,
   "danceTarget": 10,
   "energyGoal": 2000,
-  "floorTheme": "neon"
+  "floorTheme": "neon",
+  "autoEnabled": true,
+  "autoMinGapSeconds": 30,
+  "autoMaxGapSeconds": 60
 }

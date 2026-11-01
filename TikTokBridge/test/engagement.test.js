@@ -118,3 +118,47 @@ test('gift speech merges bursts, speaks sequentially, and stops without replay',
     queue.stop(); done[1](); assert.equal(queue.active, false);
     assert.equal(thanksText({ nickname: '<img>', repeatCount: 0 }), 'Cảm ơn img đã tặng 1 quà nhé!');
 });
+
+test('autoplay waits, opens one round, preserves results and respects its break', () => {
+    let time = 100000;
+    const engine = new EngagementEngine({ now: () => time, random: () => 0.99, config: { autoEnabled: true } });
+    time += 14999; engine.tick(); assert.equal(engine.activity, '');
+    time++; engine.tick(); assert.equal(engine.activity, 'battle');
+    assert.equal(engine.auto.nextAt, 0);
+    const end = engine.battle.endsAt;
+    time = end - 1; engine.tick(); assert.equal(engine.activity, 'battle');
+    time = end; engine.tick(); assert.equal(engine.battle.status, 'results');
+    const next = engine.auto.nextAt;
+    assert.ok(next >= time + 30000 && next <= time + 60000);
+    time += 11999; engine.tick(); assert.ok(engine.lastResult);
+    assert.equal(engine.activity, '');
+    time = next - 1; engine.tick(); assert.equal(engine.activity, '');
+    time++; engine.tick(); assert.notEqual(engine.activity, 'battle');
+    assert.notEqual(engine.activity, '');
+});
+
+test('autoplay rotates every kind and avoids repeating across shuffle boundaries', () => {
+    let time = 100000;
+    const engine = new EngagementEngine({ now: () => time, random: () => 0.99, config: { autoEnabled: true } });
+    const rounds = [];
+    for (let index = 0; index < 12; index++) {
+        time = engine.auto.nextAt; engine.tick(); rounds.push(engine.activity);
+        engine.command('activity_stop');
+    }
+    for (let index = 1; index < rounds.length; index++) assert.notEqual(rounds[index], rounds[index - 1]);
+    for (let index = 0; index < rounds.length; index += 3) assert.equal(new Set(rounds.slice(index, index + 3)).size, 3);
+});
+
+test('pausing autoplay lets the current round finish and settings survive reconstruction', () => {
+    let time = 100000;
+    const engine = new EngagementEngine({ now: () => time, config: { autoEnabled: true } });
+    engine.command('battle_start', { seconds: 30 });
+    engine.command('auto_config', { enabled: false, minGapSeconds: 40, maxGapSeconds: 65 });
+    assert.equal(engine.activity, 'battle'); assert.equal(engine.auto.nextAt, 0);
+    time += 30000; engine.tick(); assert.equal(engine.activity, '');
+    time += 1000000; engine.tick(); assert.equal(engine.activity, '');
+    const restored = new EngagementEngine({ config: engine.settings(), now: () => time });
+    assert.equal(restored.auto.enabled, false); assert.equal(restored.auto.minGapSeconds, 40);
+    restored.command('auto_config', { enabled: true });
+    time += 15000; restored.tick(); assert.notEqual(restored.activity, '');
+});
