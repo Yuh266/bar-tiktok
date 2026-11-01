@@ -70,6 +70,14 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     await overlay.until(m => m.type === 'engagement_state' && m.engagement.activity === 'battle');
     source.send(JSON.stringify({ event: 'chat', data: { msgId: 'join-red', userId: 'viewer-1', nickname: 'Minh', comment: 'đỏ' } }));
     assert.equal((await overlay.until(m => m.type === 'chat')).team, 'red');
+    source.send(JSON.stringify({ event: 'chat', data: { msgId: 'join-blue-content', userId: 'viewer-blue', nickname: 'Blue viewer', content: 'xanh' } }));
+    const blue = await overlay.until(m => m.type === 'chat' && m.userId === 'viewer-blue');
+    assert.equal(blue.comment, 'xanh');
+    assert.equal(blue.team, 'blue');
+    assert.equal(blue.spectatorOnly, false);
+    assert.equal(blue.joinedNow, true);
+    source.send(JSON.stringify({ event: 'chat', data: { msgId: 'join-hey-content', userId: 'viewer-hey', nickname: 'New viewer', content: 'hey' } }));
+    assert.equal((await overlay.until(m => m.type === 'chat' && m.userId === 'viewer-hey')).action, 'join');
     control.send({ type: 'speech_claim', enabled: true });
     await control.until(m => m.type === 'speech_status' && m.active);
     control.send({ type: 'engagement_command', action: 'auto_config', enabled: false, minGapSeconds: 45, maxGapSeconds: 70 });

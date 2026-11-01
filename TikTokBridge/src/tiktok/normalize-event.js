@@ -29,11 +29,14 @@ function eventId(data = {}) {
 }
 
 function normalizeChat(data) {
+    // Current WebcastChatMessage uses content; older connectors used comment.
+    const comment = [data.comment, data.content]
+        .find(value => typeof value === 'string' && value.trim()) || '';
     return {
         type: 'chat',
         eventId: eventId(data),
         ...normalizeUser(data),
-        comment: String(data.comment || '')
+        comment
     };
 }
 

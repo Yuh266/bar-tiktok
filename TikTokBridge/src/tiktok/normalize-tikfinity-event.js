@@ -75,7 +75,7 @@ function normalizeOne(raw) {
         `tikfinity-${Date.now()}-${++generatedEventSequence}`;
     const base = { type, eventId: id, ...normalizeUser(data) };
     if (type === 'chat') {
-        return { ...base, comment: firstText(data.comment, data.message, data.text) };
+        return { ...base, comment: firstText(data.comment, data.content, data.message, data.text) };
     }
     if (type === 'like') {
         return {

@@ -26,6 +26,37 @@ test('normalizes v2 nested chat user data', () => {
     assert.equal(event.comment, 'nhảy');
 });
 
+test('reads current TikTok v3 content instead of dropping live chat commands', async () => {
+    const { WebcastChatMessage } = await import('tiktok-live-proto/v3');
+    const { EngagementEngine } = require('../src/engagement');
+    for (const command of ['xanh', 'đỏ', 'hey', '1', 'nhảy']) {
+        const message = WebcastChatMessage.decode(new Uint8Array());
+        message.content = command;
+        // Round-trip through the same protobuf schema used by the installed connector.
+        const decoded = WebcastChatMessage.decode(WebcastChatMessage.encode(message).finish());
+        const event = normalizeChat({ ...decoded, user: { userId: 'viewer-blue', nickname: 'Blue viewer' } });
+        assert.equal(event.comment, command);
+        if (command === 'xanh') {
+            const engine = new EngagementEngine(); engine.command('battle_start'); engine.process(event);
+            assert.equal(event.team, 'blue');
+            assert.equal(event.engagementJoined, true);
+            assert.equal(engine.battle.blueMembers, 1);
+        }
+    }
+});
+
+test('accepts content when a wrapper supplies an empty legacy comment', () => {
+    assert.equal(normalizeChat({ comment: '', content: 'xanh' }).comment, 'xanh');
+    assert.equal(normalizeChat({ comment: '  ', content: 'đỏ' }).comment, 'đỏ');
+    assert.equal(normalizeChat({ comment: 'hey', content: 'xanh' }).comment, 'hey');
+    assert.equal(normalizeChat({ content: {} }).comment, '');
+});
+
+test('TikFinity also preserves a content-only chat payload', () => {
+    const [event] = normalizeTikFinityMessage({ event: 'chat', data: { userId: 'blue-1', content: 'xanh' } });
+    assert.equal(event.comment, 'xanh');
+});
+
 test('normalizes avatar URLs from legacy and raw TikTok user shapes', () => {
     const legacy = normalizeMember({
         userId: 'legacy-1',
