@@ -9,6 +9,7 @@ const path = require('node:path');
     const browser = await chromium.launch({ channel: 'chrome', headless: true });
     try {
         const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+        page.setDefaultTimeout(10000);
         const errors = []; page.on('pageerror', error => errors.push(error.message));
         await page.goto(`${base}/control.html`);
         await page.getByRole('button', { name: 'Tương tác', exact: true }).click();
@@ -16,6 +17,10 @@ const path = require('node:path');
         if (await page.evaluate(() => window.liveActivities.state.auto?.enabled)) {
             await page.getByRole('button', { name: 'Tạm dừng tự chạy', exact: true }).click();
             await page.waitForFunction(() => !window.liveActivities.state.auto.enabled);
+        }
+        if (await page.evaluate(() => Boolean(window.liveActivities.state.activity))) {
+            await page.getByRole('button', { name: 'Kết thúc sớm', exact: true }).click();
+            await page.waitForFunction(() => !window.liveActivities.state.activity);
         }
         await page.locator('#auto-min-gap').fill('30');
         await page.locator('#auto-max-gap').fill('60');
@@ -34,10 +39,23 @@ const path = require('node:path');
         await page.waitForFunction(() => window.liveActivities.state.activity === 'dance');
         await page.getByRole('button', { name: 'Kết thúc sớm', exact: true }).click();
         await page.waitForFunction(() => window.liveActivities.state.activity === '');
-        await page.getByRole('button', { name: 'Dung nham', exact: true }).click();
+        await page.locator('[data-tab="floors"]').click();
+        await page.waitForFunction(() => [...document.querySelectorAll('#tab-floors img')].every(image => image.complete && image.naturalWidth > 0));
+        await page.locator('[data-floor-theme="lava"]').click();
         await page.waitForFunction(() => window.liveActivities.state.floorTheme === 'lava');
-        await page.getByRole('button', { name: 'Neon lục giác', exact: true }).click();
+        await page.locator('[data-floor-theme="classic"]').click();
+        await page.waitForFunction(() => window.liveActivities.state.floorTheme === 'classic');
+        assert.equal(await page.locator('[data-floor-theme="classic"]').getAttribute('aria-pressed'), 'true');
+        await page.locator('[data-floor-theme="disco"]').click();
+        await page.waitForFunction(() => window.liveActivities.state.floorTheme === 'disco');
+        await page.locator('[data-floor-theme="neon"]').click();
         await page.waitForFunction(() => window.liveActivities.state.floorTheme === 'neon');
+        await page.evaluate(() => scrollTo(0, 0));
+        await page.screenshot({ path: path.resolve(__dirname, '../../docs/media/floor-control.png'), fullPage: true });
+        await page.setViewportSize({ width: 390, height: 844 });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+        await page.setViewportSize({ width: 1440, height: 1000 });
+        await page.locator('[data-tab="engagement"]').click();
         await page.locator('#energy-goal').fill('3000');
         await page.getByRole('button', { name: 'Áp dụng mốc', exact: true }).click();
         await page.waitForFunction(() => window.liveActivities.state.energy.goal === 3000);
@@ -63,6 +81,8 @@ const path = require('node:path');
         const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
         assert.equal(overflow, false, 'Mobile layout must not scroll horizontally');
         assert.deepEqual(errors, []);
+        await page.evaluate(() => speechSynthesis.cancel());
+        await page.close();
         console.log('Engagement control UI smoke passed');
     } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

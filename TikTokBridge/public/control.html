@@ -18,6 +18,7 @@
     </div>
     <div class="tab-nav">
         <button class="tab-btn active" data-tab="live">Live</button>
+        <button class="tab-btn" data-tab="floors">Đổi sàn</button>
         <button class="tab-btn" data-tab="engagement">Tương tác</button>
         <button class="tab-btn" data-tab="players">Người chơi</button>
         <button class="tab-btn" data-tab="rules">Master Rules</button>
@@ -305,8 +306,8 @@
         </article>
         <article class="card">
             <p class="card-label">Sân khấu</p><h2 class="card-title">Chọn sàn trực tiếp</h2>
-            <p class="help">Đang dùng: <strong id="floor-current">Neon lục giác</strong></p>
-            <div class="action-grid"><button data-floor-theme="neon" class="btn btn-secondary">Neon lục giác</button><button data-floor-theme="disco" class="btn btn-secondary">Disco ô vuông</button><button data-floor-theme="lava" class="btn btn-secondary">Dung nham</button></div>
+            <p class="help">Đang dùng: <strong data-floor-current>Đang kết nối…</strong></p>
+            <button id="open-floor-tab" class="btn btn-secondary">Xem các mẫu sàn</button>
         </article>
         <article class="card col-span-2">
             <p class="card-label">06 · Cảm ơn người tặng</p><h2 class="card-title">Đọc cảm ơn bằng giọng nói</h2>
@@ -320,6 +321,41 @@
             <div class="activity-controls"><button id="speech-toggle" class="btn btn-gold">Bật đọc cảm ơn</button><button id="speech-test" class="btn btn-secondary">Nghe thử</button></div>
             <p id="speech-status" class="help" role="status">Đang tắt.</p>
             <p class="help">Giữ tab này mở. Bật thu âm thanh máy tính trong TikTok LIVE Studio/OBS để người xem nghe được.</p>
+        </article>
+    </div>
+</section>
+
+<section class="tab-panel" id="tab-floors">
+    <div class="page-header">
+        <p class="page-eyebrow">Sân khấu LIVE</p><h1 class="page-title">Đổi sàn nhảy</h1>
+        <p class="page-desc">Chọn mẫu để đổi ngay trong game. Lựa chọn được lưu khi mở lại.</p>
+    </div>
+    <div class="card floor-summary"><div><p class="card-label">Sàn hiện tại</p><h2 id="floor-current" data-floor-current class="card-title">Đang kết nối…</h2></div><span class="floor-live-pill">Áp dụng trực tiếp</span></div>
+    <p id="floor-message" class="help" role="status">Khi có bình chọn, khán giả vẫn có thể chọn sang sàn khác.</p>
+    <div class="floor-theme-grid">
+        <article class="card floor-theme-card" data-theme-card="classic">
+            <img class="floor-theme-preview" src="/assets/floors/classic.png" alt="Mặt sàn LED ô vuông nhiều màu bản cũ">
+            <p class="card-label">Bản cũ được giữ lại</p><h2 class="card-title">LED ô vuông cổ điển</h2>
+            <p class="help">Các ô vuông sáng đầy màu, nhấp nháy và chạy họa tiết theo nhạc như bản trước.</p>
+            <button data-floor-theme="classic" class="btn btn-gold" aria-pressed="false" disabled>Dùng sàn này</button>
+        </article>
+        <article class="card floor-theme-card" data-theme-card="neon">
+            <img class="floor-theme-preview" src="/assets/floors/neon.png" alt="Sàn lục giác neon xanh tím">
+            <p class="card-label">Xanh · Tím</p><h2 class="card-title">Neon lục giác</h2>
+            <p class="help">Nền kính tối, đường viền lục giác và vòng LED giữa sàn.</p>
+            <button data-floor-theme="neon" class="btn btn-gold" aria-pressed="false" disabled>Dùng sàn này</button>
+        </article>
+        <article class="card floor-theme-card" data-theme-card="disco">
+            <img class="floor-theme-preview" src="/assets/floors/disco.png" alt="Sàn ô vuông viền hồng và xanh">
+            <p class="card-label">Hồng · Xanh</p><h2 class="card-title">Disco ô vuông</h2>
+            <p class="help">Ô vuông nền tối, viền neon hồng xanh và ánh sáng nhịp nhẹ.</p>
+            <button data-floor-theme="disco" class="btn btn-gold" aria-pressed="false" disabled>Dùng sàn này</button>
+        </article>
+        <article class="card floor-theme-card" data-theme-card="lava">
+            <img class="floor-theme-preview" src="/assets/floors/lava.png" alt="Sàn dung nham với các đường sáng đỏ cam">
+            <p class="card-label">Đỏ · Cam</p><h2 class="card-title">Dung nham</h2>
+            <p class="help">Những mảng sàn tối với khe sáng đỏ cam và vòng năng lượng.</p>
+            <button data-floor-theme="lava" class="btn btn-gold" aria-pressed="false" disabled>Dùng sàn này</button>
         </article>
     </div>
 </section>

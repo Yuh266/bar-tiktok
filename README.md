@@ -27,6 +27,17 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 Khi hết đấu đội, tên người chơi trở về màu thường. Mỗi người thắng được phóng to 60%, có vòng sáng vàng và huy hiệu **ĐỘI CHIẾN THẮNG** trong 12 giây; sân khấu có banner chúc mừng và pháo hoa. Phần thưởng là hiệu ứng, không cộng vào điểm quà.
 
+### Đổi sàn từ web quản trị
+
+Mở tab **Đổi sàn**, chọn **Dùng sàn này** dưới ảnh mẫu. Sàn đổi trực tiếp trong game, có đánh dấu **Đang dùng** và tự lưu lựa chọn. Có bốn mẫu:
+
+- **LED ô vuông cổ điển:** giữ nguyên shader ô vuông đầy màu, nhấp nháy và chạy họa tiết theo nhạc của bản cũ.
+- **Neon lục giác:** nền tối, viền xanh tím.
+- **Disco ô vuông:** nền tối, viền ô vuông hồng xanh.
+- **Dung nham:** các mảng sàn và khe sáng đỏ cam.
+
+Vòng bình chọn của khán giả vẫn dùng ba lựa chọn `1/2/3` (Neon/Disco/Dung nham) và có thể đổi sàn theo kết quả. Sàn cổ điển được chọn trực tiếp trong quản trị.
+
 ### Quản lý người chơi và BXH
 
 Trong web quản trị → **Người chơi**:

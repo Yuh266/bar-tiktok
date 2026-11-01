@@ -2,13 +2,22 @@
 'use strict';
 const liveActivities = {
     state: null,
+    pendingFloor: null,
     receivedAt: 0,
     autoInitialized: false,
-    onOpen() { if (speechActive) send({ type: 'speech_claim', enabled: true }); },
+    onOpen() { this.pendingFloor = null; if (speechActive) send({ type: 'speech_claim', enabled: true }); },
     onMessage(data) {
         if (data.type === 'error') document.getElementById('engagement-message').textContent = data.message;
+        if (data.type === 'error' && this.pendingFloor) {
+            document.getElementById('floor-message').textContent = data.message;
+            this.pendingFloor = null;
+        }
         if (data.type === 'engagement_state') {
             this.state = data.engagement; this.receivedAt = Date.now(); this.render();
+            if (this.pendingFloor === this.state.floorTheme) {
+                document.getElementById('floor-message').textContent = `Đã đổi sàn trong game: ${document.getElementById('floor-current').textContent}.`;
+                this.pendingFloor = null;
+            }
         }
         if (data.type === 'engagement_ack') document.getElementById('engagement-message').textContent = data.message;
         if (data.type === 'gift_thanks' && speechActive) giftSpeech.enqueue(data);
@@ -44,7 +53,16 @@ const liveActivities = {
         document.getElementById('energy-value').textContent = `${state.energy.value.toLocaleString('vi-VN')} / ${state.energy.goal.toLocaleString('vi-VN')} tim`;
         document.getElementById('energy-progress').value = state.energy.value;
         document.getElementById('energy-progress').max = state.energy.goal;
-        document.getElementById('floor-current').textContent = { neon: 'Neon lục giác', disco: 'Disco ô vuông', lava: 'Dung nham' }[state.floorTheme];
+        const floorNames = { neon: 'Neon lục giác', disco: 'Disco ô vuông', lava: 'Dung nham', classic: 'LED ô vuông cổ điển' };
+        for (const label of document.querySelectorAll('[data-floor-current]')) label.textContent = floorNames[state.floorTheme] || state.floorTheme;
+        for (const button of document.querySelectorAll('[data-floor-theme]')) {
+            const selected = button.dataset.floorTheme === state.floorTheme;
+            button.disabled = socket?.readyState !== WebSocket.OPEN || selected;
+            button.setAttribute('aria-pressed', String(selected));
+            button.setAttribute('aria-label', `${selected ? 'Đang dùng' : 'Dùng sàn'} ${floorNames[button.dataset.floorTheme]}`);
+            button.textContent = selected ? 'Đang dùng' : 'Dùng sàn này';
+            button.closest('[data-theme-card]')?.classList.toggle('is-selected', selected);
+        }
         for (const button of document.querySelectorAll('[data-engagement-start]')) button.disabled = Boolean(state.activity);
         document.getElementById('activity-stop').disabled = !state.activity;
         const list = document.getElementById('loyal-viewers');
@@ -62,8 +80,12 @@ for (const button of document.querySelectorAll('[data-engagement-start]')) butto
     const action = button.dataset.engagementStart;
     send({ type: 'engagement_command', action, seconds: Number(document.getElementById(`${action}-seconds`).value), target: Number(document.getElementById('dance-target').value) });
 });
-for (const button of document.querySelectorAll('[data-floor-theme]')) button.addEventListener('click', () =>
-    send({ type: 'engagement_command', action: 'floor_set', theme: button.dataset.floorTheme }));
+for (const button of document.querySelectorAll('[data-floor-theme]')) button.addEventListener('click', () => {
+    liveActivities.pendingFloor = button.dataset.floorTheme;
+    document.getElementById('floor-message').textContent = 'Đang đổi sàn…';
+    send({ type: 'engagement_command', action: 'floor_set', theme: button.dataset.floorTheme });
+});
+document.getElementById('open-floor-tab').addEventListener('click', () => document.querySelector('[data-tab="floors"]').click());
 document.getElementById('activity-stop').addEventListener('click', () => send({ type: 'engagement_command', action: 'activity_stop' }));
 document.getElementById('energy-save').addEventListener('click', () => send({ type: 'engagement_command', action: 'energy_goal', goal: Number(document.getElementById('energy-goal').value) }));
 document.getElementById('auto-toggle').addEventListener('click', () => send({ type: 'engagement_command', action: 'auto_config', enabled: !liveActivities.state?.auto?.enabled }));

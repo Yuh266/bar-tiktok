@@ -19,7 +19,7 @@ namespace TikTokLiveGame
 
         public static void ApplyTheme(string theme)
         {
-            if (theme is not ("neon" or "disco" or "lava") || theme == currentTheme) return;
+            if (theme is not ("neon" or "disco" or "lava" or "classic") || theme == currentTheme) return;
             int layer = current == null ? 8 : current.gameObject.layer;
             if (current != null) { current.gameObject.SetActive(false); Destroy(current.gameObject); }
             Build(layer, theme);
@@ -34,6 +34,12 @@ namespace TikTokLiveGame
             NeonDanceFloor show = root.AddComponent<NeonDanceFloor>();
             current = show;
             currentTheme = theme;
+            if (theme == "classic")
+            {
+                show.enabled = false;
+                BuildClassicFloor(root, layer);
+                return;
+            }
             show.mainColor = theme == "lava" ? new Color(1f, 0.25f, 0.015f) : theme == "disco" ? new Color(0.95f, 0.08f, 0.5f) : Cyan;
             show.accentColor = theme == "lava" ? new Color(0.9f, 0.035f, 0.01f) : theme == "disco" ? new Color(0.12f, 0.48f, 0.95f) : Violet;
             show.indexColor = theme == "lava" ? new Color(1f, 0.65f, 0.15f) : Pearl;
@@ -126,6 +132,31 @@ namespace TikTokLiveGame
             fineLines.Create(root, "Pearl Dial Indices", show.pearl);
         }
 
+        private static void BuildClassicFloor(GameObject root, int layer)
+        {
+            Shader shader = Resources.Load<Shader>("Shaders/LedDanceFloor");
+            if (shader == null) throw new System.InvalidOperationException("Classic LED floor shader is missing from this build.");
+            GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            floor.name = "Classic Rainbow LED Floor";
+            floor.layer = layer;
+            floor.transform.SetParent(root.transform, false);
+            floor.transform.position = new Vector3(0f, -0.045f, -3f);
+            floor.transform.localScale = new Vector3(1.8f, 1f, 2.8f);
+            Material material = new(shader);
+            material.SetFloat("_Bpm", ClubBeatClock.Bpm);
+            floor.GetComponent<Renderer>().sharedMaterial = material;
+            foreach (float x in new[] { -9.1f, 9.1f })
+            {
+                GameObject border = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                border.name = "Classic Floor Border";
+                border.layer = layer;
+                border.transform.SetParent(root.transform, false);
+                border.transform.position = new Vector3(x, -0.02f, -3f);
+                border.transform.localScale = new Vector3(0.15f, 0.12f, 28f);
+                border.GetComponent<Renderer>().sharedMaterial = GameMaterials.Club(new Color(0.01f, 0.02f, 0.04f), new Color(0.02f, 0.5f, 0.8f));
+            }
+        }
+
         private void Update()
         {
             float breath = 0.78f + 0.1f * Mathf.Sin(ClubBeatClock.Beat * 0.45f);
@@ -139,7 +170,7 @@ namespace TikTokLiveGame
         private void OnDestroy()
         {
             foreach (MeshFilter filter in GetComponentsInChildren<MeshFilter>())
-                if (filter.sharedMesh != null && filter.sharedMesh.name != "Plane") Destroy(filter.sharedMesh);
+                if (filter.sharedMesh != null && filter.sharedMesh.name == filter.gameObject.name) Destroy(filter.sharedMesh);
             foreach (Renderer renderer in GetComponentsInChildren<Renderer>())
                 if (renderer.sharedMaterial != null) Destroy(renderer.sharedMaterial);
         }

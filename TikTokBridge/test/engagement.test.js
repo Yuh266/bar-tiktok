@@ -65,6 +65,16 @@ test('votes count one ballot per viewer and ties preserve an eligible current fl
     assert.throws(() => engine.command('floor_set', { theme: 'bad' }));
 });
 
+test('classic LED floor can be selected and restored without breaking the three-choice vote', () => {
+    const { engine, chat, advance } = setup();
+    engine.command('floor_set', { theme: 'classic' });
+    assert.equal(new EngagementEngine({ config: engine.settings() }).floorTheme, 'classic');
+    engine.command('vote_start', { seconds: 10 }); advance(10000);
+    assert.equal(engine.floorTheme, 'classic');
+    engine.command('vote_start', { seconds: 10 }); chat('viewer', '2'); advance(10000);
+    assert.equal(engine.floorTheme, 'disco');
+});
+
 test('dance ignores early and duplicate chats, succeeds with unique people and expires', () => {
     const { engine, chat, advance } = setup();
     engine.command('dance_start', { seconds: 5, target: 2 });

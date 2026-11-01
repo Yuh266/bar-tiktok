@@ -14,7 +14,8 @@ test('local assets referenced by the control panel exist', () => {
 
     const missing = references.filter(reference => {
         const relativePath = reference.replace(/^\//, '');
-        return !fs.existsSync(path.join(publicDirectory, relativePath));
+        const directory = reference.startsWith('/assets/') ? path.join(__dirname, '..') : publicDirectory;
+        return !fs.existsSync(path.join(directory, relativePath));
     });
 
     assert.deepEqual(missing, []);

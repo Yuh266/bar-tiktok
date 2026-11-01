@@ -4,7 +4,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { normalizeText } = require('./master/rules');
 
-const THEMES = ['neon', 'disco', 'lava'];
+const VOTE_THEMES = ['neon', 'disco', 'lava'];
+const THEMES = [...VOTE_THEMES, 'classic'];
 const number = (value, fallback, min, max) => Number.isFinite(Number(value))
     ? Math.min(max, Math.max(min, Math.round(Number(value)))) : fallback;
 const realUser = id => Boolean(id) && !/^(npc-|demo-|master-test$)/.test(id);
@@ -185,7 +186,7 @@ class EngagementEngine {
                 this.battle[assigned] += Math.floor(after / 20) - Math.floor(before / 20);
             }
         } else if (this.activity === 'vote' && event.type === 'chat' && /^[123]$/.test(chat) && !this.ballots.has(id)) {
-            const theme = THEMES[Number(chat) - 1];
+            const theme = VOTE_THEMES[Number(chat) - 1];
             this.ballots.set(id, theme); this.vote[theme]++;
             event.engagementJoined = true;
         } else if (this.activity === 'dance' && event.type === 'chat' &&
@@ -217,8 +218,8 @@ class EngagementEngine {
             this.lastResult = this.battle.winner === 'draw' ? 'Hai đội hòa nhau!' : `Đội ${this.battle.winner === 'red' ? 'ĐỎ' : 'XANH'} chiến thắng!`;
         } else if (this.activity === 'vote') {
             this.vote.status = 'results';
-            const highest = Math.max(...THEMES.map(theme => this.vote[theme]));
-            const winners = THEMES.filter(theme => this.vote[theme] === highest);
+            const highest = Math.max(...VOTE_THEMES.map(theme => this.vote[theme]));
+            const winners = VOTE_THEMES.filter(theme => this.vote[theme] === highest);
             if (highest > 0) this.floorTheme = winners.includes(this.floorTheme) ? this.floorTheme : winners[0];
             this.vote.winner = this.floorTheme;
             this.lastResult = highest > 0 ? `Sàn được chọn: ${this.floorTheme.toUpperCase()}` : 'Chưa có phiếu — giữ sàn hiện tại';

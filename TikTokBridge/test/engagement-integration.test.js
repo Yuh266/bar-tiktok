@@ -81,9 +81,9 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     control.send({ type: 'speech_claim', enabled: true });
     await control.until(m => m.type === 'speech_status' && m.active);
     control.send({ type: 'engagement_command', action: 'auto_config', enabled: false, minGapSeconds: 45, maxGapSeconds: 70 });
-    control.send({ type: 'engagement_command', action: 'floor_set', theme: 'lava' });
+    control.send({ type: 'engagement_command', action: 'floor_set', theme: 'classic' });
     control.send({ type: 'engagement_command', action: 'energy_goal', goal: 500 });
-    await overlay.until(m => m.type === 'engagement_state' && m.engagement.floorTheme === 'lava' && m.engagement.energy.goal === 500);
+    await overlay.until(m => m.type === 'engagement_state' && m.engagement.floorTheme === 'classic' && m.engagement.energy.goal === 500);
     const gift = { event: 'gift', data: { msgId: 'gift-final', userId: 'viewer-1', nickname: 'Minh', giftId: '5655', giftName: 'Rose', giftType: 1, repeatCount: 3, repeatEnd: false, diamondCount: 1 } };
     source.send(JSON.stringify(gift)); await sleep(50);
     assert.equal(overlay.messages.filter(m => m.type === 'gift').length, 0);
@@ -112,7 +112,7 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     const snapshot = await restored.until(m => m.type === 'snapshot');
     assert.equal(snapshot.vipScores[0].score, 6);
     const activity = await restored.until(m => m.type === 'engagement_state');
-    assert.equal(activity.engagement.floorTheme, 'lava');
+    assert.equal(activity.engagement.floorTheme, 'classic');
     assert.equal(activity.engagement.energy.goal, 500);
     assert.equal(activity.engagement.auto.enabled, false);
     assert.equal(activity.engagement.auto.minGapSeconds, 45);
