@@ -13,7 +13,7 @@ namespace TikTokLiveGame
         public EnergyState energy;
         public EngagementMember[] members;
     }
-    [Serializable] public class BattleState { public string status, winner; public int red, blue, redMembers, blueMembers; public long endsAt; }
+    [Serializable] public class BattleState { public string status, winner; public string[] winnerUserIds; public int red, blue, redMembers, blueMembers; public long endsAt; }
     [Serializable] public class VoteState { public string status, winner; public int neon, disco, lava; public long endsAt; }
     [Serializable] public class DanceState { public string status; public int count, target; public long startsAt, endsAt; public bool success; }
     [Serializable] public class EnergyState { public int value, goal, celebrations; public long partyUntil; }
@@ -48,8 +48,9 @@ namespace TikTokLiveGame
                 celebratedBattle = state.battle.endsAt;
                 if (state.battle.winner != "draw")
                 {
-                    playerManager.CelebrateTeam(state.battle.winner);
-                    NeonDanceFloor.Party(10f);
+                    playerManager.CelebrateWinners(state.battle.winnerUserIds);
+                    giftEffects.TeamVictory(state.battle.winner, state.battle.winnerUserIds?.Length ?? 0);
+                    NeonDanceFloor.Party(12f);
                 }
             }
             if (state.dance != null && state.dance.success && state.dance.status == "results" && state.dance.endsAt != celebratedDance)

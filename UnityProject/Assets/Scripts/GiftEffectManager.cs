@@ -50,6 +50,13 @@ namespace TikTokLiveGame
             LaunchFireworks(5);
         }
 
+        public void TeamVictory(string team, int count)
+        {
+            BannerText = $"CHÚC MỪNG ĐỘI {(team == "red" ? "ĐỎ" : "XANH")} · {count} NGƯỜI CHIẾN THẮNG!";
+            BannerUntil = Time.unscaledTime + 12f;
+            LaunchFireworks(5);
+        }
+
         private IEnumerator Spotlight(PlayerActor actor, TikTokEvent data)
         {
             GameObject lightObject = new($"Gift Spotlight — {actor.Nickname}");

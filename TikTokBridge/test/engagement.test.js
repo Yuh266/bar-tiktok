@@ -31,10 +31,23 @@ test('battle locks teams, caps each viewer at 300 likes, and awards a timed resu
     assert.throws(() => engine.command('vote_start'));
     advance(30000);
     assert.equal(engine.battle.winner, 'red');
+    assert.deepEqual(engine.battle.winnerUserIds, ['alice']);
+    assert.equal(engine.teams.size, 0);
+    assert.ok(engine.snapshot().members.every(member => member.team === ''));
     assert.equal(engine.activity, '');
     assert.equal(engine.battle.status, 'results');
     advance(12000);
     assert.equal(engine.lastResult, '');
+});
+
+test('a tied battle clears both name colors and awards nobody', () => {
+    const { engine, chat, advance } = setup();
+    engine.command('battle_start', { seconds: 30 });
+    chat('red-player', 'đỏ'); chat('blue-player', 'xanh');
+    advance(30000);
+    assert.equal(engine.battle.winner, 'draw');
+    assert.deepEqual(engine.battle.winnerUserIds, []);
+    assert.ok(engine.snapshot().members.every(member => member.team === ''));
 });
 
 test('votes count one ballot per viewer and ties preserve an eligible current floor', () => {

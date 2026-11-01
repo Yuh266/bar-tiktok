@@ -25,6 +25,16 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.
 
+Khi hết đấu đội, tên người chơi trở về màu thường. Mỗi người thắng được phóng to 60%, có vòng sáng vàng và huy hiệu **ĐỘI CHIẾN THẮNG** trong 12 giây; sân khấu có banner chúc mừng và pháo hoa. Phần thưởng là hiệu ứng, không cộng vào điểm quà.
+
+### Quản lý người chơi và BXH
+
+Trong web quản trị → **Người chơi**:
+
+- Tìm người đang trên sàn theo tên/tài khoản rồi bấm **Kick khỏi sàn**. Nhân vật bị gỡ ngay; điểm quà được giữ. Chat/like thông thường không tự đưa người đó trở lại. Họ có thể vào lại bằng lệnh tham gia, quà hoặc tương tác được luật vào sàn cho phép.
+- **Reset BXH quà tặng** → **Xác nhận reset BXH** để tính lại thứ hạng từ 0. Người chơi, tổng quà thống kê, khách quen và sự kiện đang chạy vẫn được giữ.
+- Danh sách tự cập nhật. Trạng thái đã kick và điểm BXH sau reset được lưu cùng phiên LIVE.
+
 Ảnh WebP TikTok được chuyển sang PNG bằng dịch vụ ảnh nội bộ. Dữ liệu người xem, danh hiệu, phiên LIVE và quà đã học được lưu tại `TikTokBridge/data/` và không đưa vào Git. Phiên trong vòng 12 giờ có thể khôi phục BXH và tự kết nối lại sau khi khởi động lại Bridge.
 
 ### Chạy source

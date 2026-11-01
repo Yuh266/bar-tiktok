@@ -77,7 +77,7 @@ class EngagementEngine {
 
     reset() {
         this.activity = '';
-        this.battle = { status: 'idle', red: 0, blue: 0, redMembers: 0, blueMembers: 0, endsAt: 0, winner: '' };
+        this.battle = { status: 'idle', red: 0, blue: 0, redMembers: 0, blueMembers: 0, endsAt: 0, winner: '', winnerUserIds: [] };
         this.vote = { status: 'idle', neon: 0, disco: 0, lava: 0, endsAt: 0, winner: '' };
         this.dance = { status: 'idle', startsAt: 0, endsAt: 0, count: 0, target: this.config.danceTarget, success: false };
         this.energy = { value: 0, goal: this.config.energyGoal, partyUntil: 0, celebrations: 0 };
@@ -126,7 +126,7 @@ class EngagementEngine {
             for (const member of this.members.values()) member.team = '';
             this.activity = 'battle';
             this.battle = { status: 'running', red: 0, blue: 0, redMembers: 0, blueMembers: 0,
-                endsAt: now + number(options.seconds, this.config.battleSeconds, 30, 600) * 1000, winner: '' };
+                endsAt: now + number(options.seconds, this.config.battleSeconds, 30, 600) * 1000, winner: '', winnerUserIds: [] };
         } else if (action === 'vote_start') {
             this.ballots.clear(); this.activity = 'vote';
             this.vote = { status: 'running', neon: 0, disco: 0, lava: 0,
@@ -211,6 +211,9 @@ class EngagementEngine {
         if (this.activity === 'battle') {
             this.battle.status = 'results';
             this.battle.winner = this.battle.red === this.battle.blue ? 'draw' : this.battle.red > this.battle.blue ? 'red' : 'blue';
+            this.battle.winnerUserIds = [...this.teams].filter(([id, team]) => team === this.battle.winner && this.members.has(id)).map(([id]) => id);
+            for (const member of this.members.values()) member.team = '';
+            this.teams.clear();
             this.lastResult = this.battle.winner === 'draw' ? 'Hai đội hòa nhau!' : `Đội ${this.battle.winner === 'red' ? 'ĐỎ' : 'XANH'} chiến thắng!`;
         } else if (this.activity === 'vote') {
             this.vote.status = 'results';

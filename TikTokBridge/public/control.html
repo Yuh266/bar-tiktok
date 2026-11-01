@@ -19,6 +19,7 @@
     <div class="tab-nav">
         <button class="tab-btn active" data-tab="live">Live</button>
         <button class="tab-btn" data-tab="engagement">Tương tác</button>
+        <button class="tab-btn" data-tab="players">Người chơi</button>
         <button class="tab-btn" data-tab="rules">Master Rules</button>
         <button class="tab-btn" data-tab="testlab">Test Lab</button>
         <button class="tab-btn" data-tab="events">Events</button>
@@ -323,6 +324,34 @@
     </div>
 </section>
 
+<section class="tab-panel" id="tab-players">
+    <div class="page-header">
+        <p class="page-eyebrow">Điều hành LIVE</p>
+        <h1 class="page-title">Người chơi &amp; bảng xếp hạng</h1>
+        <p class="page-desc">Quản lý người đang trên sàn và bắt đầu lại BXH quà mà vẫn giữ phiên LIVE.</p>
+    </div>
+    <p id="moderation-message" class="help" role="status"></p>
+    <div class="moderation-grid">
+        <article class="card">
+            <p class="card-label">Trên sàn · <span id="floor-player-count">0</span> người xem</p>
+            <h2 class="card-title">Danh sách người chơi</h2>
+            <label class="roster-search">Tìm tên hoặc tài khoản<input id="floor-player-search" type="search" placeholder="Nhập tên người cần kick…"></label>
+            <p class="help">Danh sách gồm người xem đã vào sàn. Kick sẽ đưa nhân vật khỏi sàn; điểm quà vẫn giữ. Người đó có thể vào lại bằng lệnh tham gia hoặc quà tặng theo luật hiện tại.</p>
+            <div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Người chơi</th><th>Điểm BXH</th><th>Thao tác</th></tr></thead><tbody id="floor-player-list"></tbody></table></div>
+        </article>
+        <article class="card">
+            <p class="card-label">BXH quà tặng</p><h2 class="card-title">Reset riêng bảng xếp hạng</h2>
+            <p class="help">Xóa điểm và thứ hạng hiện tại để tính BXH mới. Người chơi vẫn trên sàn; tổng quà thống kê, danh hiệu khách quen và trò chơi đang diễn ra được giữ nguyên.</p>
+            <ol id="moderation-leaderboard" class="loyal-viewers"></ol>
+            <button id="reset-leaderboard" class="btn btn-danger" disabled>Reset BXH quà tặng</button>
+            <div id="leaderboard-confirm" class="leaderboard-confirm" hidden>
+                <p>Xóa toàn bộ điểm BXH hiện tại?</p>
+                <div class="activity-controls"><button id="confirm-reset-leaderboard" class="btn btn-danger">Xác nhận reset BXH</button><button id="cancel-reset-leaderboard" class="btn btn-secondary">Hủy</button></div>
+            </div>
+        </article>
+    </div>
+</section>
+
 <section class="tab-panel" id="tab-session">
     <div class="page-header">
         <p class="page-eyebrow">Thống kê</p>
@@ -486,5 +515,6 @@
 <script src="speech.js"></script>
 <script src="control.js"></script>
 <script src="engagement-control.js"></script>
+<script src="moderation-control.js"></script>
 </body>
 </html>

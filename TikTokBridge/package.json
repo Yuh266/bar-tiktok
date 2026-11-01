@@ -6,10 +6,11 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "check": "node --check server.js && node --check src/avatar-server.js && node --check src/engagement.js && node --check src/session-store.js && node --check src/config/environment.js && node --check src/security.js && node --check src/tiktok/normalize-event.js && node --check src/tiktok/normalize-tikfinity-event.js && node --check public/control.js && node --check public/speech.js && node --check public/engagement-control.js && node --check scripts/download-mushroom-gifs.js",
+    "check": "node --check server.js && node --check src/avatar-server.js && node --check src/engagement.js && node --check src/session-store.js && node --check src/config/environment.js && node --check src/security.js && node --check src/tiktok/normalize-event.js && node --check src/tiktok/normalize-tikfinity-event.js && node --check public/control.js && node --check public/speech.js && node --check public/engagement-control.js && node --check public/moderation-control.js && node --check scripts/download-mushroom-gifs.js",
     "download:gifs": "node scripts/download-mushroom-gifs.js",
     "security:smoke": "node scripts/security-smoke.js",
     "test:ui": "node scripts/engagement-ui-smoke.js",
+    "test:moderation-ui": "node scripts/moderation-ui-smoke.js",
     "test": "npm run check && node --test"
   },
   "keywords": [],

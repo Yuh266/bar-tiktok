@@ -94,12 +94,10 @@ namespace TikTokLiveGame
         public void UpdateTopRanks(IEnumerable<string> rankedUserIds)
         {
             Dictionary<string, int> ranks = rankedUserIds
-                .Where(id =>
-                    !string.IsNullOrWhiteSpace(id) &&
-                    players.TryGetValue(id, out PlayerActor actor) &&
-                    !actor.IsNpc)
+                .Where(id => !string.IsNullOrWhiteSpace(id))
                 .Take(3)
                 .Select((id, index) => new { id, rank = index + 1 })
+                .Where(item => players.TryGetValue(item.id, out PlayerActor actor) && !actor.IsNpc)
                 .ToDictionary(item => item.id, item => item.rank);
             foreach (KeyValuePair<string, PlayerActor> pair in players)
                 pair.Value.SetTopRank(ranks.TryGetValue(pair.Key, out int rank) ? rank : 0);
@@ -133,6 +131,11 @@ namespace TikTokLiveGame
 
         public void Handle(TikTokEvent data)
         {
+            if (data.type == "player_kicked")
+            {
+                Remove(data.userId);
+                return;
+            }
             if (data.type == "reset")
             {
                 Clear();
@@ -231,13 +234,14 @@ namespace TikTokLiveGame
                 Find(member.userId)?.SetCommunityIdentity(member.team, member.loyaltyTitle, member.loyaltyDays);
         }
 
-        public void CelebrateTeam(string team)
+        public void CelebrateWinners(string[] userIds)
         {
-            PlayerActor[] winners = players.Values.Where(actor => !actor.IsNpc && actor.Team == team).Take(8).ToArray();
-            for (int index = 0; index < winners.Length; index++)
+            PlayerActor[] winners = (userIds ?? System.Array.Empty<string>()).Select(Find).Where(actor => actor != null && !actor.IsNpc).ToArray();
+            foreach (PlayerActor winner in winners) winner.CelebrateVictory(12f);
+            PlayerActor[] stage = winners.Where(actor => !actor.IsTopRanked).Take(8).ToArray();
+            for (int index = 0; index < stage.Length; index++)
             {
-                if (winners[index].IsTopRanked) winners[index].Celebrate(10f);
-                else winners[index].CelebrateAt(new Vector3(Mathf.Lerp(-4f, 4f, winners.Length == 1 ? 0.5f : (float)index / (winners.Length - 1)), 0.76f, -5.5f), 10f);
+                stage[index].CelebrateAt(new Vector3(Mathf.Lerp(-4.7f, 4.7f, stage.Length == 1 ? 0.5f : (float)index / (stage.Length - 1)), 0.76f, -5.5f), 12f);
             }
         }
 
@@ -329,6 +333,13 @@ namespace TikTokLiveGame
             playerOrder.Remove(id);
             crowdSlots.Remove(id);
             Destroy(actor.gameObject);
+            if (focusedUserId == id)
+            {
+                focusVersion++;
+                focusedUserId = null;
+                foreach (PlayerActor remaining in players.Values) remaining.SetGiftFocus(false);
+                ApplyAmbientVisibility();
+            }
             ReflowPlayers();
             if (!wasNpc) nextNpcRefillAt = Time.unscaledTime + 30f;
         }

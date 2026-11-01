@@ -99,6 +99,10 @@ namespace TikTokLiveGame
                     diamonds += donor.score;
                 }
             }
+            else if (liveEvent.type == "leaderboard_reset")
+            {
+                donors.Clear();
+            }
             else if (liveEvent.type == "gift")
             {
                 diamonds += liveEvent.diamondCount;
@@ -140,7 +144,7 @@ namespace TikTokLiveGame
             }
 
             playerManager.Handle(liveEvent);
-            if (liveEvent.type is "gift" or "snapshot") UpdateTopPlayers();
+            if (liveEvent.type is "gift" or "snapshot" or "leaderboard_reset" or "player_kicked" || liveEvent.joinedNow) UpdateTopPlayers();
             if (liveEvent.type == "gift")
             {
                 PlayerActor actor = playerManager.Find(liveEvent.userId);

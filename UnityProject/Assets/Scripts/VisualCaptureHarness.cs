@@ -24,8 +24,27 @@ namespace TikTokLiveGame
 
         private IEnumerator CaptureFloor(string path)
         {
-            yield return new WaitForSecondsRealtime(4f);
+            float delay = 4f;
+            string[] arguments = Environment.GetCommandLineArgs();
+            int delayIndex = Array.IndexOf(arguments, "-captureDelay");
+            if (delayIndex >= 0 && delayIndex + 1 < arguments.Length && float.TryParse(arguments[delayIndex + 1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out float requestedDelay))
+                delay = Mathf.Clamp(requestedDelay, 1f, 60f);
+            yield return new WaitForSecondsRealtime(delay);
             ScreenCapture.CaptureScreenshot(path);
+            if (Array.IndexOf(arguments, "-verifyCommunity") >= 0)
+            {
+                int real = 0, podium = 0, colored = 0, victory = 0;
+                foreach (PlayerActor actor in FindObjectsByType<PlayerActor>(FindObjectsSortMode.None))
+                {
+                    if (actor.IsNpc) continue;
+                    real++;
+                    if (actor.IsTopRanked) podium++;
+                    Color nameColor = actor.transform.Find("Name").GetComponent<TextMesh>().color;
+                    if (Mathf.Abs(nameColor.r - nameColor.g) + Mathf.Abs(nameColor.g - nameColor.b) > 0.1f) colored++;
+                    if (actor.transform.Find("Team Victory Badge").gameObject.activeSelf) victory++;
+                }
+                Debug.Log($"COMMUNITY_VISUAL real={real} podium={podium} coloredNames={colored} victoryBadges={victory}");
+            }
             yield return new WaitForSecondsRealtime(1f);
             if (System.IO.File.Exists(path)) Debug.Log($"Floor preview saved to {path}");
             else Debug.LogWarning($"Floor preview was not written: {path}");

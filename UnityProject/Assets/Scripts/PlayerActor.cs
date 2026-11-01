@@ -13,6 +13,10 @@ namespace TikTokLiveGame
         private Transform wingAnchor;
         private TextMesh nameLabel;
         private TextMesh loyaltyLabel;
+        private TextMesh victoryLabel;
+        private float victoryUntil;
+        private float victoryScale = 1f;
+        private static readonly Color VictoryGold = new(1f, 0.74f, 0.12f);
         private LineRenderer teamRing;
         private float performanceUntil;
         private Vector3 performancePosition;
@@ -126,6 +130,10 @@ namespace TikTokLiveGame
 
             rankLabel = CreateLabel("Rank", new Vector3(0f, 3.05f, 0f), 48, new Color(1f, 0.82f, 0.2f), characterRenderer.sortingOrder + 15);
             rankLabel.gameObject.SetActive(false);
+            victoryLabel = CreateLabel("Team Victory Badge", new Vector3(0f, 3.5f, 0f), 36, VictoryGold, characterRenderer.sortingOrder + 18);
+            victoryLabel.text = "★ ĐỘI CHIẾN THẮNG ★";
+            victoryLabel.fontStyle = FontStyle.Bold;
+            victoryLabel.gameObject.SetActive(false);
             titleLabel = CreateLabel("Title", new Vector3(0f, -0.25f, 0f), 36, new Color(0.3f, 0.95f, 1f), characterRenderer.sortingOrder + 14);
             titleLabel.characterSize = 0.04f;
             titleLabel.fontStyle = FontStyle.Bold;
@@ -186,7 +194,18 @@ namespace TikTokLiveGame
                 loyaltyLabel.text = title ?? string.Empty;
                 loyaltyLabel.gameObject.SetActive(!IsNpc && !string.IsNullOrWhiteSpace(title));
             }
-            if (!string.IsNullOrEmpty(Team) && teamRing == null)
+            bool celebrating = Time.time < victoryUntil;
+            if (!string.IsNullOrEmpty(Team) || celebrating) EnsureTeamRing(celebrating ? VictoryGold : color);
+            if (teamRing != null)
+            {
+                teamRing.enabled = !string.IsNullOrEmpty(Team) || celebrating;
+                teamRing.sharedMaterial.SetColor("_EmissionColor", (celebrating ? VictoryGold : color) * 0.8f);
+            }
+        }
+
+        private void EnsureTeamRing(Color color)
+        {
+            if (teamRing == null)
             {
                 GameObject ring = new("Team Ring");
                 ring.transform.SetParent(transform, false);
@@ -202,11 +221,16 @@ namespace TikTokLiveGame
                     teamRing.SetPosition(index, new Vector3(Mathf.Cos(angle) * 0.7f, 0.035f, Mathf.Sin(angle) * 0.36f));
                 }
             }
-            if (teamRing != null)
-            {
-                teamRing.enabled = !string.IsNullOrEmpty(Team);
-                teamRing.sharedMaterial.SetColor("_EmissionColor", color * 0.8f);
-            }
+        }
+
+        public void CelebrateVictory(float seconds)
+        {
+            victoryUntil = Time.time + seconds;
+            EnsureTeamRing(VictoryGold);
+            teamRing.enabled = true;
+            teamRing.sharedMaterial.SetColor("_EmissionColor", VictoryGold * 0.9f);
+            SetVisibility(1f);
+            Celebrate(seconds);
         }
 
         public void CelebrateAt(Vector3 position, float seconds)
@@ -435,21 +459,24 @@ namespace TikTokLiveGame
         {
             if (wingsRenderer == null || bannerRenderer == null || wingAnchor == null || body == null || avatarRenderer == null || nameLabel == null || rankLabel == null || titleLabel == null || titleShadowLabel == null) return;
             float attachedBounce = bounce * 0.72f;
-            float characterHeight = Mathf.Max(0.1f, VisibleCharacterHeight(characterBaseScale.y * giftFocusScale));
+            float normalHeight = Mathf.Max(0.1f, VisibleCharacterHeight(characterBaseScale.y * giftFocusScale));
+            float characterHeight = normalHeight * Mathf.Max(effectScale, victoryScale);
+            float badgeY = decorationBadgeY + characterHeight - normalHeight;
             wingAnchor.localPosition = new Vector3(0f, body.localPosition.y + characterHeight * 0.16f, 0.12f);
             wingAnchor.localRotation = body.localRotation;
             float identityScale = Mathf.Clamp(decorationScale, 0.72f, 0.88f);
             // The main camera faces toward negative Z, so positive world X appears
             // on the left side of the portrait frame.
-            avatarRenderer.transform.localPosition = new Vector3(0.58f * identityScale, decorationBadgeY + attachedBounce, -0.01f);
-            nameLabel.transform.localPosition = new Vector3(0.22f * identityScale, decorationBadgeY + attachedBounce, -0.02f);
+            avatarRenderer.transform.localPosition = new Vector3(0.58f * identityScale, badgeY + attachedBounce, -0.01f);
+            nameLabel.transform.localPosition = new Vector3(0.22f * identityScale, badgeY + attachedBounce, -0.02f);
             if (loyaltyLabel != null) loyaltyLabel.transform.localPosition = nameLabel.transform.localPosition - Vector3.up * (0.22f * identityScale);
-            float bannerY = decorationBadgeY + 0.53f * identityScale + attachedBounce;
+            float bannerY = badgeY + 0.53f * identityScale + attachedBounce;
             bannerRenderer.transform.localPosition = new Vector3(0f, bannerY, -0.01f);
             float titleY = bannerY + bannerTextOffsetY * identityScale;
             titleLabel.transform.localPosition = new Vector3(0f, titleY, -0.02f);
             titleShadowLabel.transform.localPosition = new Vector3(-0.014f * identityScale, titleY - 0.018f * identityScale, -0.015f);
             rankLabel.transform.localPosition = new Vector3(0f, bannerY + 0.34f * identityScale, 0f);
+            if (victoryLabel != null) victoryLabel.transform.localPosition = rankLabel.transform.localPosition + Vector3.up * (0.38f * identityScale);
         }
 
         public void ChangeCharacter()
@@ -503,7 +530,7 @@ namespace TikTokLiveGame
 
         public void SetVisibility(float alpha)
         {
-            targetAlpha = Mathf.Clamp01(alpha);
+            targetAlpha = Time.time < victoryUntil ? 1f : Mathf.Clamp01(alpha);
         }
 
         public void SetGiftFocus(bool focused)
@@ -528,6 +555,10 @@ namespace TikTokLiveGame
 
         private void Update()
         {
+            bool winning = Time.time < victoryUntil;
+            victoryScale = Mathf.MoveTowards(victoryScale, winning ? 1.6f : 1f, Time.deltaTime * 2f);
+            if (victoryLabel != null) victoryLabel.gameObject.SetActive(winning);
+            if (teamRing != null) teamRing.enabled = winning || !string.IsNullOrEmpty(Team);
             if (Time.time >= actionUntil && action != ActionState.Idle) action = ActionState.Idle;
             if (spawnDropping)
             {
@@ -601,7 +632,7 @@ namespace TikTokLiveGame
                 ? Quaternion.Euler(0f, Mathf.Sin(time * 3.75f) * 5f, Mathf.Sin(time * 9.375f) * 2.5f)
                 : Quaternion.identity;
             float pulse = action == ActionState.Celebrate ? 1f + Mathf.Sin(time * 16.875f) * 0.08f : 1f;
-            Vector3 displayedScale = characterBaseScale * pulse * effectScale * giftFocusScale;
+            Vector3 displayedScale = characterBaseScale * pulse * Mathf.Max(effectScale, victoryScale) * giftFocusScale;
             body.localScale = displayedScale;
             float rawHeight = characterRenderer.sprite == null ? 0f : characterRenderer.sprite.bounds.size.y * displayedScale.y;
             float groundOffset = characterRenderer.sprite == null
@@ -615,6 +646,7 @@ namespace TikTokLiveGame
             {
                 nameLabel.transform.rotation = camera.transform.rotation;
                 if (loyaltyLabel != null) loyaltyLabel.transform.rotation = camera.transform.rotation;
+                if (victoryLabel != null) victoryLabel.transform.rotation = camera.transform.rotation;
                 rankLabel.transform.rotation = camera.transform.rotation;
                 titleLabel.transform.rotation = camera.transform.rotation;
                 titleShadowLabel.transform.rotation = camera.transform.rotation;
@@ -654,6 +686,7 @@ namespace TikTokLiveGame
             }
             SetTextAlpha(nameLabel, visualAlpha);
             SetTextAlpha(loyaltyLabel, visualAlpha);
+            SetTextAlpha(victoryLabel, visualAlpha);
             if (teamRing != null) teamRing.transform.localScale = Vector3.one * Mathf.Max(crowdScale, 0.4f);
             SetTextAlpha(rankLabel, visualAlpha);
             SetTextAlpha(titleLabel, visualAlpha);

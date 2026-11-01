@@ -91,6 +91,7 @@ let masterConfig = sanitizeMasterConfig(initialMasterConfig);
 const recentEventIds = new Map();
 const sessionPlayers = new Map();
 const sessionVipScores = new Map();
+const removedPlayers = new Set();
 const observedGifts = new Map((Array.isArray(initialObservedGifts) ? initialObservedGifts : [])
     .map(gift => [String(gift.giftId || gift.giftName || ''), gift])
     .filter(([key]) => key));
@@ -103,15 +104,33 @@ try {
         metrics = { ...createMetrics(), ...restoredSession.metrics };
         for (const player of restoredSession.players || []) sessionPlayers.set(player.userId, { ...player, team: '' });
         for (const vip of restoredSession.vipScores || []) sessionVipScores.set(vip.userId, vip);
+        for (const id of restoredSession.removedPlayers || []) if (typeof id === 'string') removedPlayers.add(id);
     }
 } catch (error) { console.warn('Could not restore LIVE session:', error.message); }
 
 function checkpointSession() {
     sessionStore.schedule({ metrics, players: [...sessionPlayers.values()], vipScores: [...sessionVipScores.values()],
+        removedPlayers: [...removedPlayers],
         username: desiredUsername || connectionStatus.username || null });
 }
 
-function engagementMessage() { return { type: 'engagement_state', engagement: engagement.snapshot() }; }
+function engagementMessage() {
+    for (const player of sessionPlayers.values()) player.team = engagement.teams.get(player.userId) || '';
+    return { type: 'engagement_state', engagement: engagement.snapshot() };
+}
+
+function floorRosterMessage() {
+    pruneSessionPlayers();
+    return { type: 'floor_roster', players: [...sessionPlayers.values()].map(player => ({ ...player,
+        score: sessionVipScores.get(player.userId)?.score || 0 })),
+        vipScores: [...sessionVipScores.values()].sort((a, b) => b.score - a.score) };
+}
+
+function broadcastFloorRoster() {
+    const message = floorRosterMessage();
+    for (const client of wss.clients)
+        if (client.registered && client.role === 'control') send(client, message);
+}
 
 if (!ALLOW_LAN && !isLoopbackAddress(HOST) && HOST.toLowerCase() !== 'localhost') {
     throw new Error('Từ chối mở Node ra mạng LAN. Chỉ đặt ALLOW_LAN=1 khi đã có lớp xác thực bên ngoài.');
@@ -291,6 +310,7 @@ function resetSessionState(source = metrics.source) {
     metrics = { ...createMetrics(), source, startedAt: source === 'idle' ? null : Date.now() };
     sessionPlayers.clear();
     sessionVipScores.clear();
+    removedPlayers.clear();
     recentEventIds.clear();
     checkpointSession();
     broadcast(engagementMessage());
@@ -301,7 +321,8 @@ function createSnapshot() {
     return {
         type: 'snapshot',
         players: [...sessionPlayers.values()],
-        vipScores: [...sessionVipScores.values()]
+        vipScores: [...sessionVipScores.values()],
+        removedPlayers: [...removedPlayers]
     };
 }
 
@@ -454,16 +475,21 @@ function processGameEvent(inputEvent) {
     const safeEvent = sanitizeGameEvent(inputEvent);
     if (!safeEvent || isDuplicate(safeEvent)) return;
     const event = applyBuiltInChatCommand(applyRule(safeEvent, resolveMasterRule(masterConfig, safeEvent)));
-    engagement.process(event);
+    const joinsBySocial = event.type === 'follow' || event.type === 'share';
+    const explicitRejoin = (event.type === 'chat' && event.action === 'join') || joinsBySocial ||
+        (event.type === 'gift' && masterConfig.giftAlwaysJoins);
+    const staysRemoved = removedPlayers.has(event.userId) && !explicitRejoin;
+    if (explicitRejoin) removedPlayers.delete(event.userId);
+    if (!staysRemoved) engagement.process(event);
     const isKnownPlayer = event.userId && sessionPlayers.has(event.userId);
     const joinsByKeyword = event.type === 'chat' && (event.action === 'join' || event.engagementJoined);
     if (event.engagementJoined && !event.action) event.action = 'join';
-    const joinsBySocial = event.type === 'follow' || event.type === 'share';
     event.joinedNow = Boolean((joinsByKeyword || joinsBySocial) && !isKnownPlayer);
     if (metrics.source !== 'demo' && masterConfig.joinMode === 'keyword_only' && !isKnownPlayer) {
         const joinsByGift = event.type === 'gift' && masterConfig.giftAlwaysJoins;
         event.spectatorOnly = !(joinsByKeyword || joinsByGift || joinsBySocial);
     }
+    if (staysRemoved) event.spectatorOnly = true;
     if (event.type === 'gift') {
         if (isRealObservedGift(event)) {
             learnObservedGift(event);
@@ -781,6 +807,7 @@ async function handleClientMessage(ws, message) {
         send(ws, { type: 'metrics', ...metrics });
         if (ws.role === 'control') send(ws, { type: 'master_config', master: masterConfig });
         if (ws.role === 'control') send(ws, giftCatalogMessage());
+        if (ws.role === 'control') send(ws, floorRosterMessage());
         send(ws, engagementMessage());
         if (ws.role === 'overlay') {
             send(ws, createSnapshot());
@@ -791,7 +818,7 @@ async function handleClientMessage(ws, message) {
 
     if (!ws.registered) return send(ws, { type: 'error', message: 'Client chưa đăng ký quyền.' });
 
-    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim'].includes(message.type);
+    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player'].includes(message.type);
     const operatorOnly = new Set([
         'set_username', 'disconnect_tiktok', 'demo_start', 'demo_stop', 'demo_event', 'reset_game'
     ]).has(message.type);
@@ -800,6 +827,27 @@ async function handleClientMessage(ws, message) {
     }
     if (operatorOnly && ws.role !== 'control' && !ws.nativeClient) {
         return send(ws, { type: 'error', message: 'Client không có quyền điều khiển.' });
+    }
+
+    if (message.type === 'reset_leaderboard') {
+        sessionVipScores.clear();
+        broadcast({ type: 'leaderboard_reset' });
+        checkpointSession();
+        broadcastFloorRoster();
+        return send(ws, { type: 'moderation_ack', message: 'Đã reset BXH quà. Người chơi, tổng quà và trò chơi vẫn được giữ.' });
+    }
+    if (message.type === 'kick_player') {
+        const userId = typeof message.userId === 'string' ? message.userId : '';
+        const player = sessionPlayers.get(userId);
+        if (!player) return send(ws, { type: 'error', message: 'Người này đã rời sàn hoặc không còn trong danh sách.' });
+        sessionPlayers.delete(userId);
+        removedPlayers.add(userId);
+        engagement.members.delete(userId);
+        broadcast({ type: 'player_kicked', userId });
+        broadcast(engagementMessage());
+        checkpointSession();
+        broadcastFloorRoster();
+        return send(ws, { type: 'moderation_ack', message: `Đã đưa ${player.nickname} khỏi sàn. Điểm quà vẫn được giữ.` });
     }
 
     if (message.type === 'engagement_command') {
@@ -961,6 +1009,7 @@ wss.on('connection', (ws, request) => {
 const engagementTimer = setInterval(() => {
     engagement.tick();
     broadcast(engagementMessage());
+    broadcastFloorRoster();
 }, 1000);
 engagementTimer.unref();
 
