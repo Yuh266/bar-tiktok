@@ -1,4 +1,5 @@
 using UnityEngine;
+using TikTokLiveBar;
 
 namespace TikTokLiveGame
 {
@@ -9,12 +10,8 @@ namespace TikTokLiveGame
 
         public static void Build()
         {
-            RenderSettings.ambientLight = new Color(0.15f, 0.02f, 0.05f);
+            RenderSettings.ambientLight = new Color(0.12f, 0.14f, 0.24f);
             RenderSettings.fog = false;
-            RenderSettings.fogColor = new Color(0.04f, 0.005f, 0.01f);
-            RenderSettings.fogMode = FogMode.ExponentialSquared;
-            RenderSettings.fogDensity = 0.018f;
-
             Camera camera = Camera.main;
             if (camera == null)
             {
@@ -23,123 +20,48 @@ namespace TikTokLiveGame
                 camera = cameraObject.AddComponent<Camera>();
                 cameraObject.AddComponent<AudioListener>();
             }
-            camera.transform.position = new Vector3(0f, 7.2f, 14.2f);
-            camera.transform.LookAt(new Vector3(0f, 1.25f, -1.2f));
-            camera.fieldOfView = 45f;
+            camera.transform.position = new Vector3(0f, 10.6f, 17.5f);
+            camera.transform.LookAt(new Vector3(0f, 1.5f, -3f));
+            camera.fieldOfView = 53f;
             camera.clearFlags = CameraClearFlags.SolidColor;
-            camera.backgroundColor = new Color(0.01f, 0.005f, 0.025f);
-            if (camera.GetComponent<ClubCameraController>() == null) camera.gameObject.AddComponent<ClubCameraController>();
+            camera.backgroundColor = new Color(0.008f, 0.012f, 0.035f);
+            if (camera.GetComponent<ClubCameraController>() == null)
+                camera.gameObject.AddComponent<ClubCameraController>();
 
-            // CreateArchitecturalBackdrop(); // Hide acoustic wall and panels
-
-            Texture2D tex = new Texture2D(2, 2, TextureFormat.RGBA32, false);
-            string path = @"D:\TIKTOK_LIVE_BAR\LiveAssets\nenamphu.png";
-            if (System.IO.File.Exists(path))
-            {
-                tex.LoadImage(System.IO.File.ReadAllBytes(path));
-                tex.filterMode = FilterMode.Trilinear;
-                tex.anisoLevel = 8;
-                tex.wrapMode = TextureWrapMode.Mirror;
-                tex.Apply();
-            }
-            Shader bgShader = Shader.Find("Unlit/Texture");
-            if (bgShader == null) bgShader = Shader.Find("Sprites/Default");
-            Material bgMat = new Material(bgShader);
-            bgMat.mainTexture = tex;
-
-            float texAspect = (float)tex.width / tex.height;
-            float H = 40f;
-            float W = H * texAspect;
-            float D = W * 3f; // Depth for side walls
-
-            Material centerMat = new Material(bgMat);
-            centerMat.mainTextureScale = new Vector2(-1, 1);
-
-            Material rightMat = new Material(bgMat);
-            rightMat.mainTextureScale = new Vector2(-3, 1);
-            rightMat.mainTextureOffset = new Vector2(-1, 0);
-
-            Material leftMat = new Material(bgMat);
-            leftMat.mainTextureScale = new Vector2(3, 1);
-            leftMat.mainTextureOffset = new Vector2(-3, 0);
-            
-            Material ceilingMat = new Material(bgMat);
-            ceilingMat.mainTextureScale = new Vector2(-1, -1); // Lật ngược để làm trần nhà phản chiếu
-            ceilingMat.mainTextureOffset = new Vector2(0, 1);
-
-            GameObject bgRoot = new GameObject("AmPhuBackdrop_Room");
-
-            GameObject centerQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            centerQuad.name = "AmPhuBackdrop_Center";
-            centerQuad.transform.SetParent(bgRoot.transform);
-            centerQuad.transform.localPosition = new Vector3(0, -3.0f, -12.5f);
-            centerQuad.transform.localScale = new Vector3(W, H, 1);
-            centerQuad.transform.localRotation = Quaternion.Euler(0, 180, 0);
-            centerQuad.GetComponent<Renderer>().sharedMaterial = centerMat;
-
-            GameObject leftQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            leftQuad.name = "AmPhuBackdrop_Left";
-            leftQuad.transform.SetParent(bgRoot.transform);
-            leftQuad.transform.localPosition = new Vector3(W / 2f, -3.0f, -12.5f + D / 2f);
-            leftQuad.transform.localScale = new Vector3(D, H, 1);
-            leftQuad.transform.localRotation = Quaternion.Euler(0, -90, 0);
-            leftQuad.GetComponent<Renderer>().sharedMaterial = leftMat;
-
-            GameObject rightQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            rightQuad.name = "AmPhuBackdrop_Right";
-            rightQuad.transform.SetParent(bgRoot.transform);
-            rightQuad.transform.localPosition = new Vector3(-W / 2f, -3.0f, -12.5f + D / 2f);
-            rightQuad.transform.localScale = new Vector3(D, H, 1);
-            rightQuad.transform.localRotation = Quaternion.Euler(0, 90, 0);
-            rightQuad.GetComponent<Renderer>().sharedMaterial = rightMat;
-            
-            // Trần nhà phản chiếu (Mirrored Ceiling) để chống hở mảng đen khi camera ngước lên quá cao
-            GameObject ceilingQuad = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            ceilingQuad.name = "AmPhuBackdrop_Ceiling";
-            ceilingQuad.transform.SetParent(bgRoot.transform);
-            ceilingQuad.transform.localPosition = new Vector3(0, -3.0f + H / 2f, -12.5f + D / 2f);
-            ceilingQuad.transform.localScale = new Vector3(W, D, 1);
-            ceilingQuad.transform.localRotation = Quaternion.Euler(90, 180, 0); // Xoay 180 để mặt Quad hướng xuống dưới đất
-            ceilingQuad.GetComponent<Renderer>().sharedMaterial = ceilingMat;
-
-            GameObject floor = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            floor.name = "Invisible Dance Floor";
-            floor.transform.position = new Vector3(0f, -0.3f, -1f);
-            floor.transform.localScale = new Vector3(100f, 0.5f, 100f);
-            floor.GetComponent<Renderer>().enabled = false;
-
+            CreateArchitecturalBackdrop();
+            CreateLedDanceFloor();
             CreateRaisedStage();
-            // CreateDjVideoScreen();
+            CreateDjVideoScreen();
             CreateDjBooth();
-            CreateDjPerformer();
-            // CreateArchitecturalAccentLights();
-            CreateCircularTrussRig();
-            // CreateLedBarRig();
+            CreateLedSideArrays();
+            CreateArchitecturalAccentLights();
+            CreateLedBarRig();
+            CreateSpectrumHeader();
+            CreateLaserShow();
             CreateStrobes();
-            // CreateBackgroundQuad();
-            // CreateSmokeMachines();
-
-            // CreateSpeaker(-5.4f);
-            // CreateSpeaker(5.4f);
-
-            // CreateMirrorBall();
-
-            // Group club elements and push them further back to create a huge dance space
-            GameObject clubRoot = new GameObject("ClubRoot");
-            foreach (GameObject go in Object.FindObjectsByType<GameObject>(FindObjectsSortMode.None))
-            {
-                if (go.transform.parent == null && go.name != "Invisible Dance Floor" && !go.name.Contains("AmPhuBackdrop") && go.name != "Main Camera" && go != clubRoot)
-                {
-                    go.transform.SetParent(clubRoot.transform);
-                }
-            }
-            clubRoot.transform.position = new Vector3(0, 0, -12f);
-
+            CreateSpeaker(-5.4f);
+            CreateSpeaker(5.4f);
+            CreateMirrorBall();
             new GameObject("Club Beat").AddComponent<ClubPulseController>();
+            new GameObject("Animated LED Show").AddComponent<ClubLedShow>();
+            AddLight("Club Cyan Wash", new Vector3(-6f, 7f, 1f), new Color(0.08f, 0.55f, 1f), 2.8f, 20f);
+            AddLight("Club Magenta Wash", new Vector3(6f, 7f, 0f), new Color(0.8f, 0.08f, 1f), 2.6f, 20f);
+            AddLight("DJ Key", new Vector3(0f, 8f, -7f), new Color(0.35f, 0.65f, 1f), 2.5f, 18f);
+        }
 
-            AddLight("Hell Red Light", new Vector3(-6f, 7f, 1f), new Color(1f, 0.1f, 0.1f), 4.8f, 20f);
-            AddLight("Hell Orange Light", new Vector3(6f, 7f, 0f), new Color(1f, 0.4f, 0f), 4.6f, 20f);
-            AddLight("Stage Demon Light", new Vector3(0f, 8f, -7f), new Color(0.8f, 0f, 0.2f), 5.8f, 23f);
+        private static void CreateLedDanceFloor()
+        {
+            NeonDanceFloor.Build(FloorLightingLayer);
+        }
+
+        private static void CreateSpectrumHeader()
+        {
+            Material led = GameMaterials.Club(new Color(0.02f, 0.1f, 0.15f), new Color(0f, 0.8f, 1f));
+            for (int index = 0; index < 35; index++)
+            {
+                float x = Mathf.Lerp(-6.6f, 6.6f, index / 34f);
+                CreateLitBox($"LED Spectrum {index}", new Vector3(x, 8.6f, -9.65f), new Vector3(0.24f, 1.5f, 0.08f), led);
+            }
         }
 
         private static void CreateRaisedStage()
@@ -281,7 +203,6 @@ namespace TikTokLiveGame
                 l.cullingMask = -1; 
                 DiscoLight disco = obj.AddComponent<DiscoLight>();
                 disco.index = i;
-                discoLights.Add(disco);
             }
         }
 

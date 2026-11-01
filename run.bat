@@ -7,7 +7,7 @@ set "BRIDGE_DIR=%ROOT%TikTokBridge"
 set "BRIDGE_PORT=3000"
 
 echo =======================================
-echo     KHOI DONG ONG CHU MMO LIVE
+echo     KHOI DONG BAR CLUB LIVE
 echo =======================================
 echo.
 
@@ -23,7 +23,10 @@ if not exist "%BRIDGE_DIR%\package.json" (
     goto :failed
 )
 
-if not exist "%BRIDGE_DIR%\node_modules\express\package.json" (
+set "BRIDGE_INSTALL_NEEDED="
+if not exist "%BRIDGE_DIR%\node_modules\express\package.json" set "BRIDGE_INSTALL_NEEDED=1"
+if not exist "%BRIDGE_DIR%\node_modules\sharp\package.json" set "BRIDGE_INSTALL_NEEDED=1"
+if defined BRIDGE_INSTALL_NEEDED (
     echo [1/3] Dang cai dat thu vien Node.js...
     pushd "%BRIDGE_DIR%"
     if exist package-lock.json (
@@ -84,10 +87,10 @@ if not "%BRIDGE_PORT%"=="3000" (
     echo Bridge va Control Panel van chay tren cong %BRIDGE_PORT%, nhung game se khong duoc mo.
     goto :open_control
 )
-if exist "%ROOT%Build\OngChuMMO_Live.exe" (
-    start "" "%ROOT%Build\OngChuMMO_Live.exe"
+if exist "%ROOT%Build\BarClub_Live.exe" (
+    start "" "%ROOT%Build\BarClub_Live.exe" -force-d3d11
 ) else if exist "%ROOT%Build\TIKTOK_LIVE_BAR.exe" (
-    start "" "%ROOT%Build\TIKTOK_LIVE_BAR.exe"
+    start "" "%ROOT%Build\TIKTOK_LIVE_BAR.exe" -force-d3d11
 ) else (
     echo [CANH BAO] Khong tim thay file Game trong thu muc Build.
     echo Chay build.bat sau khi cai Unity 6, hoac mo UnityProject bang Unity Hub.
@@ -101,7 +104,7 @@ exit /b 0
 
 :bridge_is_ready
 set "BRIDGE_READY="
-for /f "usebackq delims=" %%r in (`powershell -NoProfile -Command "try { $h = Invoke-RestMethod -Uri '%CONTROL_URL:control.html=api/health%' -TimeoutSec 2; if ($h.status -eq 'ok' -and $h.appId -eq 'ongchu-mmo-live-bridge') { 'YES' } } catch {}"`) do set "BRIDGE_READY=%%r"
+for /f "usebackq delims=" %%r in (`powershell -NoProfile -Command "try { $h = Invoke-RestMethod -Uri '%CONTROL_URL:control.html=api/health%' -TimeoutSec 2; if ($h.status -eq 'ok' -and $h.appId -eq 'bar-club-live-bridge') { 'YES' } } catch {}"`) do set "BRIDGE_READY=%%r"
 exit /b 0
 
 :failed

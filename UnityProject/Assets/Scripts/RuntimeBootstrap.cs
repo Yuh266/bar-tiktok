@@ -13,10 +13,15 @@ namespace TikTokLiveGame
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
             Application.runInBackground = true;
-            Screen.SetResolution(540, 960, false);
+            QualitySettings.antiAliasing = 4;
+            QualitySettings.globalTextureMipmapLimit = 0;
+            Screen.SetResolution(540, 960, FullScreenMode.Windowed);
             ClubSceneBuilder.Build();
+            // A standalone scenery preview never connects to the running LIVE session.
+            if (VisualCaptureHarness.InstallFloorPreviewIfRequested()) return;
 
             GameObject root = new("TikTok Live Game");
+            root.AddComponent<ClubOutputDiagnostics>();
             AvatarService avatars = root.AddComponent<AvatarService>();
             TikTokWebSocketClient client = root.AddComponent<TikTokWebSocketClient>();
             PlayerManager players = new GameObject("Players").AddComponent<PlayerManager>();
@@ -26,6 +31,16 @@ namespace TikTokLiveGame
             TikTokGameController game = root.AddComponent<TikTokGameController>();
             game.Initialize(client, players, giftEffects);
             VisualCaptureHarness.InstallIfRequested(root);
+        }
+    }
+
+    internal sealed class ClubOutputDiagnostics : MonoBehaviour
+    {
+        private System.Collections.IEnumerator Start()
+        {
+            yield return null;
+            yield return null;
+            Debug.Log($"CLUB_OUTPUT {Screen.width}x{Screen.height} MSAA={QualitySettings.antiAliasing}");
         }
     }
 }

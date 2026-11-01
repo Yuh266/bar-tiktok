@@ -4,7 +4,7 @@ chcp 65001 >nul
 
 set "ROOT=%~dp0"
 set "PROJECT_DIR=%ROOT%UnityProject"
-set "OUTPUT_EXE=%ROOT%Build\OngChuMMO_Live.exe"
+set "OUTPUT_EXE=%ROOT%Build\BarClub_Live.exe"
 set "LOG_FILE=%ROOT%build_log.txt"
 set "PROJECT_VERSION="
 
@@ -16,6 +16,7 @@ if not defined PROJECT_VERSION (
 )
 
 set "UNITY_EXE=C:\Program Files\Unity\Hub\Editor\%PROJECT_VERSION%\Editor\Unity.exe"
+if not exist "%UNITY_EXE%" set "UNITY_EXE=C:\Program Files\Unity %PROJECT_VERSION%\Editor\Unity.exe"
 if not exist "%UNITY_EXE%" (
     echo [LOI] Chua cai dung Unity %PROJECT_VERSION%.
     echo Hay cai phien ban nay bang Unity Hub roi chay lai build.bat.
@@ -23,7 +24,7 @@ if not exist "%UNITY_EXE%" (
 )
 
 echo =======================================
-echo     BUILD GAME ONG CHU MMO LIVE
+echo     BUILD GAME BAR CLUB LIVE
 echo =======================================
 echo Unity: %PROJECT_VERSION%
 echo Output: %OUTPUT_EXE%

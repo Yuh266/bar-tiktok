@@ -28,7 +28,7 @@ test('parses comments, quotes, and values containing equals signs', () => {
 });
 
 test('loads .env without overwriting variables supplied by the operating system', () => {
-    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'ongchu-env-'));
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'barclub-env-'));
     const envPath = path.join(directory, '.env');
     fs.writeFileSync(envPath, 'PORT=3100\nHOST=0.0.0.0\n', 'utf8');
     const environment = { PORT: '3200' };

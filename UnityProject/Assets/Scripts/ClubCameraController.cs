@@ -205,6 +205,9 @@ namespace TikTokLiveGame
                 // already provide enough motion for a lively frame.
             }
             float responsiveness = focusing ? 3.8f : 2.25f;
+            // A short bass punch, not continuous handheld shake.
+            desiredFov -= ClubAudioReactive.Pulse * (focusing ? 0.8f : 2.6f) + ClubGiftShow.Accent * 0.7f;
+            handheldPitch += ClubAudioReactive.Pulse * 0.32f;
             float blend = 1f - Mathf.Exp(-responsiveness * Time.deltaTime);
             transform.position = Vector3.Lerp(transform.position, desiredPosition, blend);
             currentLookAt = Vector3.Lerp(currentLookAt, desiredLookAt, blend);

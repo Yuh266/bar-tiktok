@@ -1,14 +1,15 @@
-ONG CHU MMO LIVE - HUONG DAN SU DUNG
+BAR CLUB LIVE - HUONG DAN SU DUNG
 
 1. Nhan dup run.bat.
 2. Cho game mo va hien NODE ONLINE.
 3. Thu nhanh bang DEMO 30 hoac DEMO 200.
-4. Ket noi live that: nhap TikTok username dang live, khong nhap dau @, roi bam KET NOI.
+4. Ket noi live that: bat LIVE tren TikTok LIVE Studio, nhap TikTok username dang live, khong nhap dau @, roi bam KET NOI.
 
 KET NOI LIVE THAT
 
 Nguoi xem gui chat, like, follow, share hoac gift se thay NPC tren san.
 Ten va avatar TikTok duoc cap nhat tu dong; neu TikTok chua tra anh, game dung avatar du phong de khong bi o den.
+Anh WebP cua TikTok duoc tu dong chuyen sang PNG de game hien thi; neu tai anh loi, game se thu lai.
 Neu Node hoac duong truyen bi mat tam thoi, game va cau noi TikTok se tu ket noi lai.
 Khong can dong game khi bi rot mang ngan han.
 
@@ -35,7 +36,7 @@ Sau khi hieu ung ket thuc, nguoi khong thuoc Top 3 se tro lai trang thai mo.
 
 OBS
 
-Capture cua so OngChuMMO_Live.exe bang Game Capture.
+Capture cua so BarClub_Live.exe bang Game Capture.
 Neu muon ghep len video, bam F2 va dung Chroma Key mau xanh trong OBS.
 Nhac duoc mo rieng trong OBS hoac TikTok Live Studio.
 

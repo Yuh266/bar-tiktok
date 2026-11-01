@@ -8,11 +8,13 @@ namespace TikTokLiveGame
         private readonly System.Collections.Generic.Dictionary<string, ComboState> combos = new();
         private AudioSource fireworkAudio;
         private AudioClip fireworkClip;
+        private ClubGiftShow specialShow;
         public string BannerText { get; private set; } = string.Empty;
         public float BannerUntil { get; private set; }
 
         private void Awake()
         {
+            specialShow = gameObject.AddComponent<ClubGiftShow>();
             fireworkAudio = gameObject.AddComponent<AudioSource>();
             fireworkAudio.playOnAwake = false;
             fireworkAudio.loop = false;
@@ -31,8 +33,9 @@ namespace TikTokLiveGame
             int count = Time.unscaledTime - combo.LastTime <= 5f ? combo.Count + 1 : 1;
             combos[data.userId ?? string.Empty] = new ComboState(count, Time.unscaledTime);
             string comboText = count > 1 ? $"  (COMBO x{count})" : string.Empty;
-            BannerText = $"Chủ tịch: {data.nickname} đã tặng {gift} cho anh em bar!{comboText}";
+            BannerText = $"{data.nickname} · {gift}{comboText}";
             BannerUntil = Time.unscaledTime + Mathf.Clamp(data.durationMs / 1000f, 3f, 10f);
+            specialShow.Trigger(actor, data);
 
             bool spotlightAction = data.action is "camera" or "vip" or "topdj" or "fireworks" or "medal";
             if (actor != null && spotlightAction && data.diamondCount >= 20) StartCoroutine(Spotlight(actor, data));
@@ -42,7 +45,7 @@ namespace TikTokLiveGame
 
         public void PartyBurst()
         {
-            BannerText = "PARTY ENERGY MAX — CẢ SÀN CÙNG QUẨY";
+            BannerText = "CẢ SÀN BÙNG NỔ";
             BannerUntil = Time.unscaledTime + 6f;
             LaunchFireworks(5);
         }

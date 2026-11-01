@@ -12,6 +12,10 @@ namespace TikTokLiveGame
         private SpriteRenderer bannerRenderer;
         private Transform wingAnchor;
         private TextMesh nameLabel;
+        private TextMesh loyaltyLabel;
+        private LineRenderer teamRing;
+        private float performanceUntil;
+        private Vector3 performancePosition;
         private TextMesh rankLabel;
         private TextMesh titleLabel;
         private TextMesh titleShadowLabel;
@@ -50,6 +54,7 @@ namespace TikTokLiveGame
         private const float JumpHeight = 2f;
 
         public string UserId { get; private set; }
+        public string Team { get; private set; }
         public string Nickname { get; private set; }
         public int GiftPower { get; private set; }
         public float LastActiveTime { get; private set; }
@@ -114,6 +119,10 @@ namespace TikTokLiveGame
             nameLabel.fontStyle = FontStyle.Bold;
             nameLabel.color = Color.white;
             labelObject.GetComponent<MeshRenderer>().sortingOrder = characterRenderer.sortingOrder + 10;
+            loyaltyLabel = CreateLabel("Returning Viewer", new Vector3(0.18f, 1.9f, 0f), 28, new Color(1f, 0.82f, 0.35f), characterRenderer.sortingOrder + 11);
+            loyaltyLabel.anchor = TextAnchor.MiddleLeft;
+            loyaltyLabel.alignment = TextAlignment.Left;
+            SetCommunityIdentity(data.team, data.loyaltyTitle, data.loyaltyDays);
 
             rankLabel = CreateLabel("Rank", new Vector3(0f, 3.05f, 0f), 48, new Color(1f, 0.82f, 0.2f), characterRenderer.sortingOrder + 15);
             rankLabel.gameObject.SetActive(false);
@@ -146,7 +155,9 @@ namespace TikTokLiveGame
             string requestedUrl = url;
             AvatarService.Instance?.Load(url, sprite =>
             {
-                if (this != null && avatarUrl == requestedUrl && sprite != null) ApplyAvatar(sprite);
+                if (this == null || avatarUrl != requestedUrl) return;
+                if (sprite != null) ApplyAvatar(sprite);
+                else avatarUrl = null; // Allow a later event to retry a failed image.
             });
         }
 
@@ -162,6 +173,47 @@ namespace TikTokLiveGame
                 if (nameLabel != null) nameLabel.text = FormatDisplayName(Nickname);
             }
             if (!UsesSyntheticAvatar) LoadAvatar(data.avatar);
+            SetCommunityIdentity(data.team, data.loyaltyTitle, data.loyaltyDays);
+        }
+
+        public void SetCommunityIdentity(string team, string title, int days)
+        {
+            Team = team ?? string.Empty;
+            Color color = Team == "red" ? new Color(1f, 0.24f, 0.3f) : Team == "blue" ? new Color(0.2f, 0.7f, 1f) : Color.white;
+            if (nameLabel != null) nameLabel.color = color;
+            if (loyaltyLabel != null)
+            {
+                loyaltyLabel.text = title ?? string.Empty;
+                loyaltyLabel.gameObject.SetActive(!IsNpc && !string.IsNullOrWhiteSpace(title));
+            }
+            if (!string.IsNullOrEmpty(Team) && teamRing == null)
+            {
+                GameObject ring = new("Team Ring");
+                ring.transform.SetParent(transform, false);
+                teamRing = ring.AddComponent<LineRenderer>();
+                teamRing.useWorldSpace = false;
+                teamRing.loop = true;
+                teamRing.positionCount = 48;
+                teamRing.widthMultiplier = 0.06f;
+                teamRing.sharedMaterial = GameMaterials.Club(Color.black, color * 0.8f);
+                for (int index = 0; index < 48; index++)
+                {
+                    float angle = index * Mathf.PI * 2f / 48f;
+                    teamRing.SetPosition(index, new Vector3(Mathf.Cos(angle) * 0.7f, 0.035f, Mathf.Sin(angle) * 0.36f));
+                }
+            }
+            if (teamRing != null)
+            {
+                teamRing.enabled = !string.IsNullOrEmpty(Team);
+                teamRing.sharedMaterial.SetColor("_EmissionColor", color * 0.8f);
+            }
+        }
+
+        public void CelebrateAt(Vector3 position, float seconds)
+        {
+            performancePosition = position;
+            performanceUntil = Time.time + seconds;
+            Celebrate(seconds);
         }
 
         private static int StableAvatarIndex(string value, int count)
@@ -391,6 +443,7 @@ namespace TikTokLiveGame
             // on the left side of the portrait frame.
             avatarRenderer.transform.localPosition = new Vector3(0.58f * identityScale, decorationBadgeY + attachedBounce, -0.01f);
             nameLabel.transform.localPosition = new Vector3(0.22f * identityScale, decorationBadgeY + attachedBounce, -0.02f);
+            if (loyaltyLabel != null) loyaltyLabel.transform.localPosition = nameLabel.transform.localPosition - Vector3.up * (0.22f * identityScale);
             float bannerY = decorationBadgeY + 0.53f * identityScale + attachedBounce;
             bannerRenderer.transform.localPosition = new Vector3(0f, bannerY, -0.01f);
             float titleY = bannerY + bannerTextOffsetY * identityScale;
@@ -533,7 +586,8 @@ namespace TikTokLiveGame
             }
             else
             {
-                transform.position = Vector3.Lerp(transform.position, home, 1f - Mathf.Exp(-5f * Time.deltaTime));
+                Vector3 targetHome = Time.time < performanceUntil ? performancePosition : home;
+                transform.position = Vector3.Lerp(transform.position, targetHome, 1f - Mathf.Exp(-5f * Time.deltaTime));
             }
             if (effectScale > 1f && Time.time >= growUntil) effectScale = Mathf.Lerp(effectScale, 1f, 5f * Time.deltaTime);
             visualAlpha = Mathf.Lerp(visualAlpha, targetAlpha, 1f - Mathf.Exp(-7f * Time.deltaTime));
@@ -560,6 +614,7 @@ namespace TikTokLiveGame
             if (camera != null)
             {
                 nameLabel.transform.rotation = camera.transform.rotation;
+                if (loyaltyLabel != null) loyaltyLabel.transform.rotation = camera.transform.rotation;
                 rankLabel.transform.rotation = camera.transform.rotation;
                 titleLabel.transform.rotation = camera.transform.rotation;
                 titleShadowLabel.transform.rotation = camera.transform.rotation;
@@ -598,6 +653,8 @@ namespace TikTokLiveGame
                 bannerRenderer.color = color;
             }
             SetTextAlpha(nameLabel, visualAlpha);
+            SetTextAlpha(loyaltyLabel, visualAlpha);
+            if (teamRing != null) teamRing.transform.localScale = Vector3.one * Mathf.Max(crowdScale, 0.4f);
             SetTextAlpha(rankLabel, visualAlpha);
             SetTextAlpha(titleLabel, visualAlpha);
             SetTextAlpha(titleShadowLabel, visualAlpha * 0.92f);

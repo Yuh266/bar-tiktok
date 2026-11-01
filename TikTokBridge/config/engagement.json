@@ -1,0 +1,8 @@
+{
+  "battleSeconds": 180,
+  "voteSeconds": 30,
+  "danceSeconds": 10,
+  "danceTarget": 10,
+  "energyGoal": 2000,
+  "floorTheme": "neon"
+}

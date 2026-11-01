@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
-  <title id="title">ÔNG CHÚ MMO</title>
-  <desc id="description">Biểu tượng neon ÔNG CHÚ MMO Live</desc>
+  <title id="title">Bar Club</title>
+  <desc id="description">Biểu tượng neon Bar Club Live</desc>
   <defs>
     <linearGradient id="background" x1="64" y1="32" x2="448" y2="480" gradientUnits="userSpaceOnUse">
       <stop stop-color="#17132f"/>
@@ -27,7 +27,7 @@
     <rect x="396" y="260" width="24" height="82" rx="12"/>
   </g>
   <circle cx="256" cy="236" r="104" fill="#0d0b1d" stroke="url(#neon)" stroke-width="10"/>
-  <text x="256" y="275" fill="#ffffff" font-family="Arial, sans-serif" font-size="116" font-weight="800" text-anchor="middle">ÔC</text>
+  <text x="256" y="275" fill="#ffffff" font-family="Arial, sans-serif" font-size="116" font-weight="800" text-anchor="middle">BC</text>
   <rect x="156" y="358" width="200" height="58" rx="29" fill="url(#neon)"/>
-  <text x="256" y="399" fill="#090713" font-family="Arial, sans-serif" font-size="38" font-weight="900" letter-spacing="8" text-anchor="middle">MMO</text>
+  <text x="256" y="399" fill="#090713" font-family="Arial, sans-serif" font-size="30" font-weight="900" letter-spacing="8" text-anchor="middle">CLUB</text>
 </svg>

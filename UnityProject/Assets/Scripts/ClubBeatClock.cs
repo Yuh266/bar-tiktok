@@ -31,6 +31,7 @@ namespace TikTokLiveGame
             string[] paths =
             {
                 Path.Combine(buildRoot, "DJ_VIDEO", "BPM.txt"),
+                Path.Combine(projectRoot, "DJ_VIDEO", "BPM.txt"),
                 Path.Combine(workspaceRoot, "DJ_VIDEO", "BPM.txt")
             };
             foreach (string path in paths)

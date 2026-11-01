@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
-   ÔNG CHÚ MMO — TikTok Live Bridge Server
-   © 2025 ÔNG CHÚ MMO — ongchummo.com
+   Bar Club — TikTok Live Bridge Server
+   Bar Club — Original source attribution: see ../LICENSE.
    Phát hành theo giấy phép MIT. Xem file ../LICENSE.
 ═══════════════════════════════════════════════════════════ */
 
@@ -11,6 +11,9 @@ const fs = require('fs/promises');
 const WebSocket = require('ws');
 const { TikTokLiveConnection } = require('tiktok-live-connector');
 const { getServerSettings, loadEnvironmentFile } = require('./src/config/environment');
+const { startAvatarServer } = require('./src/avatar-server');
+const { EngagementEngine, ViewerStore } = require('./src/engagement');
+const { SessionStore } = require('./src/session-store');
 
 loadEnvironmentFile();
 
@@ -25,9 +28,14 @@ const {
 } = require('./src/tiktok/normalize-event');
 
 const gameConfig = require('./config/game.json');
+const giftCatalog = require('./config/gift-catalog.json');
+const publicGiftPrices = require('./config/gift-prices.json');
+const { buildViewerGuide } = require('./src/viewer-guide');
+const { LikeMilestones } = require('./src/like-milestones');
+const likeMilestones = new LikeMilestones(Number(gameConfig.likeMilestone) || 100);
 const giftConfig = require('./config/gifts.json');
 const initialMasterConfig = require('./config/master.json');
-const initialObservedGifts = require('./config/observed-gifts.json');
+let initialObservedGifts = require('./config/observed-gifts.json');
 const { normalizeText, sanitizeMasterConfig, resolveMasterRule, applyRule, applyBuiltInChatCommand } = require('./src/master/rules');
 const {
     sanitizeGameEvent,
@@ -41,6 +49,17 @@ const app = express();
 const server = http.createServer(app);
 
 const { port: PORT, host: HOST, allowLan: ALLOW_LAN } = getServerSettings();
+const dataDir = process.env.DATA_DIR || path.join(__dirname, 'data');
+const engagementSettings = { ...require('./config/engagement.json') };
+try { Object.assign(engagementSettings, JSON.parse(require('node:fs').readFileSync(path.join(dataDir, 'engagement-settings.json'), 'utf8'))); }
+catch (error) { if (error.code !== 'ENOENT') console.warn('Could not read activity settings:', error.message); }
+try { initialObservedGifts = JSON.parse(require('node:fs').readFileSync(path.join(dataDir, 'observed-gifts.json'), 'utf8')); }
+catch (error) { if (error.code !== 'ENOENT') console.warn('Could not read learned gift catalog:', error.message); }
+const engagement = new EngagementEngine({
+    store: new ViewerStore(path.join(dataDir, 'viewers.json')),
+    config: engagementSettings
+});
+const sessionStore = new SessionStore(path.join(dataDir, 'session.json'));
 const wss = new WebSocket.Server({
     noServer: true,
     maxPayload: 32 * 1024,
@@ -51,7 +70,7 @@ const publicDir = path.join(__dirname, 'public');
 const assetsDir = path.join(__dirname, 'assets');
 const gifsDir = path.join(assetsDir, 'gifs');
 const masterConfigPath = path.join(__dirname, 'config', 'master.json');
-const observedGiftsPath = path.join(__dirname, 'config', 'observed-gifts.json');
+const observedGiftsPath = path.join(dataDir, 'observed-gifts.json');
 const LIVE_PROVIDER = String(process.env.LIVE_PROVIDER || gameConfig.liveProvider || 'tikfinity').toLowerCase();
 const TIKFINITY_WS_URL = String(process.env.TIKFINITY_WS_URL || gameConfig.tikfinityWsUrl || 'ws://127.0.0.1:21213/');
 
@@ -76,6 +95,23 @@ const observedGifts = new Map((Array.isArray(initialObservedGifts) ? initialObse
     .map(gift => [String(gift.giftId || gift.giftName || ''), gift])
     .filter(([key]) => key));
 let observedGiftSaveTimer = null;
+let speechOwner = null;
+let restoredSession = null;
+try {
+    restoredSession = sessionStore.load();
+    if (restoredSession) {
+        metrics = { ...createMetrics(), ...restoredSession.metrics };
+        for (const player of restoredSession.players || []) sessionPlayers.set(player.userId, { ...player, team: '' });
+        for (const vip of restoredSession.vipScores || []) sessionVipScores.set(vip.userId, vip);
+    }
+} catch (error) { console.warn('Could not restore LIVE session:', error.message); }
+
+function checkpointSession() {
+    sessionStore.schedule({ metrics, players: [...sessionPlayers.values()], vipScores: [...sessionVipScores.values()],
+        username: desiredUsername || connectionStatus.username || null });
+}
+
+function engagementMessage() { return { type: 'engagement_state', engagement: engagement.snapshot() }; }
 
 if (!ALLOW_LAN && !isLoopbackAddress(HOST) && HOST.toLowerCase() !== 'localhost') {
     throw new Error('Từ chối mở Node ra mạng LAN. Chỉ đặt ALLOW_LAN=1 khi đã có lớp xác thực bên ngoài.');
@@ -129,7 +165,7 @@ app.use('/assets', express.static(assetsDir, staticOptions));
 app.use('/vendor/three', express.static(path.join(__dirname, 'node_modules', 'three', 'build'), staticOptions));
 
 app.get('/api/health', (_req, res) => {
-    res.json({ status: 'ok', appId: 'ongchu-mmo-live-bridge', version: '1.0.0' });
+    res.json({ status: 'ok', appId: 'bar-club-live-bridge', version: '1.0.0' });
 });
 
 app.get('/api/config', (_req, res) => {
@@ -170,6 +206,7 @@ function send(ws, data) {
 function setStatus(state, username, message) {
     connectionStatus = { state, username, message };
     broadcast({ type: 'status', ...connectionStatus });
+    checkpointSession();
 }
 
 function broadcastMetrics() {
@@ -186,36 +223,11 @@ function giftCatalogMessage() {
 }
 
 function viewerGuideMessage() {
-    const joinRule = (masterConfig.rules || []).find(rule => rule.enabled && rule.source === 'chat' && rule.action === 'join');
-    const giftRules = (masterConfig.rules || [])
-        .filter(rule => rule.enabled && rule.source === 'gift' &&
-            (Number(rule.displayDiamonds) > 0 || (rule.giftId && observedGifts.has(String(rule.giftId)))));
-    const actionOrder = new Map([['walk', 0], ['medal', 1], ['fireworks', 2], ['grow', 3], ['topdj', 4]]);
-    const items = giftRules
-        .filter(rule => actionOrder.has(rule.action))
-        .sort((a, b) => actionOrder.get(a.action) - actionOrder.get(b.action))
-        .slice(0, 5)
-        .map(rule => {
-            const learned = rule.giftId ? observedGifts.get(String(rule.giftId)) : null;
-            return {
-                giftId: rule.giftId || learned?.giftId || '',
-                giftName: learned?.giftName || String(rule.trigger || '').split(',')[0].trim() || 'Gift',
-                diamondCount: Number(learned?.diamondCount) || Number(rule.displayDiamonds) || 0,
-                giftPictureUrl: learned?.giftPictureUrl || '',
-                label: rule.label || rule.action.toUpperCase()
-            };
-        });
-    const zoomRule = giftRules.find(rule => rule.action === 'camera');
-    const zoomLearned = zoomRule?.giftId ? observedGifts.get(String(zoomRule.giftId)) : null;
-    return {
-        type: 'viewer_guide',
-        joinCommand: joinRule ? String(joinRule.trigger || '').split(',')[0].trim() : '',
-        zoomGiftName: zoomLearned?.giftName || (zoomRule ? String(zoomRule.trigger || '').split(',')[0].trim() : ''),
-        guideItems: items
-    };
+    return buildViewerGuide(masterConfig, observedGifts, giftCatalog, likeMilestones.threshold);
 }
 
 function scheduleObservedGiftSave() {
+    require('node:fs').mkdirSync(dataDir, { recursive: true });
     clearTimeout(observedGiftSaveTimer);
     observedGiftSaveTimer = setTimeout(() => {
         observedGiftSaveTimer = null;
@@ -274,10 +286,14 @@ function isRealObservedGift(event) {
 }
 
 function resetSessionState(source = metrics.source) {
+    engagement.reset();
+    likeMilestones.clear();
     metrics = { ...createMetrics(), source, startedAt: source === 'idle' ? null : Date.now() };
     sessionPlayers.clear();
     sessionVipScores.clear();
     recentEventIds.clear();
+    checkpointSession();
+    broadcast(engagementMessage());
 }
 
 function createSnapshot() {
@@ -366,7 +382,7 @@ function normalizeGiftName(value) {
 }
 
 function emitGameEvent(event) {
-    if (isDuplicate(event)) return;
+    likeMilestones.apply(event);
     const now = Date.now();
     let giftRule = null;
     if (event.type === 'gift') {
@@ -387,6 +403,9 @@ function emitGameEvent(event) {
             uniqueId: nonEmpty(event.uniqueId, previous.uniqueId || event.userId),
             nickname: nonEmpty(event.nickname, previous.nickname || event.uniqueId || 'TikTok user'),
             avatar: nonEmpty(event.avatar, previous.avatar || ''),
+            team: event.team || '',
+            loyaltyTitle: event.loyaltyTitle || '',
+            loyaltyDays: event.loyaltyDays || 0,
             lastActive: now
         };
         if (event.type === 'gift') {
@@ -422,14 +441,23 @@ function emitGameEvent(event) {
     if (event.type === 'like') metrics.likes += event.likeCount;
     broadcast(event);
     broadcastMetrics();
+    checkpointSession();
+    if (event.type === 'gift' && speechOwner?.readyState === WebSocket.OPEN) {
+        const catalogGift = giftCatalog.find(gift => String(gift.giftId) === String(event.giftId));
+        send(speechOwner, { type: 'gift_thanks', userId: event.userId, nickname: event.nickname,
+            giftId: event.giftId, giftName: event.giftName === 'Gift' ? catalogGift?.giftName || 'quà' : event.giftName,
+            repeatCount: Math.max(1, Number(event.repeatCount) || 1), receivedAt: Date.now() });
+    }
 }
 
 function processGameEvent(inputEvent) {
     const safeEvent = sanitizeGameEvent(inputEvent);
-    if (!safeEvent) return;
+    if (!safeEvent || isDuplicate(safeEvent)) return;
     const event = applyBuiltInChatCommand(applyRule(safeEvent, resolveMasterRule(masterConfig, safeEvent)));
+    engagement.process(event);
     const isKnownPlayer = event.userId && sessionPlayers.has(event.userId);
-    const joinsByKeyword = event.type === 'chat' && event.action === 'join';
+    const joinsByKeyword = event.type === 'chat' && (event.action === 'join' || event.engagementJoined);
+    if (event.engagementJoined && !event.action) event.action = 'join';
     const joinsBySocial = event.type === 'follow' || event.type === 'share';
     event.joinedNow = Boolean((joinsByKeyword || joinsBySocial) && !isKnownPlayer);
     if (metrics.source !== 'demo' && masterConfig.joinMode === 'keyword_only' && !isKnownPlayer) {
@@ -616,7 +644,8 @@ async function connectToTikFinity(username, options = {}) {
     });
     connection.on('message', payload => {
         if (!active()) return;
-        for (const event of normalizeTikFinityMessage(payload)) processGameEvent(event);
+        for (const event of normalizeTikFinityMessage(payload))
+            if (event.type !== 'gift' || !isPendingGiftStreak(event)) processGameEvent(event);
     });
     connection.on('error', error => {
         console.warn(`TikFinity WebSocket: ${error.message}`);
@@ -648,9 +677,25 @@ function attachTikTokEvents(connection) {
     connection.on('share', data => active() && processGameEvent(normalizeSocial('share', data)));
     connection.on('gift', data => {
         if (!active()) return;
-        const event = normalizeGift(data);
+        const event = enrichGiftValue(normalizeGift(data));
         if (!isPendingGiftStreak(event)) processGameEvent(event);
     });
+}
+
+function enrichGiftValue(event) {
+    if (event.type !== 'gift' || Number(event.diamondCount) > 0) return event;
+    const giftId = String(event.giftId || '');
+    const catalogGift = giftCatalog.find(item => String(item.giftId) === giftId);
+    const observedGift = initialObservedGifts.find(item => String(item.giftId) === giftId);
+    const unitDiamondCount = Math.max(
+        0,
+        Number(publicGiftPrices[giftId]) || Number(catalogGift?.coinCount) || Number(observedGift?.diamondCount) || 0
+    );
+    if (unitDiamondCount > 0) {
+        event.unitDiamondCount = unitDiamondCount;
+        event.diamondCount = unitDiamondCount * Math.max(1, Number(event.repeatCount) || 1);
+    }
+    return event;
 }
 
 async function connectToTikTok(username, options = {}) {
@@ -736,6 +781,7 @@ async function handleClientMessage(ws, message) {
         send(ws, { type: 'metrics', ...metrics });
         if (ws.role === 'control') send(ws, { type: 'master_config', master: masterConfig });
         if (ws.role === 'control') send(ws, giftCatalogMessage());
+        send(ws, engagementMessage());
         if (ws.role === 'overlay') {
             send(ws, createSnapshot());
             send(ws, viewerGuideMessage());
@@ -745,7 +791,7 @@ async function handleClientMessage(ws, message) {
 
     if (!ws.registered) return send(ws, { type: 'error', message: 'Client chưa đăng ký quyền.' });
 
-    const controlOnly = message.type === 'master_save' || message.type === 'master_test';
+    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim'].includes(message.type);
     const operatorOnly = new Set([
         'set_username', 'disconnect_tiktok', 'demo_start', 'demo_stop', 'demo_event', 'reset_game'
     ]).has(message.type);
@@ -754,6 +800,25 @@ async function handleClientMessage(ws, message) {
     }
     if (operatorOnly && ws.role !== 'control' && !ws.nativeClient) {
         return send(ws, { type: 'error', message: 'Client không có quyền điều khiển.' });
+    }
+
+    if (message.type === 'engagement_command') {
+        try {
+            engagement.command(message.action, message);
+            if (message.action === 'floor_set' || message.action === 'energy_goal') {
+                await fs.mkdir(dataDir, { recursive: true });
+                await fs.writeFile(path.join(dataDir, 'engagement-settings.json'), JSON.stringify({ floorTheme: engagement.floorTheme, energyGoal: engagement.energy.goal }));
+            }
+            broadcast(engagementMessage());
+            return send(ws, { type: 'engagement_ack', message: 'Đã áp dụng hoạt động.' });
+        } catch (error) { return send(ws, { type: 'error', message: error.message }); }
+    }
+    if (message.type === 'speech_claim') {
+        if (message.enabled === true) {
+            if (speechOwner && speechOwner !== ws) send(speechOwner, { type: 'speech_status', active: false });
+            speechOwner = ws;
+        } else if (speechOwner === ws) speechOwner = null;
+        return send(ws, { type: 'speech_status', active: speechOwner === ws });
     }
 
     if (message.type === 'master_save') {
@@ -890,7 +955,14 @@ wss.on('connection', (ws, request) => {
         });
     });
     ws.on('error', error => console.warn('WebSocket client error:', error.message));
+    ws.on('close', () => { if (speechOwner === ws) speechOwner = null; });
 });
+
+const engagementTimer = setInterval(() => {
+    engagement.tick();
+    broadcast(engagementMessage());
+}, 1000);
+engagementTimer.unref();
 
 const heartbeatTimer = setInterval(() => {
     for (const ws of wss.clients) {
@@ -910,8 +982,11 @@ server.keepAliveTimeout = 5000;
 server.maxHeadersCount = 64;
 
 server.listen(PORT, HOST, () => {
+    startAvatarServer();
     console.log(`TikTok Live Game: http://${HOST}:${PORT}`);
     console.log(`Bảng điều khiển: http://${HOST}:${PORT}/control.html`);
+    if (restoredSession?.username && restoredSession.metrics?.source === 'tiktok')
+        void connectToLiveProvider(restoredSession.username, { resetSession: false, isReconnect: true });
 });
 
 server.on('error', (err) => {
@@ -931,7 +1006,13 @@ server.on('error', (err) => {
 });
 
 async function shutdown() {
+    try {
+        checkpointSession();
+        sessionStore.flush();
+        engagement.store.flush();
+    } catch (error) { console.warn('Could not save state during shutdown:', error.message); }
     stopDemo();
+    clearInterval(engagementTimer);
     clearInterval(heartbeatTimer);
     desiredUsername = null;
     cancelReconnect();

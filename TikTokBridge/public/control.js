@@ -1,7 +1,6 @@
 /* ─────────────────────────────────────────────────────────
-   ÔNG CHÚ MMO — Control Panel JS
-   © 2025 ÔNG CHÚ MMO — ongchummo.com
-   Zalo: 0977.896.644 | Website: https://ongchummo.com
+   Bar Club — Control Panel JS
+   Bar Club — Live control panel. Original source attribution: see LICENSE.
 ───────────────────────────────────────────────────────── */
 
 /* ═══ TAB NAVIGATION ════════════════════════════════════ */
@@ -220,11 +219,13 @@ function connectSocket() {
 
     socket.addEventListener('open', () => {
         send({ type: 'register', role: 'control' });
+        window.liveActivities?.onOpen();
     });
 
     socket.addEventListener('message', event => {
         let data;
         try { data = JSON.parse(event.data); } catch { return; }
+        window.liveActivities?.onMessage(data);
         if (data.type === 'status' || data.type === 'error') setStatus(data);
         if (data.type === 'metrics')        setMetrics(data);
         if (data.type === 'master_config')  renderMaster(data.master);

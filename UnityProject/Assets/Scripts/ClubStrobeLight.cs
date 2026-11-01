@@ -22,7 +22,9 @@ namespace TikTokLiveGame
             bool dropWindow = beatIndex % 32 >= 28;
             bool dropFlash = Mathf.Repeat(Time.time * 11f + phase, 1f) < 0.2f;
             bool barAccent = beatIndex % 4 == 0 && beatPhase < 0.12f;
-            strobe.intensity = dropWindow && dropFlash ? 34f : barAccent ? 18f : 0f;
+            strobe.intensity = ClubAudioReactive.Playing
+                ? Mathf.Max(0f, ClubAudioReactive.Pulse - 0.35f) * 24f
+                : barAccent ? 8f : 0f;
         }
     }
 }

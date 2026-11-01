@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace TikTokLiveGame
 {
-    public sealed class TikTokGameController : MonoBehaviour
+    public sealed partial class TikTokGameController : MonoBehaviour
     {
         private TikTokWebSocketClient client;
         private PlayerManager playerManager;
@@ -17,8 +17,10 @@ namespace TikTokLiveGame
         private int events;
         private int diamonds;
         private float partyEnergy;
+        private string likeNotice;
+        private float likeNoticeUntil;
         private bool controlsVisible;
-        private bool hudVisible;
+        private bool hudVisible = true;
         private bool chromaMode;
         private int cinematicVersion;
         private bool restoreControlsAfterCinematic;
@@ -51,7 +53,7 @@ namespace TikTokLiveGame
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F1)) controlsVisible = !controlsVisible;
+            if (Input.GetKeyDown(KeyCode.F1)) Application.OpenURL("http://127.0.0.1:3000/control.html");
             if (Input.GetKeyDown(KeyCode.F2)) ToggleChroma();
             if (Input.GetKeyDown(KeyCode.F3)) hudVisible = !hudVisible;
             if (Input.GetKeyDown(KeyCode.F11)) Screen.fullScreen = !Screen.fullScreen;
@@ -61,6 +63,29 @@ namespace TikTokLiveGame
 
         private void HandleEvent(TikTokEvent liveEvent)
         {
+            if (liveEvent.type == "engagement_state")
+            {
+                ApplyEngagement(liveEvent.engagement);
+                return;
+            }
+            if (liveEvent.type == "viewer_guide")
+            {
+                joinCommand = liveEvent.joinCommand ?? "";
+                viewerGuide = liveEvent.guideItems ?? System.Array.Empty<TikTokGiftGuideItem>();
+                RefreshGiftIcons();
+                if (!guideLoaded) viewerGuideStartedAt = Time.unscaledTime;
+                guideLoaded = true;
+                return;
+            }
+            if (liveEvent.type == "metrics")
+            {
+                sessionSource = liveEvent.source ?? "idle";
+                events = liveEvent.events;
+                diamonds = liveEvent.diamonds;
+                return;
+            }
+            if (liveEvent.type == "status" && !string.IsNullOrWhiteSpace(liveEvent.username))
+                username = liveEvent.username;
             if (liveEvent.type == "status") connectionStatus = liveEvent.message;
             if (liveEvent.type is "member" or "chat" or "gift" or "like" or "follow" or "share") events++;
 
@@ -90,6 +115,11 @@ namespace TikTokLiveGame
             else if (liveEvent.type == "like")
             {
                 AddEnergy(liveEvent.likeCount * 0.08f);
+                if (liveEvent.likeMilestone)
+                {
+                    likeNotice = $"{liveEvent.nickname} · Đủ 100 tim miễn phí";
+                    likeNoticeUntil = Time.unscaledTime + 3f;
+                }
             }
             else if (liveEvent.type == "member")
             {
@@ -178,13 +208,13 @@ namespace TikTokLiveGame
         private void AddFeed(string text, Color color)
         {
             feed.Add(new FeedEntry(text, color, Time.unscaledTime));
-            if (feed.Count > 7) feed.RemoveAt(0);
+            if (feed.Count > 3) feed.RemoveAt(0);
         }
 
         private void OnGUI()
         {
             EnsureStyles();
-            float scale = Mathf.Clamp(Mathf.Min(Screen.width / 1080f, Screen.height / 1080f), 0.72f, 1.25f);
+            float scale = Mathf.Max(0.25f, Mathf.Min(Screen.width / 540f, Screen.height / 960f));
             Matrix4x4 originalMatrix = GUI.matrix;
             GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1f));
             float width = Screen.width / scale;
@@ -192,15 +222,15 @@ namespace TikTokLiveGame
 
             if (hudVisible)
             {
-                DrawHeader(width);
-                DrawEnergy(width);
-                DrawTopDonors(width);
+                viewerOverlayBottom = 139f;
+                DrawViewerHud(width, height);
+                DrawEngagementHud(width);
             }
-            DrawFeed(height);
-            if (controlsVisible) DrawControls();
 
             if (giftEffects != null && Time.unscaledTime < giftEffects.BannerUntil)
-                GUI.Box(new Rect(width * 0.5f - 310f, 142f, 620f, 68f), giftEffects.BannerText, bannerStyle);
+                DrawGiftBanner(width, giftEffects.BannerText);
+            else if (Time.unscaledTime < likeNoticeUntil)
+                DrawGiftBanner(width, likeNotice);
 
             GUI.matrix = originalMatrix;
         }
@@ -208,7 +238,7 @@ namespace TikTokLiveGame
         private void DrawHeader(float width)
         {
             GUI.Box(new Rect(18, 16, width - 36, 58), GUIContent.none, panelStyle);
-            GUI.Label(new Rect(34, 23, 245, 28), "ÔNG CHÚ MMO", titleStyle);
+            GUI.Label(new Rect(34, 23, 245, 28), "Bar Club", titleStyle);
             string node = client != null && client.IsConnected ? "NODE ONLINE" : "NODE OFFLINE";
             GUI.Label(new Rect(275, 29, 95, 22), node, smallStyle);
             if (width > 900f) GUI.Label(new Rect(width - 250, 24, 230, 24), "F1 CONTROL   F2 CHROMA", smallStyle);
@@ -227,7 +257,7 @@ namespace TikTokLiveGame
         {
             GUI.Box(new Rect(18, 84, 365, 320), GUIContent.none, panelStyle);
             
-            GUIStyle activeTab = new GUIStyle(buttonStyle) { normal = { background = buttonHover, textColor = Color.yellow } };
+            GUIStyle activeTab = new GUIStyle(buttonStyle) { normal = { background = buttonStyle.hover.background, textColor = Color.yellow } };
             if (GUI.Button(new Rect(34, 96, 155, 32), "KẾT NỐI & DEMO", controlTab == 0 ? activeTab : buttonStyle)) controlTab = 0;
             if (GUI.Button(new Rect(195, 96, 169, 32), "THÊM KHÁCH VIP", controlTab == 1 ? activeTab : buttonStyle)) controlTab = 1;
 
@@ -377,6 +407,7 @@ namespace TikTokLiveGame
 
         private void OnDestroy()
         {
+            ClearGiftIcons();
             if (client != null) client.EventReceived -= HandleEvent;
         }
     }

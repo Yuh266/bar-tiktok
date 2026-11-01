@@ -1,4 +1,4 @@
-# 🎵 ÔNG CHÚ MMO — TikTok Live 3D Dance Floor
+# bar-tiktok — Bar Club LIVE
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-%3E%3D20-green.svg)](https://nodejs.org/)
@@ -6,11 +6,45 @@
 
 **Biến phiên TikTok LIVE thành sàn nhảy 3D tương tác** — Người xem gửi gift, chat, like, follow sẽ xuất hiện trên sàn nhảy với avatar TikTok thật, hiệu ứng ánh sáng, DJ booth và pháo hoa.
 
+## Tương tác mới
+
+Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khiển các hoạt động. Nhấn **F1** trong game để mở quản trị.
+
+| Tính năng | Người xem tham gia | Kết quả |
+|---|---|---|
+| Đấu đội Đỏ – Xanh | Chat `đỏ` / `xanh`, thả tim | Vòng 3 phút, vòng sáng theo đội, đội thắng lên sân khấu |
+| Bình chọn sàn | Chat `1`, `2`, `3` | Neon lục giác, Disco ô vuông hoặc Dung nham; mỗi người một phiếu |
+| Cả phòng cùng nhảy | Chờ đếm ngược rồi chat `nhảy` / `dance` | Đủ người mở tiệc ánh sáng và nhảy đồng bộ |
+| Khách quen | Tương tác ở nhiều ngày khác nhau | Danh hiệu sau 3, 7, 30 ngày, lưu qua các buổi LIVE |
+| Năng lượng cả phòng | Góp tim miễn phí | Đạt mốc mở 10 giây tiệc; giữ lại tim dư |
+| Giọng cảm ơn | Người xem gửi quà | Đọc tên, số lượng, tên quà; gộp combo và xếp hàng |
+
+**Bật đọc cảm ơn:** trong tab Tương tác, chọn giọng tiếng Việt rồi bấm **Bật đọc cảm ơn**. Giữ tab mở và bật thu âm thanh máy tính trong TikTok LIVE Studio/OBS. Chỉ một tab đọc để tránh trùng tiếng. Âm lượng và tốc độ được nhớ trên trình duyệt.
+
+Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.
+
+Ảnh WebP TikTok được chuyển sang PNG bằng dịch vụ ảnh nội bộ. Dữ liệu người xem, danh hiệu, phiên LIVE và quà đã học được lưu tại `TikTokBridge/data/` và không đưa vào Git. Phiên trong vòng 12 giờ có thể khôi phục BXH và tự kết nối lại sau khi khởi động lại Bridge.
+
+### Chạy source
+
+```powershell
+git clone https://github.com/Yuh266/bar-tiktok.git
+cd bar-tiktok/TikTokBridge
+npm ci
+npm start
+```
+
+Cần Node.js **20.9 trở lên**, khuyến nghị bản LTS. Game Windows được build từ `UnityProject/` bằng Unity **6000.2.10f1** (`build.bat`); thư mục `Build/` không nằm trong source Git.
+
+Kiểm tra backend bằng `npm test`. Kiểm tra giao diện trên Bridge thử nghiệm riêng bằng `npm run test:ui -- http://127.0.0.1:3100` (cần Chrome đã cài).
+
+Dự án phát triển tiếp từ [cherry9001/tiktok-live-bar](https://github.com/cherry9001/tiktok-live-bar), giữ giấy phép và ghi công trong `LICENSE`.
+
 ---
 
 ## 🎬 Video demo thực tế
 
-[![Xem demo ÔNG CHÚ MMO trên TikTok LIVE](docs/media/live-demo.png)](https://www.facebook.com/100004611824062/videos/pcb.3562459197251106/37620662724214707)
+[![Xem demo Bar Club trên TikTok LIVE](docs/media/live-demo.png)](https://www.facebook.com/100004611824062/videos/pcb.3562459197251106/37620662724214707)
 
 > Nhấn vào ảnh để xem video demo đầy đủ trên Facebook.
 
@@ -44,7 +78,9 @@
 
 ### Cách nhanh nhất trên Windows
 
-1. Tải [`OngChuMMO-Live-Windows-v1.0.5.zip`](https://github.com/cherry9001/tiktok-live-bar/releases/latest/download/OngChuMMO-Live-Windows-v1.0.5.zip) trong mục **Releases**.
+Gói Release dưới đây thuộc dự án gốc. Để có các tính năng Tương tác mới trong repo này, hãy build source bằng Unity theo hướng dẫn phía trên.
+
+1. Tải [`BarClub-Live-Windows-v1.0.5.zip`](https://github.com/cherry9001/tiktok-live-bar/releases/latest/download/BarClub-Live-Windows-v1.0.5.zip) trong mục **Releases**.
 2. Giải nén toàn bộ ZIP ra một thư mục mới. Không chạy trực tiếp bên trong ZIP.
 3. Cài [Node.js 20 LTS trở lên](https://nodejs.org/) nếu máy chưa có.
 4. Nhấp đúp `run.bat`. Launcher tự cài thư viện, mở Bridge, Game và Control Panel.
@@ -54,7 +90,7 @@
 Sau khi chạy `run.bat` lần đầu:
 
 - Cửa sổ **TikTok Bridge** hiển thị địa chỉ `http://127.0.0.1:3000`.
-- Trình duyệt mở Control Panel và logo ÔNG CHÚ MMO hiển thị bình thường.
+- Trình duyệt mở Control Panel và logo Bar Club hiển thị bình thường.
 - Game mở với cửa sổ `TikTokLiveGameUnity` và báo kết nối Node thành công.
 - Gói Windows đã kèm `Build/DJ_MUSIC/nhacnen.MP3`; có thể thay bằng MP3/WAV/OGG của bạn.
 
@@ -70,8 +106,8 @@ chạy `npm ci`, Bridge/Control Panel/WebSocket hoạt động và game kết n�
 ### Dành cho lập trình viên — Clone source
 
 ```bash
-git clone https://github.com/cherry9001/tiktok-live-bar.git
-cd tiktok-live-bar
+git clone https://github.com/Yuh266/bar-tiktok.git
+cd bar-tiktok
 ```
 
 Source GitHub không chứa game đã biên dịch. Cài Unity `6000.2.10f1`, sau đó chạy
@@ -223,7 +259,7 @@ Hoặc dùng **Test Lab** trong Control Panel để tạo người xem giả.
 
 ## 📺 Ghép vào OBS
 
-1. Thêm source **Game Capture** → chọn cửa sổ ÔNG CHÚ MMO Live
+1. Thêm source **Game Capture** → chọn cửa sổ Bar Club Live
 2. Bấm **F2** trong game để bật Chroma Key (nền xanh)
 3. Trong OBS: thêm filter **Chroma Key** → chọn màu xanh
 
@@ -246,5 +282,5 @@ Tài nguyên bên thứ ba (GIF, hình ảnh) có thể có giấy phép riêng 
 ---
 
 <p align="center">
-  Made with ❤️ by <strong>ÔNG CHÚ MMO</strong>
+  Made with ❤️ by <strong>Bar Club</strong>
 </p>

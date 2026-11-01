@@ -1,0 +1,50 @@
+[
+  {
+    "giftId": "5655",
+    "giftName": "Rose",
+    "coinCount": 1,
+    "giftPictureUrl": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp",
+    "source": "tiktok-webcast-catalog",
+    "verifiedAt": "2026-11-01"
+  },
+  {
+    "giftId": "5269",
+    "giftName": "TikTok",
+    "coinCount": 1,
+    "giftPictureUrl": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/802a21ae29f9fae5abe3693de9f874bd~tplv-obj.webp",
+    "source": "tiktok-webcast-catalog",
+    "verifiedAt": "2026-11-01"
+  },
+  {
+    "giftId": "5487",
+    "giftName": "Finger Heart",
+    "coinCount": 5,
+    "giftPictureUrl": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a4c4dc437fd3a6632aba149769491f49.png~tplv-obj.webp",
+    "source": "tiktok-webcast-catalog",
+    "verifiedAt": "2026-11-01"
+  },
+  {
+    "giftId": "15063",
+    "giftName": "Journey Pass",
+    "coinCount": 10,
+    "giftPictureUrl": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/551ecaf639c5e02354f9e7c1a763ec72.png~tplv-obj.webp",
+    "source": "tiktok-webcast-catalog",
+    "verifiedAt": "2026-11-01"
+  },
+  {
+    "giftId": "8913",
+    "giftName": "Rosa",
+    "coinCount": 10,
+    "giftPictureUrl": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eb77ead5c3abb6da6034d3cf6cfeb438~tplv-obj.webp",
+    "source": "tiktok-webcast-catalog",
+    "verifiedAt": "2026-11-01"
+  },
+  {
+    "giftId": "166583",
+    "giftName": "Electro Vibes",
+    "coinCount": 349,
+    "giftPictureUrl": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/dc9e4fbd4db927e383cae3166bfa1a7e.png~tplv-obj.webp",
+    "source": "tiktok-webcast-catalog",
+    "verifiedAt": "2026-11-01"
+  }
+]

@@ -6,12 +6,22 @@ namespace TikTokLiveGame
     public class TikTokEvent
     {
         public string type;
+        public string username;
+        public string source;
+        public string joinCommand;
+        public int events;
+        public int diamonds;
+        public TikTokGiftGuideItem[] guideItems;
+        public EngagementState engagement;
         public string state;
         public string message;
         public string userId;
         public string uniqueId;
         public string nickname;
         public string avatar;
+        public string team;
+        public string loyaltyTitle;
+        public int loyaltyDays;
         public string comment;
         public string giftId;
         public string giftName;
@@ -30,6 +40,7 @@ namespace TikTokLiveGame
         public int fireworkBursts;
         public bool spectatorOnly;
         public bool joinedNow;
+        public bool likeMilestone;
         public long titleExpiresAt;
         public TikTokPlayerData[] players;
         public TikTokPlayerData[] vipScores;
@@ -42,11 +53,30 @@ namespace TikTokLiveGame
         public string uniqueId;
         public string nickname;
         public string avatar;
+        public string team;
+        public string loyaltyTitle;
+        public int loyaltyDays;
         public string titleLabel;
         public string titleVariant;
         public int score;
         public int giftPower;
         public long titleExpiresAt;
+    }
+
+    [Serializable]
+    public class TikTokGiftGuideItem
+    {
+        public string source;
+        public string iconResource;
+        public int requiredLikes;
+        public int coinCount;
+        public bool priceVerified;
+        public string action;
+        public string giftId;
+        public string giftName;
+        public int diamondCount;
+        public string giftPictureUrl;
+        public string label;
     }
 
     [Serializable]

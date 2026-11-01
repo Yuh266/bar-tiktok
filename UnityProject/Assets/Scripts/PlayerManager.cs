@@ -10,7 +10,7 @@ namespace TikTokLiveGame
     {
         [SerializeField] private int maxPlayers = 400;
         [SerializeField] private float playerTtlSeconds = 600f;
-        [SerializeField] private int npcCrowdTarget = 5;
+        [SerializeField] private int npcCrowdTarget = 160;
         private readonly Dictionary<string, PlayerActor> players = new();
         private readonly List<string> playerOrder = new();
         private readonly Dictionary<string, int> crowdSlots = new();
@@ -123,6 +123,9 @@ namespace TikTokLiveGame
                 uniqueId = data.uniqueId,
                 nickname = data.nickname,
                 avatar = data.avatar,
+                team = data.team,
+                loyaltyTitle = data.loyaltyTitle,
+                loyaltyDays = data.loyaltyDays,
                 giftPower = data.giftPower
             };
             return Create(playerData);
@@ -170,6 +173,8 @@ namespace TikTokLiveGame
                 float duration = data.durationMs > 0 ? data.durationMs / 1000f : Mathf.Clamp(data.diamondCount, 3f, 7f);
                 ApplyAction(actor, data, duration);
             }
+            else if (data.type == "like" && data.likeMilestone)
+                ApplyAction(actor, data, data.durationMs > 0 ? data.durationMs / 1000f : 8f);
             else if (data.type is "follow" or "share") actor.Celebrate();
         }
 
@@ -218,6 +223,22 @@ namespace TikTokLiveGame
             }
             foreach (KeyValuePair<string, PlayerActor> pair in players)
                 pair.Value.SetVisibility(pair.Key == focusedUserId ? 1f : FocusBackgroundAlpha(pair.Value));
+        }
+
+        public void ApplyCommunityMembers(EngagementMember[] members)
+        {
+            foreach (EngagementMember member in members ?? System.Array.Empty<EngagementMember>())
+                Find(member.userId)?.SetCommunityIdentity(member.team, member.loyaltyTitle, member.loyaltyDays);
+        }
+
+        public void CelebrateTeam(string team)
+        {
+            PlayerActor[] winners = players.Values.Where(actor => !actor.IsNpc && actor.Team == team).Take(8).ToArray();
+            for (int index = 0; index < winners.Length; index++)
+            {
+                if (winners[index].IsTopRanked) winners[index].Celebrate(10f);
+                else winners[index].CelebrateAt(new Vector3(Mathf.Lerp(-4f, 4f, winners.Length == 1 ? 0.5f : (float)index / (winners.Length - 1)), 0.76f, -5.5f), 10f);
+            }
         }
 
         private void ApplyAmbientVisibility()

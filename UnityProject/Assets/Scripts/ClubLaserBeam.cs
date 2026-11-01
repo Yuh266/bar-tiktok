@@ -28,6 +28,8 @@ namespace TikTokLiveGame
             float time = Time.time;
             float beat = ClubBeatClock.Beat;
             float pulse = 0.68f + Mathf.Exp(-(beat - Mathf.Floor(beat)) * 7f) * 0.72f;
+            if (ClubAudioReactive.Playing) pulse = 0.65f + ClubAudioReactive.Pulse * 1.3f + ClubAudioReactive.Bass * 0.35f;
+            pulse += ClubGiftShow.Accent * 0.35f;
             Vector3 target = new(
                 Mathf.Sin(time * 1.15f + phase) * 6.7f,
                 0.12f + Mathf.Abs(Mathf.Sin(time * 0.61f + phase * 0.7f)) * 2.2f,

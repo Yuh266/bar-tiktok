@@ -26,6 +26,11 @@ namespace TikTokLiveGame
 
         private void OnEnable()
         {
+            string[] arguments = Environment.GetCommandLineArgs();
+            int urlIndex = Array.IndexOf(arguments, "-bridgeUrl");
+            if (urlIndex >= 0 && urlIndex + 1 < arguments.Length && Uri.TryCreate(arguments[urlIndex + 1], UriKind.Absolute, out Uri endpoint) &&
+                (endpoint.Scheme == "ws" || endpoint.Scheme == "wss") && endpoint.IsLoopback)
+                serverUrl = endpoint.AbsoluteUri;
             if (instance != null && instance != this)
             {
                 Destroy(this);

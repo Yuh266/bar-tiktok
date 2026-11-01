@@ -1,4 +1,4 @@
-ONG CHU MMO LIVE - FULL SOURCE, GIAY PHEP MIT
+BAR CLUB LIVE - FULL SOURCE, GIAY PHEP MIT
 
 Noi dung goi:
 - UnityProject: toan bo source Unity, scene, script va asset cua game.
@@ -9,11 +9,11 @@ Noi dung goi:
 
 Yeu cau:
 - Node.js 20 tro len.
-- TikFinity neu su dung LIVE_PROVIDER=tikfinity.
+- Ket noi TikTok truc tiep mac dinh; TikFinity chi can neu doi LIVE_PROVIDER=tikfinity.
 - Unity 6000.2.10f1 chi can khi tu build source.
 
 Chay nhanh tren Windows:
-1. Tai file OngChuMMO-Live-Windows-v1.0.5.zip trong muc Releases cua GitHub.
+1. Tai file BarClub-Live-Windows-v1.0.5.zip trong muc Releases cua GitHub.
 2. Giai nen toan bo ZIP ra thu muc moi. Khong chay truc tiep ben trong ZIP.
 3. Cai Node.js 20 tro len, sau do nhan dup run.bat.
 4. Neu cong 3000 dang bi chiem, dong dung chuong trinh duoc bao roi chay lai.

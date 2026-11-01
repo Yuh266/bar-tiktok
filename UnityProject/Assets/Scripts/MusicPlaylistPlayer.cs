@@ -41,6 +41,7 @@ namespace TikTokLiveGame
             output.spatialBlend = 0f;
             output.volume = 0f;
             output.priority = 128;
+            gameObject.AddComponent<ClubAudioReactive>().Initialize(output);
             PlayTrack(0);
         }
 
@@ -161,6 +162,7 @@ namespace TikTokLiveGame
             string[] folders =
             {
                 Path.Combine(buildRoot, "DJ_MUSIC"),
+                Path.Combine(projectRoot, "DJ_MUSIC"),
                 Path.Combine(workspaceRoot, "DJ_MUSIC"),
                 Path.Combine(workspaceRoot, "assets", "music"),
                 Application.streamingAssetsPath

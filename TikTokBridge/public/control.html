@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ÔNG CHÚ MMO — TikTok Live</title>
+    <title>Bar Club — TikTok Live</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="apple-touch-icon" href="/favicon.svg">
     <link rel="stylesheet" href="control.css">
@@ -13,23 +13,24 @@
 <!-- ═══════════ NAVBAR ═══════════ -->
 <nav class="navbar">
     <div class="navbar-brand">
-        <img src="/favicon.svg" alt="ÔNG CHÚ MMO">
-        <span class="navbar-brand-text">ÔNG CHÚ MMO <span>Live</span></span>
+        <img src="/favicon.svg" alt="Bar Club">
+        <span class="navbar-brand-text">Bar Club <span>Live</span></span>
     </div>
     <div class="tab-nav">
-        <button class="tab-btn active" data-tab="live">🔴 Live</button>
-        <button class="tab-btn" data-tab="rules">⚙️ Master Rules</button>
-        <button class="tab-btn" data-tab="testlab">🧪 Test Lab</button>
-        <button class="tab-btn" data-tab="events">🎯 Events</button>
-        <button class="tab-btn" data-tab="session">📊 Session</button>
-        <button class="tab-btn" data-tab="guide">📖 Hướng Dẫn</button>
+        <button class="tab-btn active" data-tab="live">Live</button>
+        <button class="tab-btn" data-tab="engagement">Tương tác</button>
+        <button class="tab-btn" data-tab="rules">Master Rules</button>
+        <button class="tab-btn" data-tab="testlab">Test Lab</button>
+        <button class="tab-btn" data-tab="events">Events</button>
+        <button class="tab-btn" data-tab="session">Session</button>
+        <button class="tab-btn" data-tab="guide">Hướng Dẫn</button>
     </div>
     <div class="navbar-right">
         <div class="status-pill" id="live-badge">
             <span class="status-dot" id="status-dot"></span>
             <span id="status-title">Đang kết nối</span>
         </div>
-        <span class="navbar-copy">© 2025 ÔNG CHÚ MMO</span>
+        <span class="navbar-copy">© 2026 Bar Club</span>
     </div>
 </nav>
 
@@ -56,8 +57,8 @@
         <div class="card">
             <div class="card-header">
                 <div>
-                    <p class="card-label">TikFinity Desktop</p>
-                    <h2 class="card-title">🔴 Kết nối LIVE</h2>
+                    <p class="card-label">TikTok LIVE trực tiếp</p>
+                    <h2 class="card-title">Kết nối LIVE</h2>
                 </div>
             </div>
             <label class="field-label" for="username">Username đang live</label>
@@ -65,7 +66,7 @@
                 <input id="username" type="text" maxlength="25" placeholder="@username" autocomplete="off">
                 <button id="connect" class="btn btn-primary">Kết nối</button>
             </div>
-            <p class="help">Mở TikFinity Desktop → kết nối tài khoản LIVE → quay lại đây nhập username.</p>
+            <p class="help">Bật LIVE trên TikTok LIVE Studio, nhập username TikTok đang live rồi bấm Kết nối.</p>
             <div class="divider"></div>
             <button id="disconnect" class="btn btn-secondary btn-full">Ngắt kết nối</button>
         </div>
@@ -212,6 +213,7 @@
         <div class="action-grid" style="margin-bottom:16px;">
             <button data-action="member"                               class="btn btn-secondary">👋 Vào sàn</button>
             <button data-action="like"   data-value="50"               class="btn btn-secondary">♥ Like ×50</button>
+            <button data-action="like"   data-value="100"              class="btn btn-secondary">♥ 100 tim miễn phí · To lên</button>
             <button data-action="follow"                               class="btn btn-secondary">💖 Follow</button>
             <button data-action="share"                                class="btn btn-secondary">📣 Share</button>
             <button data-action="dance"                                class="btn btn-secondary">🕺 Nhảy</button>
@@ -248,6 +250,67 @@
 </section>
 
 <!-- ── SESSION ── -->
+<section class="tab-panel" id="tab-engagement">
+    <div class="page-header">
+        <p class="page-eyebrow">Cả phòng cùng chơi</p>
+        <h1 class="page-title">Tương tác &amp; giọng cảm ơn</h1>
+        <p class="page-desc">Mỗi lần mở một hoạt động. Người xem tham gia miễn phí bằng chat và thả tim.</p>
+    </div>
+    <div class="card activity-summary">
+        <div><p class="card-label">Đang diễn ra</p><h2 id="activity-status" class="card-title">Đang kết nối…</h2><p id="engagement-message" class="help" role="status"></p></div>
+        <button id="activity-stop" class="btn btn-secondary" disabled>Kết thúc sớm</button>
+    </div>
+    <div class="grid-2 engagement-grid">
+        <article class="card">
+            <p class="card-label">01 · Chọn phe</p><h2 class="card-title">Đấu đội Đỏ – Xanh</h2>
+            <p class="help">Chat <strong>đỏ</strong> hoặc <strong>xanh</strong> để vào đội: +1 điểm. Mỗi 20 tim thêm 1 điểm, tối đa 300 tim/người/vòng. Điểm chơi tách riêng BXH quà.</p>
+            <p id="battle-score" class="activity-score">Đỏ 0 — Xanh 0</p>
+            <div class="activity-controls"><label>Thời gian (giây)<input id="battle_start-seconds" type="number" min="30" max="600" value="180"></label><button data-engagement-start="battle_start" class="btn btn-gold">Bắt đầu đấu đội</button></div>
+        </article>
+        <article class="card">
+            <p class="card-label">02 · Khán giả chọn</p><h2 class="card-title">Bình chọn đổi sàn</h2>
+            <p class="help">Chat <strong>1</strong>: Neon · <strong>2</strong>: Disco · <strong>3</strong>: Dung nham. Mỗi người một phiếu. Sàn tự đổi khi hết giờ; hòa phiếu ưu tiên sàn hiện tại.</p>
+            <p id="vote-score" class="activity-score">Chưa có phiếu</p>
+            <div class="activity-controls"><label>Thời gian (giây)<input id="vote_start-seconds" type="number" min="10" max="120" value="30"></label><button data-engagement-start="vote_start" class="btn btn-gold">Mở bình chọn</button></div>
+        </article>
+        <article class="card">
+            <p class="card-label">03 · Bắt nhịp</p><h2 class="card-title">Cả phòng cùng nhảy</h2>
+            <p class="help">Đếm ngược 3 giây, sau đó chat <strong>nhảy</strong> hoặc <strong>dance</strong>. Mỗi người tính một lần. Đủ đội hình sẽ mở tiệc ánh sáng và nhảy đồng bộ.</p>
+            <p id="dance-score" class="activity-score">0/10 người tham gia</p>
+            <div class="activity-controls"><label>Giây tham gia<input id="dance_start-seconds" type="number" min="5" max="60" value="10"></label><label>Số người<input id="dance-target" type="number" min="1" max="400" value="10"></label><button data-engagement-start="dance_start" class="btn btn-gold">Mở thử thách</button></div>
+        </article>
+        <article class="card">
+            <p class="card-label">04 · Cùng góp sức</p><h2 class="card-title">Năng lượng cả phòng</h2>
+            <p class="help">Góp tim miễn phí để mở 10 giây tiệc neon. Tim vượt mốc được giữ cho lần tiếp theo.</p>
+            <p id="energy-value" class="activity-score">0 / 2.000 tim</p><progress id="energy-progress" value="0" max="2000"></progress>
+            <div class="activity-controls"><label>Mốc tim<input id="energy-goal" type="number" min="100" max="100000" value="2000"></label><button id="energy-save" class="btn btn-secondary">Áp dụng mốc</button></div>
+        </article>
+        <article class="card">
+            <p class="card-label">05 · Gặp lại bạn</p><h2 class="card-title">Danh hiệu khách quen</h2>
+            <p class="help">Tính theo ngày có tương tác (giờ Việt Nam). 3 ngày: Khách quen · 7 ngày: Dân chơi lâu năm · 30 ngày: Huyền thoại sàn. Dữ liệu tự lưu qua các buổi LIVE.</p>
+            <ul id="loyal-viewers" class="loyal-viewers"></ul>
+        </article>
+        <article class="card">
+            <p class="card-label">Sân khấu</p><h2 class="card-title">Chọn sàn trực tiếp</h2>
+            <p class="help">Đang dùng: <strong id="floor-current">Neon lục giác</strong></p>
+            <div class="action-grid"><button data-floor-theme="neon" class="btn btn-secondary">Neon lục giác</button><button data-floor-theme="disco" class="btn btn-secondary">Disco ô vuông</button><button data-floor-theme="lava" class="btn btn-secondary">Dung nham</button></div>
+        </article>
+        <article class="card col-span-2">
+            <p class="card-label">06 · Cảm ơn người tặng</p><h2 class="card-title">Đọc cảm ơn bằng giọng nói</h2>
+            <p class="help">Đọc tên, số lượng và tên quà. Gộp quà liên tiếp, đọc lần lượt. Chỉ một tab phát giọng đọc để tránh trùng tiếng.</p>
+            <div class="speech-settings">
+                <label>Giọng đọc<select id="speech-voice"></select></label>
+                <label>Tốc độ<input id="speech-rate" type="range" min="0.7" max="1.4" step="0.1" value="1"></label>
+                <label>Âm lượng<input id="speech-volume" type="range" min="0" max="1" step="0.05" value="0.9"></label>
+            </div>
+            <p id="speech-voice-hint" class="help"></p>
+            <div class="activity-controls"><button id="speech-toggle" class="btn btn-gold">Bật đọc cảm ơn</button><button id="speech-test" class="btn btn-secondary">Nghe thử</button></div>
+            <p id="speech-status" class="help" role="status">Đang tắt.</p>
+            <p class="help">Giữ tab này mở. Bật thu âm thanh máy tính trong TikTok LIVE Studio/OBS để người xem nghe được.</p>
+        </article>
+    </div>
+</section>
+
 <section class="tab-panel" id="tab-session">
     <div class="page-header">
         <p class="page-eyebrow">Thống kê</p>
@@ -285,18 +348,18 @@
     <div class="grid-2" style="margin-bottom:14px;">
         <div class="card step-card">
             <p class="card-label">Bước 1</p>
-            <h2 class="card-title" style="margin-bottom:8px;">🖥️ Khởi động ÔNG CHÚ MMO Live</h2>
-            <p class="help">Mở file <strong>OngChuMMO_Live.exe</strong>. Chờ hiện <strong>NODE ONLINE</strong> ở góc màn hình game.</p>
+            <h2 class="card-title" style="margin-bottom:8px;">🖥️ Khởi động Bar Club Live</h2>
+            <p class="help">Mở file <strong>BarClub_Live.exe</strong>. Chờ hiện <strong>NODE ONLINE</strong> ở góc màn hình game.</p>
         </div>
         <div class="card">
             <p class="card-label">Bước 2</p>
-            <h2 class="card-title" style="margin-bottom:8px;">📱 Kết nối TikFinity</h2>
-            <p class="help">Mở TikFinity Desktop → đăng nhập → bật LIVE. Sang tab <strong>🔴 Live</strong> → nhập username → <strong>Kết nối LIVE</strong>.</p>
+            <h2 class="card-title" style="margin-bottom:8px;">📱 Kết nối TikTok</h2>
+            <p class="help">Bật LIVE trên TikTok LIVE Studio → nhập username TikTok, không cần dấu @ → bấm <strong>Kết nối LIVE</strong>.</p>
         </div>
         <div class="card">
             <p class="card-label">Bước 3</p>
             <h2 class="card-title" style="margin-bottom:8px;">📺 Thêm vào OBS</h2>
-            <p class="help">Thêm source <strong>Game Capture</strong> → chọn cửa sổ ÔNG CHÚ MMO Live. Bấm <strong>F2</strong> trong game để bật Chroma Key.</p>
+            <p class="help">Thêm source <strong>Game Capture</strong> → chọn cửa sổ Bar Club Live. Bấm <strong>F2</strong> trong game để bật Chroma Key.</p>
         </div>
         <div class="card">
             <p class="card-label">Bước 4</p>
@@ -328,9 +391,8 @@
 
 <!-- ── FOOTER ── -->
 <footer class="page-footer" style="max-width:1100px;margin:0 auto;padding-left:24px;padding-right:24px;">
-    © 2025 <strong>ÔNG CHÚ MMO</strong> &nbsp;|&nbsp; <a href="https://ongchummo.com" target="_blank">ongchummo.com</a>
-    &nbsp;&bull;&nbsp; Zalo: <a href="https://zalo.me/0977896644" target="_blank">0977.896.644</a>
-    &nbsp;&bull;&nbsp; Email: <a href="mailto:toanhvan90@gmail.com">toanhvan90@gmail.com</a>
+    © 2026 <strong>Bar Club</strong> &nbsp;|&nbsp; TikTok LIVE
+    &nbsp;&bull;&nbsp; <a href="https://github.com/Yuh266/bar-tiktok" target="_blank" rel="noopener">Mã nguồn · MIT</a>
 </footer>
 
 </div><!-- end app-shell -->
@@ -409,6 +471,8 @@
     </article>
 </template>
 
+<script src="speech.js"></script>
 <script src="control.js"></script>
+<script src="engagement-control.js"></script>
 </body>
 </html>

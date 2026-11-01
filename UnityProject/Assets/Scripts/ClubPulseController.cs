@@ -34,8 +34,9 @@ namespace TikTokLiveGame
             float beat = Time.time * bpm / 60f;
             float phase = beat - Mathf.Floor(beat);
             float pulse = Mathf.Exp(-phase * 7f);
+            if (ClubAudioReactive.Playing) pulse = ClubAudioReactive.Pulse + ClubAudioReactive.Bass * 0.4f;
             foreach (LightState state in lights)
-                if (state.Light != null) state.Light.intensity = state.BaseIntensity * (0.72f + pulse * 0.55f);
+                if (state.Light != null) state.Light.intensity = state.BaseIntensity * (0.65f + pulse * 1.3f + ClubGiftShow.Accent);
             foreach (MaterialState state in materials)
             {
                 float chase = Mathf.Pow(Mathf.Max(0f, Mathf.Sin(beat * Mathf.PI * 2f - state.Phase)), 8f);

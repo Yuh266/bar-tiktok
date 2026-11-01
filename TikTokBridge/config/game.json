@@ -1,9 +1,10 @@
 {
-  "liveProvider": "tikfinity",
+  "liveProvider": "tiktok",
   "tikfinityWsUrl": "ws://127.0.0.1:21213/",
   "maxPlayers": 400,
   "playerTtlMs": 600000,
   "partyEnergyGoal": 1000,
+  "likeMilestone": 100,
   "commands": {
     "dance": ["dance"],
     "walk": ["đi vòng", "di vong", "walk"],

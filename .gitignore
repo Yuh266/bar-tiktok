@@ -9,6 +9,10 @@ npm-debug.log*
 .env
 .env.local
 .env.*.local
+TikTokBridge/data/
+DJ_MUSIC/backup/
+DJ_VIDEO/backup/
+DJ_MUSIC/*.m4a
 
 # ── Unity (Library, cache, build) ────────────
 UnityProject/Library/
