@@ -4,6 +4,7 @@ const {
     normalizeChat,
     normalizeMember,
     normalizeGift,
+    normalizeLike,
     isPendingGiftStreak
 } = require('../src/tiktok/normalize-event');
 const { normalizeTikFinityMessage } = require('../src/tiktok/normalize-tikfinity-event');
@@ -43,6 +44,36 @@ test('reads current TikTok v3 content instead of dropping live chat commands', a
             assert.equal(engine.battle.blueMembers, 1);
         }
     }
+});
+
+test('actual TikTok v3 like batches count all hearts and trigger growth at 100', async () => {
+    const { WebcastLikeMessage, CommonMessageData, User } = await import('tiktok-live-proto/v3');
+    const { LikeMilestones } = require('../src/like-milestones');
+    const counter = new LikeMilestones();
+    for (const [index, count] of [99, 0, 1, 100].entries()) {
+        const message = WebcastLikeMessage.decode(new Uint8Array());
+        message.count = count; message.total = '100000';
+        message.common = CommonMessageData.decode(new Uint8Array());
+        message.common.msgId = String(11000 + index);
+        message.user = User.decode(new Uint8Array());
+        message.user.id = '42'; message.user.nickname = 'Test Hearts';
+        const decoded = WebcastLikeMessage.decode(WebcastLikeMessage.encode(message).finish());
+        const event = counter.apply(normalizeLike(decoded));
+        assert.equal(event.eventId, String(11000 + index));
+        assert.equal(event.likeCount, count);
+        assert.equal(event.totalLikeCount, 100000);
+        assert.equal(Boolean(event.likeMilestone), index >= 2);
+        assert.equal(event.diamondCount, 0);
+        if (index >= 2) { assert.equal(event.action, 'grow'); assert.equal(event.durationMs, 8000); }
+    }
+});
+
+test('legacy likes remain supported and zero/missing counts do not invent hearts', () => {
+    assert.equal(normalizeLike({ likeCount: 25, count: 3 }).likeCount, 25);
+    assert.equal(normalizeLike({ likeCount: 0 }).likeCount, 0);
+    assert.equal(normalizeLike({ total: '50000' }).likeCount, 0);
+    assert.equal(normalizeLike({ totalLikeCount: 600 }).totalLikeCount, 600);
+    assert.equal(normalizeTikFinityMessage({ event: 'like', data: { count: 0 } })[0].likeCount, 0);
 });
 
 test('accepts content when a wrapper supplies an empty legacy comment', () => {

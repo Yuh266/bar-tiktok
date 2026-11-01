@@ -172,6 +172,28 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     assert.equal(finalSnapshot.vipScores[0].score, 1);
     assert.ok(finalSnapshot.removedPlayers.includes('viewer-blue'));
 
+    await persisted.until(m => m.type === 'status' && m.state === 'connected');
+    const likesSource = [...provider.clients].find(socket => socket.readyState === WebSocket.OPEN);
+    for (const [eventId, userId, count, milestone] of [
+        ['likes-99', 'hearts-viewer', 99, false],
+        ['likes-other-viewer', 'hearts-other', 1, false],
+        ['likes-reach-100', 'hearts-viewer', 1, true],
+        ['likes-next-100', 'hearts-viewer', 100, true]
+    ]) {
+        likesSource.send(JSON.stringify({ event: 'like', data: { msgId: eventId, userId, nickname: 'Test Hearts', count, total: '100000' } }));
+        const like = await persisted.until(m => m.type === 'like' && m.eventId === eventId);
+        assert.equal(like.likeCount, count);
+        assert.equal(Boolean(like.likeMilestone), milestone);
+        assert.equal(like.diamondCount, 0);
+        if (milestone) {
+            assert.equal(like.action, 'grow'); assert.equal(like.durationMs, 8000);
+            assert.equal(like.spectatorOnly, false);
+        }
+    }
+    const likesSnapshot = await client(port, 'overlay'); clients.push(likesSnapshot);
+    assert.ok((await likesSnapshot.until(m => m.type === 'snapshot')).players.some(player => player.userId === 'hearts-viewer'));
+    assert.equal((await likesSnapshot.until(m => m.type === 'snapshot')).vipScores[0].score, 1);
+
     // Repeat suppression must preserve scores, permit gift switches immediately,
     // and expire after one second without waiting for the sender to stop.
     const finalControl = await client(port, 'control'); clients.push(finalControl);

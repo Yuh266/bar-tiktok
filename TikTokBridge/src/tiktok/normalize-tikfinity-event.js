@@ -80,7 +80,7 @@ function normalizeOne(raw) {
     if (type === 'like') {
         return {
             ...base,
-            likeCount: Math.max(1, Number(data.likeCount ?? data.count) || 1),
+            likeCount: Math.max(0, Number(data.likeCount ?? data.count) || 0),
             totalLikeCount: Math.max(0, Number(data.totalLikeCount ?? data.total) || 0)
         };
     }

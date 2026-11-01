@@ -74,8 +74,10 @@ function normalizeLike(data) {
         type: 'like',
         eventId: eventId(data),
         ...normalizeUser(data),
-        likeCount: Math.max(1, Number(data.likeCount) || 1),
-        totalLikeCount: Math.max(0, Number(data.totalLikeCount) || 0)
+        // Current WebcastLikeMessage uses count/total; legacy connectors used
+        // likeCount/totalLikeCount. total is the room total, never this user's delta.
+        likeCount: Math.max(0, Number(data.likeCount ?? data.count) || 0),
+        totalLikeCount: Math.max(0, Number(data.totalLikeCount ?? data.total) || 0)
     };
 }
 
