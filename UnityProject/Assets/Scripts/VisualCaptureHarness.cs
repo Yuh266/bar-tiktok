@@ -39,6 +39,8 @@ namespace TikTokLiveGame
                     if (actor.IsNpc) { npc++; continue; }
                     real++;
                     if (actor.IsTopRanked) podium++;
+                    if (actor.IsTopRanked && Array.IndexOf(arguments, "-verifyTopRanks") >= 0)
+                        Debug.Log($"TOP_VISUAL id={actor.UserId} rank={actor.transform.Find("Rank").GetComponent<TextMesh>().text}");
                     if (Array.IndexOf(arguments, "-verifyAvatars") >= 0)
                     {
                         SpriteRenderer avatar = actor.transform.Find("Avatar").GetComponent<SpriteRenderer>();

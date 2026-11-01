@@ -139,8 +139,8 @@ namespace TikTokLiveGame
             float rankX = x + 276;
             const float panelWidth = 244f;
             DrawAssetPanel(new Rect(rankX, 10, panelWidth, 88), rankPanel, new Color(0.65f, 0.4f, 1f, 0.94f));
-            GUI.Label(new Rect(rankX + 18, 14, 208, 19), "TOP TẶNG QUÀ", viewerHeading);
-            Donor[] top = donors.Values.OrderByDescending(d => d.Score).Take(3).ToArray();
+            GUI.Label(new Rect(rankX + 18, 14, 208, 19), "TOP QUÀ TRÊN SÀN", viewerHeading);
+            Donor[] top = ActiveDonors().Take(3).ToArray();
             Color previous = GUI.color;
             for (int index = 0; index < 3; index++)
             {

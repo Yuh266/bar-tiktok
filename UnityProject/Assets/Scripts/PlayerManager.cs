@@ -98,9 +98,10 @@ namespace TikTokLiveGame
         {
             Dictionary<string, int> ranks = rankedUserIds
                 .Where(id => !string.IsNullOrWhiteSpace(id))
+                .Distinct()
+                .Where(id => players.TryGetValue(id, out PlayerActor actor) && !actor.IsNpc)
                 .Take(3)
                 .Select((id, index) => new { id, rank = index + 1 })
-                .Where(item => players.TryGetValue(item.id, out PlayerActor actor) && !actor.IsNpc)
                 .ToDictionary(item => item.id, item => item.rank);
             foreach (KeyValuePair<string, PlayerActor> pair in players)
                 pair.Value.SetTopRank(ranks.TryGetValue(pair.Key, out int rank) ? rank : 0);

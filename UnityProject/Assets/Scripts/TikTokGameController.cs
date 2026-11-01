@@ -207,8 +207,12 @@ namespace TikTokLiveGame
 
         private void UpdateTopPlayers()
         {
-            playerManager.UpdateTopRanks(donors.Values.OrderByDescending(donor => donor.Score).Take(3).Select(donor => donor.UserId));
+            playerManager.UpdateTopRanks(ActiveDonors().Select(donor => donor.UserId));
         }
+
+        private IEnumerable<Donor> ActiveDonors() => donors.Values
+            .Where(donor => donor.Score > 0 && playerManager.Find(donor.UserId)?.IsNpc == false)
+            .OrderByDescending(donor => donor.Score);
 
         private void AddEnergy(float amount)
         {
@@ -344,10 +348,10 @@ namespace TikTokLiveGame
 
         private void DrawTopDonors(float width)
         {
-            Donor[] top = donors.Values.OrderByDescending(donor => donor.Score).Take(3).ToArray();
+            Donor[] top = ActiveDonors().Take(3).ToArray();
             float x = width - 358f;
             GUI.Box(new Rect(x, 84, 340, 150), GUIContent.none, panelStyle);
-            GUI.Label(new Rect(x + 18, 94, 304, 28), "TOP 3 TẶNG QUÀ", titleStyle);
+            GUI.Label(new Rect(x + 18, 94, 304, 28), "TOP 3 TRÊN SÀN", titleStyle);
             for (int index = 0; index < top.Length; index++)
             {
                 Color old = GUI.color;
