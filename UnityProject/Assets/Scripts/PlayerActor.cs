@@ -445,7 +445,7 @@ namespace TikTokLiveGame
             }
             float displayedCharacterHeight = Mathf.Max(0.1f, VisibleCharacterHeight(characterBaseScale.y * giftFocusScale));
             decorationBadgeY = displayedCharacterHeight + 0.22f;
-            avatarRenderer.transform.localScale = avatarBaseScale * identityScale;
+            avatarRenderer.transform.localScale = avatarBaseScale * identityScale * (topRank > 0 ? 1.2f : 1f);
             nameLabel.transform.localScale = Vector3.one * identityScale;
             float titleScale = titleLabel.text.Length <= 9 ? 0.68f : titleLabel.text.Length <= 14 ? 0.59f : 0.5f;
             titleLabel.transform.localScale = Vector3.one * identityScale * titleScale;
@@ -467,7 +467,8 @@ namespace TikTokLiveGame
             float identityScale = Mathf.Clamp(decorationScale, 0.72f, 0.88f);
             // The main camera faces toward negative Z, so positive world X appears
             // on the left side of the portrait frame.
-            avatarRenderer.transform.localPosition = new Vector3(0.58f * identityScale, badgeY + attachedBounce, -0.01f);
+            float avatarOffset = 0.58f + (topRank > 0 ? 0.062f : 0f);
+            avatarRenderer.transform.localPosition = new Vector3(avatarOffset * identityScale, badgeY + attachedBounce, -0.01f);
             nameLabel.transform.localPosition = new Vector3(0.22f * identityScale, badgeY + attachedBounce, -0.02f);
             if (loyaltyLabel != null) loyaltyLabel.transform.localPosition = nameLabel.transform.localPosition - Vector3.up * (0.22f * identityScale);
             float bannerY = badgeY + 0.53f * identityScale + attachedBounce;

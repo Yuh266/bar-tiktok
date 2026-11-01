@@ -20,6 +20,8 @@ Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tik
 - Chống spam quà: cùng người và cùng quà chặn lặp cảm ơn/zoom dưới 1 giây; các lần bị chặn không kéo dài thời gian chờ. Đổi quà được kích hoạt ngay, đổi qua lại vẫn được, người tặng khác hoạt động độc lập. Bridge vẫn phát đầy đủ sự kiện quà để cộng đủ giá trị/BXH và gửi cờ cho Unity bỏ zoom lặp.
 - `npm run test:speech-ui -- http://127.0.0.1:3100`: mặc định tự bật, không giành tiếng khi mở tab khác, tự nhận lại khi tab phát đóng hoặc mất kết nối; nhớ lựa chọn tắt qua tải lại trang. Mô phỏng trình duyệt chặn tiếng, giữ câu đang chờ và phát lại sau thao tác thật trên trang.
 - Bot nền giới hạn 5, không trừ theo số người xem thật; xác nhận runtime `real=0 npc=5` với Bridge thử nghiệm riêng. Bản đang chạy được cập nhật mà không reset BXH.
+- Đàn vịt tự chạy: thử runtime với 8 và 11 vịt; mỗi lượt tự kết thúc, không chồng đàn và lên lịch nghỉ trong 45–90 giây (lượt kiểm tra ghi nhận 75,4 giây). Hình vịt và tiếng kêu được tạo bằng code, không cần tải tài nguyên bên ngoài. Lượt đầu chờ 20–35 giây; cờ `-duckPreview` chỉ rút thời gian chờ đầu để kiểm tra.
+- Avatar Top 3: tăng riêng ảnh đại diện 20%, dịch nhẹ sang bên để giữ khoảng cách với tên. Runtime với ba Top và một người thường xác nhận chỉ Top được tăng; sau reset BXH cả bốn ảnh về chiều rộng 0,4464 đơn vị. Không thay kích thước nhân vật theo thay đổi này.
 - TikFinity: bỏ qua quà streak chưa kết thúc và bỏ qua event trùng ID.
 - `npm run test:ui -- http://127.0.0.1:3100`: kiểm tra nút hoạt động, đổi sàn, mốc tim, bật/tắt giọng đọc, không tràn ngang ở màn hình 390px; không có lỗi JavaScript.
 - Trên máy kiểm tra có giọng `Microsoft An (vi-VN)`; câu đọc thử kết thúc thành công qua sự kiện `SpeechSynthesisUtterance.end`.
@@ -37,5 +39,6 @@ Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tik
 - [Phần thưởng và chúc mừng đội thắng](../media/team-victory.png)
 - [Trang chọn bốn mẫu sàn](../media/floor-control.png)
 - [Sàn LED ô vuông cổ điển được giữ lại](../media/engagement-classic.png)
+- [Đàn vịt ngẫu nhiên và avatar Top 3](../media/duck-parade.png)
 
 Giọng đọc phát từ trình duyệt, cần giữ tab phát mở và thu âm thanh máy tính trong phần mềm LIVE. Việc có giọng tiếng Việt phụ thuộc hệ điều hành/trình duyệt; bảng quản trị hiển thị danh sách giọng đang có.

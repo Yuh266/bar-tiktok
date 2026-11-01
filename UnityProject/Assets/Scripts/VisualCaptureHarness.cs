@@ -39,11 +39,17 @@ namespace TikTokLiveGame
                     if (actor.IsNpc) { npc++; continue; }
                     real++;
                     if (actor.IsTopRanked) podium++;
+                    if (Array.IndexOf(arguments, "-verifyAvatars") >= 0)
+                    {
+                        SpriteRenderer avatar = actor.transform.Find("Avatar").GetComponent<SpriteRenderer>();
+                        Debug.Log($"AVATAR_VISUAL top={actor.IsTopRanked} width={avatar.sprite.bounds.size.x * avatar.transform.localScale.x:F4}");
+                    }
                     Color nameColor = actor.transform.Find("Name").GetComponent<TextMesh>().color;
                     if (Mathf.Abs(nameColor.r - nameColor.g) + Mathf.Abs(nameColor.g - nameColor.b) > 0.1f) colored++;
                     if (actor.transform.Find("Team Victory Badge").gameObject.activeSelf) victory++;
                 }
                 Debug.Log($"COMMUNITY_VISUAL real={real} npc={npc} podium={podium} coloredNames={colored} victoryBadges={victory}");
+                Debug.Log($"DUCK_VISUAL active={FindFirstObjectByType<DuckParade>()?.ActiveDuckCount ?? 0}");
             }
             yield return new WaitForSecondsRealtime(1f);
             if (System.IO.File.Exists(path)) Debug.Log($"Floor preview saved to {path}");

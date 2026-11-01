@@ -25,6 +25,8 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 **Bot nhảy:** sàn giữ 5 bot làm nền; người xem thật vào sàn không làm tăng số bot.
 
+**Đàn vịt ngẫu nhiên:** tự xuất hiện lần đầu sau 20–35 giây, mỗi lượt có 8–11 vịt vàng chạy nối đuôi qua sàn kèm tiếng vịt nhẹ. Sau mỗi lượt nghỉ ngẫu nhiên 45–90 giây rồi chạy tiếp. Avatar của Top 3 tặng quà được tăng 20%; khi rời Top 3 trở về kích thước thường.
+
 **Chống spam combo quà:** cùng người, cùng loại quà chỉ chặn lặp cảm ơn và zoom trong 1 giây tính từ lần kích hoạt gần nhất; hết 1 giây được kích hoạt lại dù vẫn đang gửi liên tục. Đổi loại quà được kích hoạt ngay, kể cả đổi về quà trước đó. Toàn bộ quà và điểm BXH vẫn cộng đủ.
 
 Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.
