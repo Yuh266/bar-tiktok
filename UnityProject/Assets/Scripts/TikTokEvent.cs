@@ -41,6 +41,7 @@ namespace TikTokLiveGame
         public bool spectatorOnly;
         public bool joinedNow;
         public bool likeMilestone;
+        public bool suppressGiftPresentation;
         public long titleExpiresAt;
         public TikTokPlayerData[] players;
         public TikTokPlayerData[] vipScores;

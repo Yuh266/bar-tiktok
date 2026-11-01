@@ -14,6 +14,8 @@ const { getServerSettings, loadEnvironmentFile } = require('./src/config/environ
 const { startAvatarServer } = require('./src/avatar-server');
 const { EngagementEngine, ViewerStore } = require('./src/engagement');
 const { SessionStore } = require('./src/session-store');
+const { GiftBursts } = require('./src/gift-bursts');
+const giftBursts = new GiftBursts();
 
 loadEnvironmentFile();
 
@@ -312,6 +314,7 @@ function resetSessionState(source = metrics.source) {
     sessionVipScores.clear();
     removedPlayers.clear();
     recentEventIds.clear();
+    giftBursts.clear();
     checkpointSession();
     broadcast(engagementMessage());
 }
@@ -407,6 +410,7 @@ function emitGameEvent(event) {
     const now = Date.now();
     let giftRule = null;
     if (event.type === 'gift') {
+        event.suppressGiftPresentation = !giftBursts.allowPresentation(event);
         giftRule = event.masterRuleId ? null : resolveGiftRule(event);
         if (giftRule) {
             event.action = giftRule.action;
@@ -463,7 +467,7 @@ function emitGameEvent(event) {
     broadcast(event);
     broadcastMetrics();
     checkpointSession();
-    if (event.type === 'gift' && speechOwner?.readyState === WebSocket.OPEN) {
+    if (event.type === 'gift' && !event.suppressGiftPresentation && speechOwner?.readyState === WebSocket.OPEN) {
         const catalogGift = giftCatalog.find(gift => String(gift.giftId) === String(event.giftId));
         send(speechOwner, { type: 'gift_thanks', userId: event.userId, nickname: event.nickname,
             giftId: event.giftId, giftName: event.giftName === 'Gift' ? catalogGift?.giftName || 'quà' : event.giftName,

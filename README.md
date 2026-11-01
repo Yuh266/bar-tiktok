@@ -25,6 +25,8 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 **Bot nhảy:** sàn giữ 5 bot làm nền; người xem thật vào sàn không làm tăng số bot.
 
+**Chống spam combo quà:** cùng người, cùng loại quà chỉ chặn lặp cảm ơn và zoom trong 1 giây tính từ lần kích hoạt gần nhất; hết 1 giây được kích hoạt lại dù vẫn đang gửi liên tục. Đổi loại quà được kích hoạt ngay, kể cả đổi về quà trước đó. Toàn bộ quà và điểm BXH vẫn cộng đủ.
+
 Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.
 
 Khi hết đấu đội, tên người chơi trở về màu thường. Mỗi người thắng được phóng to 60%, có vòng sáng vàng và huy hiệu **ĐỘI CHIẾN THẮNG** trong 12 giây; sân khấu có banner chúc mừng và pháo hoa. Phần thưởng là hiệu ứng, không cộng vào điểm quà.

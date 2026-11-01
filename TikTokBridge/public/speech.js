@@ -22,7 +22,7 @@
                 return;
             }
             const entry = { gift: { ...gift, repeatCount: Math.max(1, Number(gift.repeatCount) || 1) }, at: this.now() };
-            entry.timer = setTimeout(() => this.flush(key), 1200);
+            entry.timer = setTimeout(() => this.flush(key), 200);
             this.pending.set(key, entry);
         }
         flush(key) {

@@ -94,6 +94,7 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     assert.equal(overlay.messages.filter(m => m.type === 'gift').length, 1);
     assert.equal(control.messages.filter(m => m.type === 'gift_thanks').length, 1);
     assert.equal((await overlay.until(m => m.type === 'gift')).diamondCount, 3);
+    assert.equal((await overlay.until(m => m.type === 'gift')).suppressGiftPresentation, false);
     // A second browser tab claims speech and the old tab is disabled.
     const second = await client(port, 'control'); clients.push(second);
     second.send({ type: 'speech_claim', enabled: true, takeover: false });
@@ -102,7 +103,14 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     second.send({ type: 'speech_claim', enabled: true });
     await control.until(m => m.type === 'speech_status' && !m.active);
     source.send(JSON.stringify({ ...gift, data: { ...gift.data, msgId: 'gift-second' } }));
+    const repeatedGift = await overlay.until(m => m.type === 'gift' && m.eventId === 'gift-second');
+    assert.equal(repeatedGift.suppressGiftPresentation, true);
+    assert.equal(repeatedGift.diamondCount, 3);
+    await sleep(50);
+    assert.equal(second.messages.filter(m => m.type === 'gift_thanks').length, 0, 'Changing tabs must not replay a combo thank-you');
+    source.send(JSON.stringify({ ...gift, data: { ...gift.data, msgId: 'gift-other-sender', userId: 'viewer-hey', nickname: 'New viewer', repeatCount: 1 } }));
     await second.until(m => m.type === 'gift_thanks');
+    assert.equal((await overlay.until(m => m.type === 'gift' && m.eventId === 'gift-other-sender')).suppressGiftPresentation, false);
     second.socket.close();
     await control.until(m => m.type === 'speech_available');
     control.send({ type: 'speech_claim', enabled: true, takeover: false });
@@ -151,7 +159,7 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     const reset = await operator.until(m => m.type === 'floor_roster' && m.vipScores.length === 0);
     assert.ok(reset.players.some(p => p.userId === 'viewer-1'));
     const afterReset = await client(port, 'overlay'); clients.push(afterReset);
-    assert.equal((await afterReset.until(m => m.type === 'metrics')).diamonds, 6);
+    assert.equal((await afterReset.until(m => m.type === 'metrics')).diamonds, 7);
     assert.equal((await afterReset.until(m => m.type === 'snapshot')).vipScores.length, 0);
     nextSource.send(JSON.stringify({ ...gift, data: { ...gift.data, msgId: 'fresh-score-after-reset', repeatCount: 1 } }));
     await operator.until(m => m.type === 'floor_roster' && m.vipScores.some(v => v.score === 1));
@@ -163,4 +171,25 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     assert.equal(finalSnapshot.players.some(p => p.userId === 'viewer-blue'), false);
     assert.equal(finalSnapshot.vipScores[0].score, 1);
     assert.ok(finalSnapshot.removedPlayers.includes('viewer-blue'));
+
+    // Repeat suppression must preserve scores, permit gift switches immediately,
+    // and expire after one second without waiting for the sender to stop.
+    const finalControl = await client(port, 'control'); clients.push(finalControl);
+    finalControl.send({ type: 'speech_claim', enabled: true });
+    await finalControl.until(m => m.type === 'speech_status' && m.active);
+    await persisted.until(m => m.type === 'status' && m.state === 'connected');
+    const finalSource = [...provider.clients].find(socket => socket.readyState === WebSocket.OPEN);
+    const sendGift = async (eventId, giftId) => {
+        finalSource.send(JSON.stringify({ ...gift, data: { ...gift.data, msgId: eventId, giftId, repeatCount: 1 } }));
+        return persisted.until(m => m.type === 'gift' && m.eventId === eventId);
+    };
+    assert.equal((await sendGift('cooldown-first', '5655')).suppressGiftPresentation, false);
+    assert.equal((await sendGift('cooldown-repeat', '5655')).suppressGiftPresentation, true);
+    assert.equal((await sendGift('cooldown-different', '9999')).suppressGiftPresentation, false);
+    assert.equal((await sendGift('cooldown-switch-back', '5655')).suppressGiftPresentation, false);
+    await sleep(1050);
+    assert.equal((await sendGift('cooldown-one-second', '5655')).suppressGiftPresentation, false);
+    await sleep(50);
+    assert.equal(finalControl.messages.filter(m => m.type === 'gift_thanks').length, 4);
+    await finalControl.until(m => m.type === 'floor_roster' && m.vipScores.some(v => v.userId === 'viewer-1' && v.score === 6));
 });
