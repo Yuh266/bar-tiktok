@@ -13,7 +13,7 @@ test('music uploads require a control token and playback commands reach only the
     const portServer = net.createServer(); await new Promise(resolve => portServer.listen(0, '127.0.0.1', resolve));
     const port = portServer.address().port; await new Promise(resolve => portServer.close(resolve));
     const child = spawn(process.execPath, ['server.js'], { cwd: path.join(__dirname, '..'), windowsHide: true, stdio: 'ignore',
-        env: { ...process.env, PORT: String(port), HOST: '127.0.0.1', DATA_DIR: directory, MUSIC_DIR: path.join(directory, 'tracks') } });
+        env: { ...process.env, PORT: String(port), HOST: '127.0.0.1', DATA_DIR: directory, MUSIC_DIR: path.join(directory, 'tracks'), SCREEN_DIR: path.join(directory, 'screen') } });
     const sockets = [];
     t.after(async () => { sockets.forEach(socket => socket.terminate());
         if (child.exitCode === null) { const ended = new Promise(resolve => child.once('exit', resolve)); child.kill(); await ended; }
@@ -35,10 +35,29 @@ test('music uploads require a control token and playback commands reach only the
     const response = await upload(token); assert.equal(response.status, 201);
     const body = await response.json(); assert.equal(body.tracks.length, 1); assert.equal(body.tracks[0].path, undefined);
     const id = body.tracks[0].id;
+    const png = await require('sharp')({ create: { width: 20, height: 10, channels: 3, background: '#abcdef' } }).png().toBuffer();
+    const uploadScreen = uploadToken => fetch(`${base}/api/screen/upload`, { method: 'POST', headers: {
+        'Content-Type': 'application/octet-stream', 'X-Screen-Filename': 'Test.png', ...(uploadToken ? { 'X-Screen-Token': uploadToken } : {}) }, body: png });
+    assert.equal((await uploadScreen()).status, 403);
+    const screenUpload = await uploadScreen(token); assert.equal(screenUpload.status, 201);
+    const media = (await screenUpload.json()).items[0]; assert.equal(media.path, undefined);
+    assert.deepEqual(Buffer.from(await (await fetch(`${base}${media.url}`)).arrayBuffer()), png);
+    assert.equal((await fetch(`${base}/api/screen/media/not-a-real-id`)).status, 404);
     const browser = await connect('overlay', true); browser.send({ type: 'music_player_ready' });
     await browser.until(m => m.type === 'error');
+    browser.send({ type: 'screen_ready' });
+    await browser.until(m => m.type === 'error' && m.message.includes('màn hình'));
     const player = await connect('overlay'); player.send({ type: 'music_player_ready' });
     const library = await player.until(m => m.type === 'music_library'); assert.ok(library.tracks[0].path.startsWith(directory));
+    player.send({ type: 'screen_ready' });
+    const initialScreen = await player.until(m => m.type === 'screen_config'); assert.ok(initialScreen.screenItems[0].path.startsWith(directory));
+    control.send({ type: 'screen_save', settings: { mode: 'text', text: 'Test thông báo', color: '#123456' } });
+    const screenConfig = await player.until(m => m.type === 'screen_config' && m.screenSettings.revision === 1);
+    assert.equal(screenConfig.screenSettings.text, 'Test thông báo');
+    player.send({ type: 'screen_report', mode: 'text', showing: true, revision: 1 });
+    await control.until(m => m.type === 'screen_state' && m.report.revision === 1 && m.report.showing);
+    player.send({ type: 'screen_save', settings: { mode: 'blank' } });
+    await player.until(m => m.type === 'error' && m.message.includes('Master'));
     player.send({ type: 'music_report', trackId: id, position: 10, duration: 60, playing: true });
     await control.until(m => m.type === 'music_state' && m.trackId === id && m.playing);
     player.send({ type: 'music_command', action: 'pause' }); await player.until(m => m.type === 'error');
@@ -54,5 +73,6 @@ test('music uploads require a control token and playback commands reach only the
     player.socket.close();
     await sleep(100);
     assert.equal((await (await fetch(`${base}/api/music`)).json()).state.playerConnected, false);
+    assert.equal((await (await fetch(`${base}/api/screen`)).json()).state.playerConnected, false);
     control.socket.close(); await sleep(100); assert.equal((await upload(token)).status, 403);
 });

@@ -20,6 +20,7 @@
         <button class="tab-btn active" data-tab="live">Live</button>
         <button class="tab-btn" data-tab="floors">Đổi sàn</button>
         <button class="tab-btn" data-tab="music">Nhạc DJ</button>
+        <button class="tab-btn" data-tab="screen">Màn hình DJ</button>
         <button class="tab-btn" data-tab="engagement">Tương tác</button>
         <button class="tab-btn" data-tab="players">Người chơi</button>
         <button class="tab-btn" data-tab="rules">Master Rules</button>
@@ -127,6 +128,22 @@
         </article>
     </div>
     <article class="card music-library-card"><div class="card-header"><div><p class="card-label">Danh sách nhạc · <span id="music-track-count">0</span> bài</p><h2 class="card-title">Chọn bài để phát</h2></div><button id="music-refresh" class="btn btn-secondary btn-sm">Làm mới</button></div><p id="music-message" class="help" role="status"></p><div id="music-track-list" class="music-track-list"></div></article>
+</section>
+
+<section class="tab-panel" id="tab-screen">
+    <div class="page-header"><p class="page-eyebrow">Hình ảnh sân khấu</p><h1 class="page-title">Màn hình DJ</h1><p class="page-desc">Đổi video, chạy slideshow ảnh–video hoặc hiển thị lời nhắn trên màn hình trong game.</p></div>
+    <div class="screen-grid">
+        <article class="card">
+            <label class="field-label" for="screen-mode">Chế độ hiển thị</label><select id="screen-mode"><option value="single">Một ảnh hoặc video</option><option value="slideshow">Slideshow ảnh và video</option><option value="text">Hiển thị chữ</option><option value="blank">Tắt màn hình</option></select>
+            <div data-screen-mode="single" class="screen-fields"><label for="screen-single">Nội dung muốn phát</label><select id="screen-single"><option value="">Chọn ảnh/video</option></select><p class="help">Ảnh giữ nguyên; video tự phát lặp lại.</p></div>
+            <div data-screen-mode="slideshow" class="screen-fields" hidden><label for="screen-seconds">Chuyển nội dung sau (giây)</label><input id="screen-seconds" type="number" min="2" max="120" value="8"><p class="help">Chọn nội dung ở thư viện bên dưới, rồi dùng mũi tên để sắp thứ tự. Video lặp trong khoảng thời gian đã chọn.</p><div id="screen-playlist" class="screen-playlist"></div><div class="music-buttons"><button id="screen-previous" class="btn btn-secondary" disabled>Slide trước</button><button id="screen-next" class="btn btn-secondary" disabled>Slide tiếp</button></div></div>
+            <div data-screen-mode="text" class="screen-fields" hidden><label for="screen-text">Chữ muốn hiển thị</label><textarea id="screen-text" rows="4" maxlength="500" placeholder="Nhập lời chào hoặc thông báo…"></textarea><div class="screen-text-options"><label>Màu chữ<input id="screen-color" type="color" value="#f9d55c"></label><label>Màu nền<input id="screen-background" type="color" value="#07101f"></label><label>Cỡ chữ · <span id="screen-font-value">64</span><input id="screen-font" type="range" min="24" max="160" step="4" value="64"></label></div><label class="screen-check"><input id="screen-scroll" type="checkbox">Cho chữ chạy ngang</label></div>
+            <div class="music-buttons"><button id="screen-save" class="btn btn-green" disabled>Lưu &amp; áp dụng màn hình</button></div><p id="screen-message" class="help" role="status"></p>
+            <p class="help">Cấu hình được nhớ qua lần mở lại game. Video trên màn hình tắt tiếng để giữ nhạc DJ đang phát.</p>
+        </article>
+        <article class="card"><p class="card-label">Xem trước cấu hình</p><div id="screen-preview" class="screen-preview"></div><p id="screen-status" class="help" role="status">Đang chờ kết nối…</p><div class="divider"></div><h2 class="card-title">Tải ảnh / video lên</h2><label class="field-label" for="screen-files">Chọn file</label><input id="screen-files" class="music-files" type="file" accept=".png,.jpg,.jpeg,.mp4,.webm,.mov,.m4v" multiple><p class="help">Ảnh PNG/JPG tối đa 20 MB và 4096 × 4096 px. Video tối đa 500 MB; ưu tiên MP4 (H.264).</p><button id="screen-upload" class="btn btn-secondary" disabled>Tải ảnh/video lên</button><progress id="screen-upload-progress" value="0" max="100" hidden></progress><p id="screen-upload-status" class="help" role="status"></p></article>
+    </div>
+    <article class="card music-library-card"><div class="card-header"><div><p class="card-label">Thư viện · <span id="screen-item-count">0</span> nội dung</p><h2 class="card-title">Ảnh và video</h2></div><div class="music-buttons"><button id="screen-select-all" class="btn btn-secondary btn-sm">Chọn tất cả cho slide</button><button id="screen-refresh" class="btn btn-secondary btn-sm">Làm mới thư viện</button></div></div><div id="screen-library"></div></article>
 </section>
 
 <!-- ── MASTER RULES ── -->
@@ -585,5 +602,6 @@
 <script src="engagement-control.js"></script>
 <script src="moderation-control.js"></script>
 <script src="music-control.js"></script>
+<script src="screen-control.js"></script>
 </body>
 </html>

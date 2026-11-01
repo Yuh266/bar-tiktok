@@ -24,6 +24,7 @@ namespace TikTokLiveGame
             root.AddComponent<ClubOutputDiagnostics>();
             AvatarService avatars = root.AddComponent<AvatarService>();
             TikTokWebSocketClient client = root.AddComponent<TikTokWebSocketClient>();
+            Object.FindFirstObjectByType<DjVideoScreen>()?.Initialize(client);
             PlayerManager players = new GameObject("Players").AddComponent<PlayerManager>();
             players.transform.SetParent(root.transform);
             GiftEffectManager giftEffects = root.AddComponent<GiftEffectManager>();

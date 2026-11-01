@@ -48,6 +48,16 @@ DJ_VIDEO/*.mov
 DJ_VIDEO/*.MOV
 DJ_VIDEO/*.m4v
 DJ_VIDEO/*.webm
+DJ_VIDEO/*.MP4
+DJ_VIDEO/*.MOV
+DJ_VIDEO/*.M4V
+DJ_VIDEO/*.WEBM
+DJ_VIDEO/*.png
+DJ_VIDEO/*.PNG
+DJ_VIDEO/*.jpg
+DJ_VIDEO/*.JPG
+DJ_VIDEO/*.jpeg
+DJ_VIDEO/*.JPEG
 DJ_VIDEO/*.mp4.bak
 
 # ── OS & IDE ─────────────────────────────────

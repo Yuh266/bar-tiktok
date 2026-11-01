@@ -2,7 +2,7 @@
 
 Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tiktok`:
 
-- `npm test`: 61 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
+- `npm test`: 65 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
 - Mục Đổi sàn: chọn/lưu đủ bốn mẫu, hiển thị Đang dùng, ảnh mẫu tải được và không tràn ngang ở 390px. Sàn LED ô vuông cổ điển dùng lại shader gốc; không thêm lựa chọn thứ tư vào luật bình chọn 1/2/3.
 - Kết thúc đấu đội: chốt danh sách người thắng, xóa màu đội cho mọi người (kể cả khi hòa), dùng danh sách đã chốt để trao phóng to/huy hiệu/vòng vàng và pháo hoa trong 12 giây.
 - Quản trị: chỉ client quản trị được reset BXH/kick. Reset giữ người chơi và tổng quà thống kê; quà tiếp theo bắt đầu điểm BXH mới. Kick giữ điểm quà, không bị chat/like thông thường đưa trở lại; lệnh vào sàn cho phép vào lại. Trạng thái được kiểm tra qua khởi động lại Bridge.
@@ -11,6 +11,8 @@ Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tik
 - `npm run test:moderation-ui -- http://127.0.0.1:3100`: tìm người, hủy/xác nhận reset, kick và vào lại; không tràn ngang ở 390px, không có lỗi JavaScript.
 - Nhạc: kiểm tra tải Unicode/trùng tên không ghi đè, chặn đường dẫn vượt thư mục/định dạng sai/file quá lớn, dọn file tải dở. API upload cần token của phiên quản trị đang mở; lệnh nhạc chỉ dành cho quản trị, chỉ game native đăng ký bộ phát, đường dẫn riêng không trả về trình duyệt. Trạng thái phát chỉ đổi theo báo cáo thật từ game.
 - `npm run test:music-ui -- http://127.0.0.1:3100`: Chrome riêng và Unity thật có `-musicTestMuted`, tải 3 WAV, phát/tạm dừng, tua khi tạm dừng, tiếp tục, chọn bài, bài trước/tiếp, tua ±10 giây/thanh kéo/nhập thời gian, tự chuyển khi hết bài. Tải bài mới giữ nguyên bài/vị trí đang phát; tải lại trang nhận lại danh sách/trạng thái; không tràn ngang ở 390px và không có lỗi JavaScript. Kiểm tra riêng file MP3 DJ dài hiện có xác nhận tua tới phút 10, tạm dừng rồi tua phút 20 và phát tiếp thành công; không thay đổi file nhạc gốc.
+- Màn hình DJ: kiểm tra file ảnh/video hợp lệ, tên Unicode, giới hạn kích thước/độ phân giải, dọn file lỗi, cấu hình và thứ tự slideshow được lưu qua khởi động lại. API upload cần token quản trị, trình duyệt không được đăng ký bộ phát màn hình, overlay không được sửa cấu hình; đường dẫn nội bộ không đưa ra thư viện công khai. Trạng thái áp dụng lấy từ báo cáo của game theo phiên bản cấu hình.
+- `npm run test:screen-ui -- http://127.0.0.1:3100 C:/tmp/barclub-screen-captures`: Chrome riêng + Unity thật tải PNG/JPG/MP4, phát đơn, kiểm tra pixel ảnh đúng chiều, trộn slideshow/tự chuyển/sắp thứ tự, hiển thị chữ tiếng Việt và màu chữ, chạy chữ, tải lại trang giữ cấu hình, không tràn ngang 390px. Cờ kiểm tra `-screenCaptureDirectory` chụp trực tiếp mặt màn hình bằng camera riêng để xác nhận nội dung thật, không cần mở cửa sổ game thử lên LIVE.
 - Chat TikTok: kiểm tra bằng encode/decode schema `WebcastChatMessage` v3 thực của thư viện đang cài; nội dung nằm ở `content` vẫn được nhận, đồng thời giữ tương thích `comment` cũ. Chat `xanh` qua Bridge thực tạo thành viên đội Xanh, `hey` tạo lệnh vào sàn.
 - Mốc 100 tim: đọc `count/total` của TikTok v3 và giữ `likeCount/totalLikeCount` cũ. Encode/decode schema `WebcastLikeMessage` thực xác nhận gói 99 rồi 1 kích hoạt `grow` 8 giây; gói 0 không tự cộng tim, tổng tim cả phòng không cộng vào riêng một người. Kiểm tra qua Bridge thật xác nhận người chưa vào sàn xuất hiện và phóng to khi đủ 100, đủ 100 tiếp theo kích hoạt lại, không cộng điểm quà vào BXH.
 - Tự chạy: chờ 15 giây khi bật, nghỉ ngẫu nhiên giữa các vòng, trộn đủ ba loại, không lặp liên tiếp, không chồng vòng hoặc bỏ qua kết quả; tạm dừng không cắt vòng đang chơi, cài đặt được lưu qua lần khởi động lại.
@@ -46,5 +48,7 @@ Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tik
 - [Sàn LED ô vuông cổ điển được giữ lại](../media/engagement-classic.png)
 - [Đàn vịt ngẫu nhiên và avatar Top 3](../media/duck-parade.png)
 - [Quản lý và điều khiển nhạc](../media/music-control.png)
+- [Quản trị màn hình DJ](../media/dj-screen-control.png)
+- [Chữ tiếng Việt trên màn hình game](../media/dj-screen-text.png)
 
 Giọng đọc phát từ trình duyệt, cần giữ tab phát mở và thu âm thanh máy tính trong phần mềm LIVE. Việc có giọng tiếng Việt phụ thuộc hệ điều hành/trình duyệt; bảng quản trị hiển thị danh sách giọng đang có.

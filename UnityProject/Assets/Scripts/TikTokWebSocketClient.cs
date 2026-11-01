@@ -177,6 +177,10 @@ namespace TikTokLiveGame
 
         public void DisconnectTikTok() => Send(new ClientMessage { type = "disconnect_tiktok" });
         public void MusicReady() => Send(new ClientMessage { type = "music_player_ready" });
+        public void ScreenReady() => Send(new ClientMessage { type = "screen_ready" });
+        public void ReportScreen(string mode, string currentId, bool showing, bool loading, string error, int revision) =>
+            Send(new ClientMessage { type = "screen_report", mode = mode, currentId = currentId, showing = showing,
+                loading = loading, error = error, revision = revision });
         public void ReportMusic(string trackId, float position, float duration, bool playing, bool paused, bool loading, string error) =>
             Send(new ClientMessage { type = "music_report", trackId = trackId, position = position, duration = duration,
                 playing = playing, paused = paused, loading = loading, error = error });

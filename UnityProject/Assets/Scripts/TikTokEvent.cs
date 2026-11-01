@@ -18,6 +18,8 @@ namespace TikTokLiveGame
         public MusicTrack[] tracks;
         public string trackId;
         public float position;
+        public DjScreenSettings screenSettings;
+        public DjScreenItem[] screenItems;
         public string userId;
         public string uniqueId;
         public string nickname;
@@ -86,6 +88,16 @@ namespace TikTokLiveGame
     [Serializable]
     public class MusicTrack { public string id, name, path; }
 
+    [Serializable] public class DjScreenItem { public string id, name, path, kind; }
+    [Serializable] public class DjScreenSettings
+    {
+        public string mode, selectedId, text, color, background;
+        public string[] playlist;
+        public float slideSeconds = 8f;
+        public int fontSize = 64, revision;
+        public bool scroll;
+    }
+
     [Serializable]
     internal class ClientMessage
     {
@@ -101,5 +113,8 @@ namespace TikTokLiveGame
         public float position, duration;
         public bool playing, paused, loading;
         public string error;
+        public string mode, currentId;
+        public bool showing;
+        public int revision;
     }
 }

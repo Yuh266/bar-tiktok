@@ -871,6 +871,31 @@ kbd {
 
 .engagement-grid { margin-top: 14px; }
 .music-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+.screen-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; }
+.screen-grid > .card { min-width: 0; }
+.screen-grid .help { margin: 14px 0; line-height: 1.7; }
+.screen-grid select, .screen-grid textarea { width: 100%; min-width: 0; margin-top: 8px; }
+.screen-fields { margin-top: 20px; }
+.screen-fields[hidden] { display: none; }
+.screen-fields > label { display: block; font-size: 12px; color: var(--text-2); }
+.screen-fields textarea { padding: 12px; resize: vertical; background: var(--bg-3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); }
+.screen-text-options { display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 12px; margin: 16px 0; }
+.screen-text-options label { font-size: 12px; color: var(--text-2); }
+.screen-text-options input { display: block; margin-top: 8px; max-width: 100%; }
+.screen-check { display: flex !important; align-items: center; gap: 8px; }
+.screen-preview { aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: #07101f; }
+.screen-preview img, .screen-preview video { width: 100%; height: 100%; object-fit: cover; }
+.screen-preview video { object-fit: contain; }
+.screen-preview p { font-size: 13px; color: var(--text-2); }
+.screen-preview-text { text-align: center; white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; max-width: 95%; }
+.screen-marquee { white-space: nowrap; max-width: none; flex-shrink: 0; animation: screen-marquee 18s linear infinite; }
+@keyframes screen-marquee { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+.screen-playlist-row { display: flex; align-items: center; gap: 6px; margin: 8px 0; }
+.screen-playlist-row span { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 12px; }
+.screen-playlist-row button { padding: 7px 10px; }
+#screen-library .music-track-info { flex: 1; }
+#screen-upload-progress { width: 100%; margin-top: 14px; accent-color: var(--green); }
+@media (max-width: 820px) { .screen-grid { grid-template-columns: 1fr; } }
 .music-grid > .card { min-width: 0; }
 .music-current { overflow-wrap: anywhere; line-height: 1.5; }
 .music-grid .help { margin: 14px 0; line-height: 1.7; }

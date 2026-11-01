@@ -29,6 +29,8 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 **Nhạc DJ trong quản trị:** mở tab **Nhạc DJ**, chọn file rồi bấm **Tải nhạc lên** (MP3/WAV/OGG, tối đa 250 MB/file, chọn nhiều bài được). Nhạc lưu trong `DJ_MUSIC/` và phát trực tiếp từ game. Có thể chọn bài, phát/tạm dừng, bài trước/tiếp, tua ±10 giây, kéo thanh tua hoặc nhập thời gian như `02:30`. Hết bài tự chuyển bài và lặp danh sách. Tải thêm nhạc không làm bài đang nghe chạy lại; trạng thái/thời gian trên quản trị được báo từ bộ phát thật. Có thể đổi thư mục nhạc bằng biến môi trường `MUSIC_DIR` của Bridge. File nhạc cá nhân không đưa lên Git.
 
+**Màn hình DJ trong quản trị:** mở tab **Màn hình DJ** để tải ảnh PNG/JPG (tối đa 20 MB, 4096 × 4096 px) hoặc video MP4/WebM/MOV/M4V (tối đa 500 MB, ưu tiên MP4/H.264). Chọn phát một ảnh/video, slideshow trộn ảnh–video có sắp thứ tự và thời gian chuyển 2–120 giây, hiển thị chữ có màu/cỡ chữ/nền/chạy ngang, hoặc tắt màn hình. Bấm **Lưu & áp dụng màn hình** để đổi trực tiếp trong game; cấu hình được giữ khi mở lại. Video tắt tiếng để không chồng nhạc DJ. File riêng lưu trong `DJ_VIDEO/`, cấu hình ở `TikTokBridge/data/dj-screen.json`, không đưa vào Git; đổi thư mục qua `SCREEN_DIR` nếu cần.
+
 **Chống spam combo quà:** cùng người, cùng loại quà chỉ chặn lặp cảm ơn và zoom trong 1 giây tính từ lần kích hoạt gần nhất; hết 1 giây được kích hoạt lại dù vẫn đang gửi liên tục. Đổi loại quà được kích hoạt ngay, kể cả đổi về quà trước đó. Toàn bộ quà và điểm BXH vẫn cộng đủ.
 
 Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.

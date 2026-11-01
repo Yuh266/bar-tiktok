@@ -11,6 +11,7 @@ const fs = require('fs/promises');
 const WebSocket = require('ws');
 const { randomBytes } = require('node:crypto');
 const { MusicLibrary } = require('./src/music-library');
+const { DjScreen } = require('./src/dj-screen');
 const { TikTokLiveConnection } = require('tiktok-live-connector');
 const { getServerSettings, loadEnvironmentFile } = require('./src/config/environment');
 const { startAvatarServer } = require('./src/avatar-server');
@@ -55,6 +56,28 @@ const server = http.createServer(app);
 
 const { port: PORT, host: HOST, allowLan: ALLOW_LAN } = getServerSettings();
 const dataDir = process.env.DATA_DIR || path.join(__dirname, 'data');
+const djScreen = new DjScreen({ directory: process.env.SCREEN_DIR || path.join(__dirname, '..', 'DJ_VIDEO'), dataDirectory: dataDir });
+let screenPlayer = null, screenReportedAt = 0;
+let screenReport = { mode: '', currentId: '', showing: false, loading: false, error: '', revision: -1 };
+function screenSnapshot() {
+    return { type: 'screen_state', settings: djScreen.settings, report: screenReport,
+        playerConnected: screenPlayer?.readyState === WebSocket.OPEN && Date.now() - screenReportedAt < 5000 };
+}
+function broadcastScreenState() {
+    for (const client of wss.clients) if (client.registered && client.role === 'control') send(client, screenSnapshot());
+}
+function sendScreenConfiguration() {
+    if (screenPlayer?.readyState === WebSocket.OPEN) send(screenPlayer, { type: 'screen_config', screenSettings: djScreen.settings, screenItems: djScreen.items });
+}
+let screenRefreshTask = Promise.resolve();
+function refreshScreenLibrary() {
+    const work = screenRefreshTask.then(async () => {
+        await djScreen.refresh();
+        for (const client of wss.clients) if (client.registered && client.role === 'control') send(client, { type: 'screen_library', items: djScreen.publicItems() });
+        sendScreenConfiguration(); broadcastScreenState();
+    });
+    screenRefreshTask = work.catch(() => {}); return work;
+}
 const musicLibrary = new MusicLibrary({ directory: process.env.MUSIC_DIR || path.join(__dirname, '..', 'DJ_MUSIC'),
     temporaryDirectory: path.join(dataDir, 'music-uploads') });
 let musicTracks = [];
@@ -220,6 +243,28 @@ app.get('/api/health', (_req, res) => {
 app.get('/api/music', async (_req, res) => {
     try { await refreshMusicLibrary(); res.json({ tracks: publicMusicTracks(), state: musicSnapshot() }); }
     catch { res.status(500).json({ error: 'Không đọc được danh sách nhạc.' }); }
+});
+app.get('/api/screen', async (_req, res) => {
+    try { await refreshScreenLibrary(); res.json({ items: djScreen.publicItems(), state: screenSnapshot() }); }
+    catch { res.status(500).json({ error: 'Không đọc được thư viện màn hình DJ.' }); }
+});
+app.get('/api/screen/media/:id', async (req, res) => {
+    const item = djScreen.items.find(item => item.id === req.params.id);
+    if (!item) return res.status(404).end();
+    res.sendFile(item.path, error => { if (error && !res.headersSent) res.status(404).end(); });
+});
+app.post('/api/screen/upload', async (req, res) => {
+    const token = req.headers['x-screen-token'];
+    const authorized = typeof token === 'string' && [...wss.clients].some(client => client.registered && client.role === 'control' &&
+        client.readyState === WebSocket.OPEN && client.musicUploadToken === token);
+    if (!authorized || !isAllowedOrigin(req.headers.origin, PORT)) return res.status(403).json({ error: 'Mở lại trang quản trị để tải nội dung.' });
+    if (String(req.headers['content-type'] || '').split(';')[0] !== 'application/octet-stream') return res.status(415).json({ error: 'Định dạng tải lên không hợp lệ.' });
+    try {
+        const filename = decodeURIComponent(String(req.headers['x-screen-filename'] || ''));
+        const length = req.headers['content-length'] === undefined ? NaN : Number(req.headers['content-length']);
+        const uploaded = await djScreen.library.upload(req, filename, length);
+        await refreshScreenLibrary(); res.status(201).json({ uploaded, items: djScreen.publicItems() });
+    } catch (error) { if (!res.destroyed) res.status(error.status || 400).json({ error: error.status ? error.message : 'File ảnh/video không hợp lệ hoặc không tải được.' }); }
 });
 app.post('/api/music/upload', async (req, res) => {
     const token = req.headers['x-music-token'];
@@ -857,6 +902,7 @@ async function handleClientMessage(ws, message) {
             send(ws, { type: 'music_upload_token', token: ws.musicUploadToken });
             send(ws, musicSnapshot());
             await refreshMusicLibrary();
+            await refreshScreenLibrary();
         }
         send(ws, engagementMessage());
         if (ws.role === 'overlay') {
@@ -869,7 +915,7 @@ async function handleClientMessage(ws, message) {
 
     if (!ws.registered) return send(ws, { type: 'error', message: 'Client chưa đăng ký quyền.' });
 
-    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player', 'music_command', 'music_refresh'].includes(message.type);
+    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player', 'music_command', 'music_refresh', 'screen_refresh', 'screen_save', 'screen_command'].includes(message.type);
     const operatorOnly = new Set([
         'set_username', 'disconnect_tiktok', 'demo_start', 'demo_stop', 'demo_event', 'reset_game'
     ]).has(message.type);
@@ -880,6 +926,31 @@ async function handleClientMessage(ws, message) {
         return send(ws, { type: 'error', message: 'Client không có quyền điều khiển.' });
     }
 
+    if (message.type === 'screen_ready') {
+        if (ws.role !== 'overlay' || !ws.nativeClient) return send(ws, { type: 'error', message: 'Chỉ game mới đăng ký được màn hình DJ.' });
+        if (screenPlayer && screenPlayer !== ws && screenPlayer.readyState === WebSocket.OPEN) return;
+        screenPlayer = ws; screenReportedAt = Date.now(); await refreshScreenLibrary(); return;
+    }
+    if (message.type === 'screen_report') {
+        if (screenPlayer !== ws) return;
+        screenReport = { mode: typeof message.mode === 'string' ? message.mode.slice(0, 20) : '',
+            currentId: djScreen.items.some(item => item.id === message.currentId) ? message.currentId : '',
+            showing: message.showing === true, loading: message.loading === true,
+            error: typeof message.error === 'string' ? message.error.slice(0, 180) : '', revision: Number(message.revision) || 0 };
+        screenReportedAt = Date.now(); broadcastScreenState(); return;
+    }
+    if (message.type === 'screen_refresh') {
+        send(ws, { type: 'music_upload_token', token: ws.musicUploadToken }); await refreshScreenLibrary(); return;
+    }
+    if (message.type === 'screen_save') {
+        try { await djScreen.save(message.settings); sendScreenConfiguration(); broadcastScreenState(); }
+        catch (error) { send(ws, { type: 'screen_error', message: error.status ? error.message : 'Không lưu được cấu hình màn hình.' }); }
+        return;
+    }
+    if (message.type === 'screen_command') {
+        if (!screenSnapshot().playerConnected || !['next', 'previous'].includes(message.action)) return send(ws, { type: 'screen_error', message: 'Mở game ở chế độ slideshow để chuyển nội dung.' });
+        send(screenPlayer, { type: 'screen_control', action: message.action }); return;
+    }
     if (message.type === 'music_player_ready') {
         if (ws.role !== 'overlay' || !ws.nativeClient) return send(ws, { type: 'error', message: 'Chỉ game mới được đăng ký bộ phát nhạc.' });
         if (musicPlayer && musicPlayer !== ws && musicPlayer.readyState === WebSocket.OPEN)
@@ -1090,6 +1161,7 @@ wss.on('connection', (ws, request) => {
     });
     ws.on('error', error => console.warn('WebSocket client error:', error.message));
     ws.on('close', () => {
+        if (screenPlayer === ws) { screenPlayer = null; broadcastScreenState(); }
         if (musicPlayer === ws) { musicPlayer = null; broadcastMusicState(); }
         if (speechOwner !== ws) return;
         speechOwner = null;
@@ -1103,6 +1175,7 @@ const engagementTimer = setInterval(() => {
     broadcast(engagementMessage());
     broadcastFloorRoster();
     if (musicPlayer && Date.now() - musicReportedAt >= 5000) broadcastMusicState();
+    if (screenPlayer && Date.now() - screenReportedAt >= 5000) broadcastScreenState();
 }, 1000);
 engagementTimer.unref();
 
