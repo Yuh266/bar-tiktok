@@ -13,8 +13,10 @@ const path = require('node:path');
     const seed = (name, value) => socket.send(JSON.stringify({ type: 'demo_event', action: 'gift', manualUsername: name, value }));
     seed('demo-admin-an', 5); seed('demo-admin-binh', 2);
     const browser = await chromium.launch({ channel: 'chrome', headless: true });
+    let page;
     try {
-        const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+        page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+        page.setDefaultTimeout(10000);
         const errors = []; page.on('pageerror', error => errors.push(error.message));
         await page.goto(`${base.origin}/control.html`);
         await page.getByRole('button', { name: 'Người chơi', exact: true }).click();
@@ -28,6 +30,7 @@ const path = require('node:path');
         assert.equal(await page.locator('#floor-player-list tr').count(), 2);
         await page.locator('#floor-player-search').fill('admin-an');
         assert.equal(await page.locator('#floor-player-list tr').count(), 1);
+        assert.match(await page.locator('#floor-player-match-count').textContent(), /1 \/ 2/);
         await page.getByRole('button', { name: 'Kick khỏi sàn', exact: true }).click();
         await page.waitForFunction(() => !window.floorModeration.players.some(p => p.userId === 'demo-admin-an'));
         await page.locator('#floor-player-search').fill('');
@@ -40,5 +43,5 @@ const path = require('node:path');
         assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
         assert.deepEqual(errors, []);
         console.log('Moderation UI smoke passed');
-    } finally { socket.close(); await browser.close(); }
+    } finally { socket.close(); if (page && !page.isClosed()) await page.close(); await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

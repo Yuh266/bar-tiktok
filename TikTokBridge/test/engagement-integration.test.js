@@ -21,8 +21,8 @@ async function client(port, role) {
     socket.on('message', data => messages.push(JSON.parse(data)));
     await new Promise((resolve, reject) => { socket.once('open', resolve); socket.once('error', reject); });
     socket.send(JSON.stringify({ type: 'register', role }));
-    return { socket, messages, send: data => socket.send(JSON.stringify(data)), async until(predicate) {
-        for (let attempt = 0; attempt < 100; attempt++) {
+    return { socket, messages, send: data => socket.send(JSON.stringify(data)), async until(predicate, timeoutMs = 2500) {
+        for (let attempt = 0; attempt < Math.ceil(timeoutMs / 25); attempt++) {
             const found = messages.find(predicate);
             if (found) return found;
             await sleep(25);
@@ -30,6 +30,40 @@ async function client(port, role) {
         throw new Error('Expected bridge message did not arrive');
     } };
 }
+
+test('admin and renderer share the same roster when idle players expire, retaining donor scores', { timeout: 15000 }, async t => {
+    const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'barclub-roster-'));
+    const now = Date.now();
+    const players = [
+        { userId: 'expired', nickname: 'Expired', lastActive: now - 601000 },
+        { userId: 'expiring', nickname: 'Expiring', lastActive: now - 595000 },
+        { userId: 'active', nickname: 'Active', lastActive: now }
+    ];
+    fs.writeFileSync(path.join(directory, 'session.json'), JSON.stringify({ version: 1, savedAt: now,
+        metrics: { source: 'idle' }, players, vipScores: [{ userId: 'expired', score: 100 }, { userId: 'expiring', score: 25 }] }));
+    const port = await freePort();
+    const child = spawn(process.execPath, ['server.js'], { cwd: path.join(__dirname, '..'), windowsHide: true,
+        env: { ...process.env, PORT: String(port), HOST: '127.0.0.1', DATA_DIR: directory }, stdio: 'ignore' });
+    const clients = [];
+    t.after(async () => {
+        for (const item of clients) item.socket.terminate();
+        if (child.exitCode === null) { const exited = new Promise(resolve => child.once('exit', resolve)); child.kill(); await exited; }
+        fs.rmSync(directory, { recursive: true, force: true });
+    });
+    for (let attempt = 0; attempt < 100; attempt++) {
+        try { if ((await fetch(`http://127.0.0.1:${port}/api/health`)).ok) break; } catch { /* startup */ }
+        await sleep(25);
+    }
+    const control = await client(port, 'control'); clients.push(control);
+    const overlay = await client(port, 'overlay'); clients.push(overlay);
+    const initial = await overlay.until(m => m.type === 'floor_roster');
+    assert.deepEqual(initial.players.map(p => p.userId).sort(), ['active', 'expiring']);
+    assert.deepEqual((await control.until(m => m.type === 'floor_roster')).players, initial.players);
+    const isExpired = m => m.type === 'floor_roster' && m.players.length === 1 && m.players[0].userId === 'active';
+    const after = await overlay.until(isExpired, 9000);
+    assert.deepEqual((await control.until(isExpired)).players, after.players);
+    assert.deepEqual(after.vipScores.map(donor => donor.score), [100, 25]);
+});
 
 test('bridge enforces activity permissions, filters gift streaks, avoids duplicate scores and restores donors', { timeout: 20000 }, async t => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'barclub-integration-'));

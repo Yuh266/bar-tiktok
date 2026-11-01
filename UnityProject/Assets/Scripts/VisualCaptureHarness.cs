@@ -54,6 +54,12 @@ namespace TikTokLiveGame
             yield return new WaitForSecondsRealtime(1f);
             if (System.IO.File.Exists(path)) Debug.Log($"Floor preview saved to {path}");
             else Debug.LogWarning($"Floor preview was not written: {path}");
+            if (Array.IndexOf(arguments, "-verifyRosterLifecycle") >= 0)
+            {
+                yield return new WaitForSecondsRealtime(4f);
+                PlayerManager manager = FindFirstObjectByType<PlayerManager>();
+                Debug.Log($"ROSTER_AFTER viewers={manager.ViewerCount} bots={manager.BotCount}");
+            }
             if (Array.IndexOf(Environment.GetCommandLineArgs(), "-captureExit") >= 0) Application.Quit();
         }
 

@@ -18,6 +18,9 @@ const floorModeration = {
         const list = document.getElementById('floor-player-list');
         const matches = this.players.filter(player => normalize(`${player.nickname} ${player.uniqueId} ${player.userId}`).includes(query))
             .sort((a, b) => (b.lastActive || 0) - (a.lastActive || 0));
+        document.getElementById('floor-player-match-count').textContent = query
+            ? `Đang hiển thị ${matches.length} / ${this.players.length} người theo tìm kiếm.`
+            : `Hiển thị toàn bộ ${this.players.length} người xem trên sàn.`;
         list.replaceChildren(...matches.map(player => {
             const row = document.createElement('tr'); row.dataset.userId = player.userId;
             const identity = document.createElement('td');

@@ -17,6 +17,7 @@ namespace TikTokLiveGame
         private int focusVersion;
         private string focusedUserId;
         private float nextNpcRefillAt;
+        private float lastRosterAt = float.NegativeInfinity;
         private const float NpcAmbientAlpha = 1f;
         private const float FocusedCrowdAlpha = 0.22f;
         private const float FocusedNpcAlpha = 0.14f;
@@ -40,6 +41,8 @@ namespace TikTokLiveGame
         };
 
         public int Count => players.Count;
+        public int ViewerCount => players.Values.Count(actor => !actor.IsNpc);
+        public int BotCount => players.Count - ViewerCount;
         public PlayerActor Find(string userId) => !string.IsNullOrWhiteSpace(userId) && players.TryGetValue(userId, out PlayerActor actor) ? actor : null;
 
         public bool TryGetCrowdBounds(out Bounds bounds)
@@ -135,6 +138,11 @@ namespace TikTokLiveGame
 
         public void Handle(TikTokEvent data)
         {
+            if (data.type == "floor_roster")
+            {
+                SynchronizeRoster(data.players);
+                return;
+            }
             if (data.type == "player_kicked")
             {
                 Remove(data.userId);
@@ -154,7 +162,7 @@ namespace TikTokLiveGame
             }
             if (data.type is not ("member" or "chat" or "gift" or "like" or "follow" or "share")) return;
 
-            if (data.spectatorOnly && Find(data.userId) == null) return;
+            if (data.spectatorOnly) return;
 
             PlayerActor actor = GetOrCreate(data);
             if (actor == null) return;
@@ -183,6 +191,29 @@ namespace TikTokLiveGame
             else if (data.type == "like" && data.likeMilestone)
                 ApplyAction(actor, data, data.durationMs > 0 ? data.durationMs / 1000f : 8f);
             else if (data.type is "follow" or "share") actor.Celebrate();
+        }
+
+        private void SynchronizeRoster(TikTokPlayerData[] roster)
+        {
+            roster ??= System.Array.Empty<TikTokPlayerData>();
+            HashSet<string> activeIds = roster.Where(player => player != null && !string.IsNullOrWhiteSpace(player.userId))
+                .Select(player => player.userId).ToHashSet();
+            bool removed = false;
+            foreach (string id in players.Where(pair => !pair.Value.IsNpc && !activeIds.Contains(pair.Key)).Select(pair => pair.Key).ToArray())
+            {
+                Remove(id, false);
+                removed = true;
+            }
+            foreach (TikTokPlayerData player in roster)
+            {
+                if (player == null || string.IsNullOrWhiteSpace(player.userId) || player.userId.StartsWith("npc-")) continue;
+                if (!players.TryGetValue(player.userId, out PlayerActor actor)) Create(player);
+                else actor.UpdateIdentity(new TikTokEvent { userId = player.userId, uniqueId = player.uniqueId,
+                    nickname = player.nickname, avatar = player.avatar, team = player.team,
+                    loyaltyTitle = player.loyaltyTitle, loyaltyDays = player.loyaltyDays });
+            }
+            if (removed) ReflowPlayers();
+            lastRosterAt = Time.unscaledTime;
         }
 
         private static void ApplyAction(PlayerActor actor, TikTokEvent data, float duration)
@@ -307,8 +338,11 @@ namespace TikTokLiveGame
         private void Update()
         {
             float cutoff = Time.unscaledTime - playerTtlSeconds;
-            foreach (string id in players.Where(pair => !pair.Value.IsNpc && pair.Value.LastActiveTime < cutoff).Select(pair => pair.Key).ToArray())
-                Remove(id);
+            // While connected, the Bridge decides who is on the floor. Fall back
+            // to local expiry only after roster updates have stopped.
+            if (Time.unscaledTime - lastRosterAt > 3f)
+                foreach (string id in players.Where(pair => !pair.Value.IsNpc && pair.Value.LastActiveTime < cutoff).Select(pair => pair.Key).ToArray())
+                    Remove(id);
             if (Time.unscaledTime >= nextNpcRefillAt) EnsureNpcCrowd();
         }
 
@@ -321,6 +355,7 @@ namespace TikTokLiveGame
             playerOrder.Clear();
             crowdSlots.Clear();
             nextNpcRefillAt = 0f;
+            lastRosterAt = float.NegativeInfinity;
             EnsureNpcCrowd();
         }
 
@@ -330,7 +365,7 @@ namespace TikTokLiveGame
             if (!string.IsNullOrEmpty(oldest.Key)) Remove(oldest.Key);
         }
 
-        private void Remove(string id)
+        private void Remove(string id, bool reflow = true)
         {
             if (!players.Remove(id, out PlayerActor actor)) return;
             bool wasNpc = actor.IsNpc;
@@ -344,7 +379,7 @@ namespace TikTokLiveGame
                 foreach (PlayerActor remaining in players.Values) remaining.SetGiftFocus(false);
                 ApplyAmbientVisibility();
             }
-            ReflowPlayers();
+            if (reflow) ReflowPlayers();
             if (!wasNpc) nextNpcRefillAt = Time.unscaledTime + 30f;
         }
 

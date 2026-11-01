@@ -2,10 +2,11 @@
 
 Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tiktok`:
 
-- `npm test`: 51 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
+- `npm test`: 52 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
 - Mục Đổi sàn: chọn/lưu đủ bốn mẫu, hiển thị Đang dùng, ảnh mẫu tải được và không tràn ngang ở 390px. Sàn LED ô vuông cổ điển dùng lại shader gốc; không thêm lựa chọn thứ tư vào luật bình chọn 1/2/3.
 - Kết thúc đấu đội: chốt danh sách người thắng, xóa màu đội cho mọi người (kể cả khi hòa), dùng danh sách đã chốt để trao phóng to/huy hiệu/vòng vàng và pháo hoa trong 12 giây.
 - Quản trị: chỉ client quản trị được reset BXH/kick. Reset giữ người chơi và tổng quà thống kê; quà tiếp theo bắt đầu điểm BXH mới. Kick giữ điểm quà, không bị chat/like thông thường đưa trở lại; lệnh vào sàn cho phép vào lại. Trạng thái được kiểm tra qua khởi động lại Bridge.
+- Danh sách trên sàn dùng chung cho quản trị và Unity, gửi mỗi giây. Kiểm tra Bridge thật xác nhận người hết 10 phút được loại ở cả hai client, giữ nguyên điểm quà. Runtime nạp 100 nhân vật cũ rồi nhận danh sách 4 người: còn đúng 4 người + 5 bot; nhận danh sách trống: còn 0 người + 5 bot. Gói chat/like mang `spectatorOnly` không giữ nhân vật cũ lại; cập nhật danh sách không phát lại quà hoặc khởi động lại hiệu ứng. Tìm kiếm quản trị hiển thị số kết quả trên tổng số người.
 - `npm run test:moderation-ui -- http://127.0.0.1:3100`: tìm người, hủy/xác nhận reset, kick và vào lại; không tràn ngang ở 390px, không có lỗi JavaScript.
 - Chat TikTok: kiểm tra bằng encode/decode schema `WebcastChatMessage` v3 thực của thư viện đang cài; nội dung nằm ở `content` vẫn được nhận, đồng thời giữ tương thích `comment` cũ. Chat `xanh` qua Bridge thực tạo thành viên đội Xanh, `hey` tạo lệnh vào sàn.
 - Mốc 100 tim: đọc `count/total` của TikTok v3 và giữ `likeCount/totalLikeCount` cũ. Encode/decode schema `WebcastLikeMessage` thực xác nhận gói 99 rồi 1 kích hoạt `grow` 8 giây; gói 0 không tự cộng tim, tổng tim cả phòng không cộng vào riêng một người. Kiểm tra qua Bridge thật xác nhận người chưa vào sàn xuất hiện và phóng to khi đủ 100, đủ 100 tiếp theo kích hoạt lại, không cộng điểm quà vào BXH.

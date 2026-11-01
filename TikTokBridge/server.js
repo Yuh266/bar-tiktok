@@ -131,7 +131,7 @@ function floorRosterMessage() {
 function broadcastFloorRoster() {
     const message = floorRosterMessage();
     for (const client of wss.clients)
-        if (client.registered && client.role === 'control') send(client, message);
+        if (client.registered) send(client, message);
 }
 
 if (!ALLOW_LAN && !isLoopbackAddress(HOST) && HOST.toLowerCase() !== 'localhost') {
@@ -816,6 +816,7 @@ async function handleClientMessage(ws, message) {
         if (ws.role === 'overlay') {
             send(ws, createSnapshot());
             send(ws, viewerGuideMessage());
+            send(ws, floorRosterMessage());
         }
         return;
     }

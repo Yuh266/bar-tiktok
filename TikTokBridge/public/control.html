@@ -372,7 +372,8 @@
             <p class="card-label">Trên sàn · <span id="floor-player-count">0</span> người xem</p>
             <h2 class="card-title">Danh sách người chơi</h2>
             <label class="roster-search">Tìm tên hoặc tài khoản<input id="floor-player-search" type="search" placeholder="Nhập tên người cần kick…"></label>
-            <p class="help">Danh sách gồm người xem đã vào sàn. Kick sẽ đưa nhân vật khỏi sàn; điểm quà vẫn giữ. Người đó có thể vào lại bằng lệnh tham gia hoặc quà tặng theo luật hiện tại.</p>
+            <p id="floor-player-match-count" class="help"></p>
+            <p class="help">Danh sách đồng bộ với người xem trên sàn mỗi giây; bot nền được đếm riêng. Người hết 10 phút không hoạt động sẽ rời sàn. Kick đưa nhân vật khỏi sàn và giữ điểm quà; có thể vào lại bằng lệnh tham gia hoặc quà theo luật hiện tại.</p>
             <div class="roster-table-wrap"><table class="roster-table"><thead><tr><th>Người chơi</th><th>Điểm BXH</th><th>Thao tác</th></tr></thead><tbody id="floor-player-list"></tbody></table></div>
         </article>
         <article class="card">

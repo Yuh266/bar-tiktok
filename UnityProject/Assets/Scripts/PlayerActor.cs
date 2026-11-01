@@ -346,8 +346,10 @@ namespace TikTokLiveGame
 
         public void SetTopRank(int rank)
         {
+            rank = Mathf.Clamp(rank, 0, 3);
+            if (rank == topRank) return;
             int previousRank = topRank;
-            topRank = Mathf.Clamp(rank, 0, 3);
+            topRank = rank;
             lineupScale = LineupScaleForRank();
             home = topRank > 0 ? RankPodiumPosition(topRank) : normalHome;
             rankLabel.text = topRank > 0 ? $"TOP {topRank}" : string.Empty;

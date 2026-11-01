@@ -63,6 +63,15 @@ namespace TikTokLiveGame
 
         private void HandleEvent(TikTokEvent liveEvent)
         {
+            if (liveEvent.type == "floor_roster")
+            {
+                playerManager.Handle(liveEvent);
+                donors.Clear();
+                foreach (TikTokPlayerData donor in liveEvent.vipScores ?? System.Array.Empty<TikTokPlayerData>())
+                    donors[donor.userId] = new Donor(donor.userId, donor.nickname, donor.score);
+                UpdateTopPlayers();
+                return;
+            }
             if (liveEvent.type == "engagement_state")
             {
                 ApplyEngagement(liveEvent.engagement);
@@ -269,7 +278,7 @@ namespace TikTokLiveGame
             if (controlTab == 0)
             {
                 GUI.Label(new Rect(34, 136, 330, 28), connectionStatus, labelStyle);
-                GUI.Label(new Rect(34, 166, 330, 24), $"Người chơi {playerManager?.Count ?? 0}   Event {events}   Diamond {diamonds}", smallStyle);
+                GUI.Label(new Rect(34, 166, 330, 24), $"Trên sàn {playerManager?.ViewerCount ?? 0} người xem · {playerManager?.BotCount ?? 0} bot nền", smallStyle);
                 username = GUI.TextField(new Rect(34, 196, 205, 38), username, inputStyle);
                 if (GUI.Button(new Rect(247, 196, 118, 38), "KẾT NỐI", buttonStyle))
                 {
