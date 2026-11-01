@@ -51,7 +51,7 @@ Trong web quản trị → **Người chơi**:
 - Tìm người đang trên sàn theo tên/tài khoản rồi bấm **Kick khỏi sàn**. Nhân vật bị gỡ ngay; điểm quà được giữ. Chat/like thông thường không tự đưa người đó trở lại. Họ có thể vào lại bằng lệnh tham gia, quà hoặc tương tác được luật vào sàn cho phép.
 - **Reset BXH quà tặng** → **Xác nhận reset BXH** để tính lại thứ hạng từ 0. Người chơi, tổng quà thống kê, khách quen và sự kiện đang chạy vẫn được giữ.
 - Danh sách tự cập nhật. Trạng thái đã kick và điểm BXH sau reset được lưu cùng phiên LIVE.
-- Game và danh sách kick dùng cùng danh sách người trên sàn, đồng bộ mỗi giây. Người hết 10 phút không tương tác được gỡ ở cả hai nơi; điểm BXH vẫn giữ. Số người xem trên sàn được đếm riêng với 5 bot nền; khi tìm kiếm, quản trị hiển thị số kết quả trên tổng số người.
+- Game và danh sách kick dùng cùng danh sách người trên sàn, đồng bộ mỗi giây. Khi có tối đa 80 người, nhân vật được giữ lại dù đã lâu không tương tác. Chỉ khi vượt 80 mới gỡ người không tương tác ít nhất 10 phút, ưu tiên lâu nhất và chỉ gỡ số lượng dư để giữ sàn đông. Nếu mọi người vẫn tương tác, giữ họ trong giới hạn kỹ thuật 400 người. Điểm BXH vẫn giữ, 5 bot nền đếm riêng; khi tìm kiếm, quản trị hiển thị số kết quả trên tổng số người.
 - Bục Top 3 và bảng Top trong game chọn người còn trên sàn theo điểm quà. Khi một người rời, người có điểm cao tiếp theo trên sàn tự lên thay; người quay lại được xét bằng điểm đã giữ. BXH tổng trong quản trị vẫn giữ điểm của cả người đã rời.
 
 Ảnh WebP TikTok được chuyển sang PNG bằng dịch vụ ảnh nội bộ. Dữ liệu người xem, danh hiệu, phiên LIVE và quà đã học được lưu tại `TikTokBridge/data/` và không đưa vào Git. Phiên trong vòng 12 giờ có thể khôi phục BXH và tự kết nối lại sau khi khởi động lại Bridge.

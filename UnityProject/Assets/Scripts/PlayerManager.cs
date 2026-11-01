@@ -11,6 +11,7 @@ namespace TikTokLiveGame
         [SerializeField] private int maxPlayers = 400;
         [SerializeField] private float playerTtlSeconds = 600f;
         private const int NpcCrowdTarget = 5;
+        private const int InactiveCleanupAbove = 80;
         private readonly Dictionary<string, PlayerActor> players = new();
         private readonly List<string> playerOrder = new();
         private readonly Dictionary<string, int> crowdSlots = new();
@@ -339,10 +340,12 @@ namespace TikTokLiveGame
         private void Update()
         {
             float cutoff = Time.unscaledTime - playerTtlSeconds;
-            // While connected, the Bridge decides who is on the floor. Fall back
-            // to local expiry only after roster updates have stopped.
-            if (Time.unscaledTime - lastRosterAt > 3f)
-                foreach (string id in players.Where(pair => !pair.Value.IsNpc && pair.Value.LastActiveTime < cutoff).Select(pair => pair.Key).ToArray())
+            // Retain idle viewers to keep the room populated, including while
+            // disconnected. Only remove excess idle avatars above 80 viewers.
+            int excess = ViewerCount - InactiveCleanupAbove;
+            if (Time.unscaledTime - lastRosterAt > 3f && excess > 0)
+                foreach (string id in players.Where(pair => !pair.Value.IsNpc && pair.Value.LastActiveTime < cutoff)
+                    .OrderBy(pair => pair.Value.LastActiveTime).Take(excess).Select(pair => pair.Key).ToArray())
                     Remove(id);
             if (Time.unscaledTime >= nextNpcRefillAt) EnsureNpcCrowd();
         }

@@ -31,13 +31,14 @@ async function client(port, role) {
     } };
 }
 
-test('admin and renderer share the same roster when idle players expire, retaining donor scores', { timeout: 15000 }, async t => {
+test('admin and renderer retain 80 avatars, removing only excess idle viewers and keeping donor scores', { timeout: 15000 }, async t => {
     const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'barclub-roster-'));
     const now = Date.now();
     const players = [
-        { userId: 'expired', nickname: 'Expired', lastActive: now - 601000 },
-        { userId: 'expiring', nickname: 'Expiring', lastActive: now - 595000 },
-        { userId: 'active', nickname: 'Active', lastActive: now }
+        { userId: 'expired', nickname: 'Oldest', lastActive: now - 10800000 },
+        { userId: 'expiring', nickname: 'Second Oldest', lastActive: now - 7200000 },
+        { userId: 'retained-idle', nickname: 'Retained Idle', lastActive: now - 3600000 },
+        ...Array.from({ length: 79 }, (_, index) => ({ userId: `active-${index}`, nickname: `Active ${index}`, lastActive: now }))
     ];
     fs.writeFileSync(path.join(directory, 'session.json'), JSON.stringify({ version: 1, savedAt: now,
         metrics: { source: 'idle' }, players, vipScores: [{ userId: 'expired', score: 100 }, { userId: 'expiring', score: 25 }] }));
@@ -57,11 +58,15 @@ test('admin and renderer share the same roster when idle players expire, retaini
     const control = await client(port, 'control'); clients.push(control);
     const overlay = await client(port, 'overlay'); clients.push(overlay);
     const initial = await overlay.until(m => m.type === 'floor_roster');
-    assert.deepEqual(initial.players.map(p => p.userId).sort(), ['active', 'expiring']);
+    assert.equal(initial.players.length, 80);
+    assert.ok(initial.players.some(p => p.userId === 'retained-idle'));
+    assert.ok(!initial.players.some(p => ['expired', 'expiring'].includes(p.userId)));
     assert.deepEqual((await control.until(m => m.type === 'floor_roster')).players, initial.players);
-    const isExpired = m => m.type === 'floor_roster' && m.players.length === 1 && m.players[0].userId === 'active';
-    const after = await overlay.until(isExpired, 9000);
-    assert.deepEqual((await control.until(isExpired)).players, after.players);
+    await sleep(1100);
+    assert.ok(overlay.messages.filter(m => m.type === 'floor_roster').length >= 2);
+    const after = overlay.messages.filter(m => m.type === 'floor_roster').at(-1);
+    assert.deepEqual(after.players, initial.players);
+    assert.deepEqual(control.messages.filter(m => m.type === 'floor_roster').at(-1).players, after.players);
     assert.deepEqual(after.vipScores.map(donor => donor.score), [100, 25]);
 });
 

@@ -3,6 +3,7 @@
   "tikfinityWsUrl": "ws://127.0.0.1:21213/",
   "maxPlayers": 400,
   "playerTtlMs": 600000,
+  "inactiveCleanupAbove": 80,
   "partyEnergyGoal": 1000,
   "likeMilestone": 100,
   "commands": {

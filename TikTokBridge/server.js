@@ -14,6 +14,7 @@ const { getServerSettings, loadEnvironmentFile } = require('./src/config/environ
 const { startAvatarServer } = require('./src/avatar-server');
 const { EngagementEngine, ViewerStore } = require('./src/engagement');
 const { SessionStore } = require('./src/session-store');
+const { pruneFloorPlayers } = require('./src/floor-retention');
 const { GiftBursts } = require('./src/gift-bursts');
 const giftBursts = new GiftBursts();
 
@@ -330,17 +331,7 @@ function createSnapshot() {
 }
 
 function pruneSessionPlayers(now = Date.now()) {
-    const cutoff = now - Math.max(1000, Number(gameConfig.playerTtlMs) || 600000);
-    for (const [userId, player] of sessionPlayers) {
-        if ((Number(player.lastActive) || 0) < cutoff) sessionPlayers.delete(userId);
-    }
-    const maximum = Math.max(1, Number(gameConfig.maxPlayers) || 200);
-    if (sessionPlayers.size <= maximum) return;
-    const oldest = [...sessionPlayers.values()]
-        .sort((a, b) => (Number(a.lastActive) || 0) - (Number(b.lastActive) || 0));
-    for (let index = 0; index < oldest.length - maximum; index += 1) {
-        sessionPlayers.delete(oldest[index].userId);
-    }
+    return pruneFloorPlayers(sessionPlayers, { ...gameConfig, now });
 }
 
 function normalizeUsername(value) {
