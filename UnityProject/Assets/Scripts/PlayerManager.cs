@@ -10,7 +10,7 @@ namespace TikTokLiveGame
     {
         [SerializeField] private int maxPlayers = 400;
         [SerializeField] private float playerTtlSeconds = 600f;
-        [SerializeField] private int npcCrowdTarget = 160;
+        private const int NpcCrowdTarget = 5;
         private readonly Dictionary<string, PlayerActor> players = new();
         private readonly List<string> playerOrder = new();
         private readonly Dictionary<string, int> crowdSlots = new();
@@ -114,7 +114,11 @@ namespace TikTokLiveGame
                 return existing;
             }
 
-            if (players.Count >= maxPlayers) RemoveOldest();
+            if (players.Count >= maxPlayers)
+            {
+                if (players.Values.Any(actor => actor.IsNpc)) RemoveOneNpc();
+                else RemoveOldest();
+            }
             TikTokPlayerData playerData = new()
             {
                 userId = data.userId,
@@ -200,7 +204,7 @@ namespace TikTokLiveGame
         {
             if (data == null || string.IsNullOrWhiteSpace(data.userId)) return null;
             bool isNpc = data.userId.StartsWith("npc-");
-            if (!isNpc) RemoveOneNpc();
+            if (!isNpc && players.Count >= maxPlayers) RemoveOneNpc();
             int index = players.Count;
 
             GameObject playerObject = new($"Player_{data.userId}");
@@ -347,9 +351,10 @@ namespace TikTokLiveGame
         private void EnsureNpcCrowd()
         {
             int realCount = players.Values.Count(actor => !actor.IsNpc);
-            int desiredNpcCount = Mathf.Max(0, Mathf.Min(npcCrowdTarget - realCount, maxPlayers - realCount));
+            int desiredNpcCount = Mathf.Max(0, Mathf.Min(NpcCrowdTarget, maxPlayers - realCount));
             int currentNpcCount = players.Values.Count(actor => actor.IsNpc);
-            for (int index = currentNpcCount; index < desiredNpcCount; index++)
+            while (currentNpcCount > desiredNpcCount) { RemoveOneNpc(); currentNpcCount--; }
+            for (int index = 0; currentNpcCount < desiredNpcCount && index < NpcNames.Length; index++)
             {
                 int nameIndex = index % NpcNames.Length;
                 string id = $"npc-{nameIndex:000}";
@@ -362,6 +367,7 @@ namespace TikTokLiveGame
                     avatar = string.Empty,
                     giftPower = 0
                 });
+                currentNpcCount++;
             }
             nextNpcRefillAt = float.PositiveInfinity;
         }

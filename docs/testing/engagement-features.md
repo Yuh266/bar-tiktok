@@ -2,7 +2,7 @@
 
 Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tiktok`:
 
-- `npm test`: 45 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
+- `npm test`: 46 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
 - Mục Đổi sàn: chọn/lưu đủ bốn mẫu, hiển thị Đang dùng, ảnh mẫu tải được và không tràn ngang ở 390px. Sàn LED ô vuông cổ điển dùng lại shader gốc; không thêm lựa chọn thứ tư vào luật bình chọn 1/2/3.
 - Kết thúc đấu đội: chốt danh sách người thắng, xóa màu đội cho mọi người (kể cả khi hòa), dùng danh sách đã chốt để trao phóng to/huy hiệu/vòng vàng và pháo hoa trong 12 giây.
 - Quản trị: chỉ client quản trị được reset BXH/kick. Reset giữ người chơi và tổng quà thống kê; quà tiếp theo bắt đầu điểm BXH mới. Kick giữ điểm quà, không bị chat/like thông thường đưa trở lại; lệnh vào sàn cho phép vào lại. Trạng thái được kiểm tra qua khởi động lại Bridge.
@@ -16,6 +16,8 @@ Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tik
 - Khách quen: đếm ngày Việt Nam, không tính lặp trong ngày, đọc lại từ file, bỏ qua tài khoản demo.
 - Phiên LIVE: khôi phục điểm tặng quà sau khi khởi động lại Bridge, giữ cài đặt sàn và mốc tim.
 - Giọng cảm ơn: gộp quà, đọc tuần tự, chỉ một tab được phát, không đọc lại quà từ snapshot.
+- `npm run test:speech-ui -- http://127.0.0.1:3100`: mặc định tự bật, không giành tiếng khi mở tab khác, tự nhận lại khi tab phát đóng hoặc mất kết nối; nhớ lựa chọn tắt qua tải lại trang. Mô phỏng trình duyệt chặn tiếng, giữ câu đang chờ và phát lại sau thao tác thật trên trang.
+- Bot nền giới hạn 5, không trừ theo số người xem thật; xác nhận runtime `real=0 npc=5` với Bridge thử nghiệm riêng. Bản đang chạy được cập nhật mà không reset BXH.
 - TikFinity: bỏ qua quà streak chưa kết thúc và bỏ qua event trùng ID.
 - `npm run test:ui -- http://127.0.0.1:3100`: kiểm tra nút hoạt động, đổi sàn, mốc tim, bật/tắt giọng đọc, không tràn ngang ở màn hình 390px; không có lỗi JavaScript.
 - Trên máy kiểm tra có giọng `Microsoft An (vi-VN)`; câu đọc thử kết thúc thành công qua sự kiện `SpeechSynthesisUtterance.end`.

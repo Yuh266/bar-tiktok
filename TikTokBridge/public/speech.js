@@ -9,9 +9,10 @@
         return `Cảm ơn ${name} đã tặng ${Math.max(1, Number(gift.repeatCount) || 1)} ${giftName} nhé!`;
     }
     class GiftSpeechQueue {
-        constructor({ speak, cancel = () => {}, now = Date.now }) {
+        constructor({ speak, cancel = () => {}, blocked = () => {}, now = Date.now }) {
             this.speak = speak; this.cancel = cancel; this.now = now;
-            this.pending = new Map(); this.queue = []; this.active = false; this.generation = 0;
+            this.blocked = blocked;
+            this.pending = new Map(); this.queue = []; this.active = false; this.paused = false; this.generation = 0;
         }
         enqueue(gift) {
             const key = `${gift.userId}|${gift.giftId || gift.giftName}`;
@@ -38,16 +39,20 @@
             this.pump();
         }
         pump() {
-            if (this.active) return;
+            if (this.active || this.paused) return;
             while (this.queue.length && this.now() - this.queue[0].at > 45000) this.queue.shift();
             const entry = this.queue.shift();
             if (!entry) return;
             this.active = true;
             const generation = this.generation;
             let finished = false;
-            const done = () => {
+            const done = error => {
                 if (finished || generation !== this.generation) return;
-                finished = true; clearTimeout(watchdog); this.active = false; this.pump();
+                finished = true; clearTimeout(watchdog); this.active = false;
+                if (error === 'not-allowed') {
+                    this.queue.unshift(entry); this.paused = true; this.blocked(); return;
+                }
+                this.pump();
             };
             const watchdog = this.watchdog = setTimeout(() => { this.cancel(); done(); }, 15000);
             try { this.speak(entry.text, done); } catch { done(); }
@@ -56,8 +61,9 @@
             this.generation++;
             clearTimeout(this.watchdog);
             for (const entry of this.pending.values()) clearTimeout(entry.timer);
-            this.pending.clear(); this.queue = []; this.active = false; this.cancel();
+            this.pending.clear(); this.queue = []; this.active = false; this.paused = false; this.cancel();
         }
+        resume() { this.paused = false; this.pump(); }
     }
     if (typeof module !== 'undefined') module.exports = { GiftSpeechQueue, thanksText };
     else { root.GiftSpeechQueue = GiftSpeechQueue; root.thanksText = thanksText; }

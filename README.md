@@ -21,7 +21,9 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 | Năng lượng cả phòng | Góp tim miễn phí | Đạt mốc mở 10 giây tiệc; giữ lại tim dư |
 | Giọng cảm ơn | Người xem gửi quà | Đọc tên, số lượng, tên quà; gộp combo và xếp hàng |
 
-**Bật đọc cảm ơn:** trong tab Tương tác, chọn giọng tiếng Việt rồi bấm **Bật đọc cảm ơn**. Giữ tab mở và bật thu âm thanh máy tính trong TikTok LIVE Studio/OBS. Chỉ một tab đọc để tránh trùng tiếng. Âm lượng và tốc độ được nhớ trên trình duyệt.
+**Đọc cảm ơn tự động:** mở trang quản trị là tính năng tự bật, tự nối lại khi mất kết nối và chỉ một tab đọc để tránh trùng tiếng. Nếu trình duyệt chặn âm thanh, bấm một lần vào trang để tiếp tục. Trong tab Tương tác có thể chọn giọng tiếng Việt, nghe thử hoặc tắt; lựa chọn tắt, âm lượng và tốc độ được nhớ trên trình duyệt. Giữ tab mở và bật thu âm thanh máy tính trong TikTok LIVE Studio/OBS.
+
+**Bot nhảy:** sàn giữ 5 bot làm nền; người xem thật vào sàn không làm tăng số bot.
 
 Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.
 

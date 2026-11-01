@@ -863,7 +863,9 @@ async function handleClientMessage(ws, message) {
     }
     if (message.type === 'speech_claim') {
         if (message.enabled === true) {
-            if (speechOwner && speechOwner !== ws) send(speechOwner, { type: 'speech_status', active: false });
+            if (speechOwner?.readyState === WebSocket.OPEN && speechOwner !== ws && message.takeover === false)
+                return send(ws, { type: 'speech_status', active: false, reason: 'other-tab' });
+            if (speechOwner && speechOwner !== ws) send(speechOwner, { type: 'speech_status', active: false, reason: 'other-tab' });
             speechOwner = ws;
         } else if (speechOwner === ws) speechOwner = null;
         return send(ws, { type: 'speech_status', active: speechOwner === ws });
@@ -1003,7 +1005,12 @@ wss.on('connection', (ws, request) => {
         });
     });
     ws.on('error', error => console.warn('WebSocket client error:', error.message));
-    ws.on('close', () => { if (speechOwner === ws) speechOwner = null; });
+    ws.on('close', () => {
+        if (speechOwner !== ws) return;
+        speechOwner = null;
+        for (const client of wss.clients)
+            if (client.registered && client.role === 'control') send(client, { type: 'speech_available' });
+    });
 });
 
 const engagementTimer = setInterval(() => {

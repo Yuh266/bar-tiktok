@@ -61,7 +61,8 @@ const path = require('node:path');
         await page.waitForFunction(() => window.liveActivities.state.energy.goal === 3000);
         const voices = await page.evaluate(() => speechSynthesis.getVoices().map(voice => ({ name: voice.name, lang: voice.lang })));
         console.log(JSON.stringify({ availableVoices: voices }));
-        await page.getByRole('button', { name: 'Bật đọc cảm ơn', exact: true }).click();
+        // Default speech ownership is claimed automatically without pressing Enable.
+        await page.waitForFunction(() => document.getElementById('speech-status').textContent.includes('Sẵn sàng đọc'));
         await page.waitForFunction(() => document.getElementById('speech-toggle').textContent === 'Tắt đọc cảm ơn');
         await page.getByRole('button', { name: 'Tắt đọc cảm ơn', exact: true }).click();
         await page.evaluate(() => {

@@ -96,10 +96,18 @@ test('bridge enforces activity permissions, filters gift streaks, avoids duplica
     assert.equal((await overlay.until(m => m.type === 'gift')).diamondCount, 3);
     // A second browser tab claims speech and the old tab is disabled.
     const second = await client(port, 'control'); clients.push(second);
+    second.send({ type: 'speech_claim', enabled: true, takeover: false });
+    await second.until(m => m.type === 'speech_status' && !m.active && m.reason === 'other-tab');
+    assert.equal(control.messages.filter(m => m.type === 'speech_status' && !m.active).length, 0);
     second.send({ type: 'speech_claim', enabled: true });
     await control.until(m => m.type === 'speech_status' && !m.active);
     source.send(JSON.stringify({ ...gift, data: { ...gift.data, msgId: 'gift-second' } }));
     await second.until(m => m.type === 'gift_thanks');
+    second.socket.close();
+    await control.until(m => m.type === 'speech_available');
+    control.send({ type: 'speech_claim', enabled: true, takeover: false });
+    await sleep(50);
+    assert.equal(control.messages.filter(m => m.type === 'speech_status' && m.active).length, 2);
     control.send({ type: 'engagement_command', action: 'activity_stop' });
     await overlay.until(m => m.type === 'engagement_state' && m.engagement.battle.status === 'results' && m.engagement.members.every(member => member.team === ''));
     const resultViewer = await client(port, 'overlay'); clients.push(resultViewer);

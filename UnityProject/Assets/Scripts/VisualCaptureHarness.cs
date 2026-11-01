@@ -33,17 +33,17 @@ namespace TikTokLiveGame
             ScreenCapture.CaptureScreenshot(path);
             if (Array.IndexOf(arguments, "-verifyCommunity") >= 0)
             {
-                int real = 0, podium = 0, colored = 0, victory = 0;
+                int real = 0, npc = 0, podium = 0, colored = 0, victory = 0;
                 foreach (PlayerActor actor in FindObjectsByType<PlayerActor>(FindObjectsSortMode.None))
                 {
-                    if (actor.IsNpc) continue;
+                    if (actor.IsNpc) { npc++; continue; }
                     real++;
                     if (actor.IsTopRanked) podium++;
                     Color nameColor = actor.transform.Find("Name").GetComponent<TextMesh>().color;
                     if (Mathf.Abs(nameColor.r - nameColor.g) + Mathf.Abs(nameColor.g - nameColor.b) > 0.1f) colored++;
                     if (actor.transform.Find("Team Victory Badge").gameObject.activeSelf) victory++;
                 }
-                Debug.Log($"COMMUNITY_VISUAL real={real} podium={podium} coloredNames={colored} victoryBadges={victory}");
+                Debug.Log($"COMMUNITY_VISUAL real={real} npc={npc} podium={podium} coloredNames={colored} victoryBadges={victory}");
             }
             yield return new WaitForSecondsRealtime(1f);
             if (System.IO.File.Exists(path)) Debug.Log($"Floor preview saved to {path}");

@@ -142,6 +142,18 @@ test('gift speech merges bursts, speaks sequentially, and stops without replay',
     assert.equal(thanksText({ nickname: '<img>', repeatCount: 0 }), 'Cảm ơn img đã tặng 1 quà nhé!');
 });
 
+test('speech blocked by browser retains the gift and retries only after a gesture', () => {
+    const spoken = []; const callbacks = []; let blocked = 0;
+    const queue = new GiftSpeechQueue({ speak: (text, done) => { spoken.push(text); callbacks.push(done); }, blocked: () => blocked++ });
+    queue.enqueue({ userId: 'a', nickname: 'Minh', giftName: 'Rose' }); queue.flush();
+    callbacks[0]('not-allowed');
+    queue.enqueue({ userId: 'b', nickname: 'Lan', giftName: 'Rose' }); queue.flush();
+    assert.equal(blocked, 1); assert.equal(spoken.length, 1);
+    queue.resume(); assert.equal(spoken[1], spoken[0]);
+    callbacks[1](); assert.match(spoken[2], /Lan/);
+    queue.stop(); callbacks[2](); assert.equal(queue.queue.length, 0);
+});
+
 test('autoplay waits, opens one round, preserves results and respects its break', () => {
     let time = 100000;
     const engine = new EngagementEngine({ now: () => time, random: () => 0.99, config: { autoEnabled: true } });

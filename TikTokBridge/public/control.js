@@ -243,6 +243,7 @@ function connectSocket() {
     });
 
     socket.addEventListener('close', () => {
+        window.liveActivities?.onClose();
         window.floorModeration?.onConnection(false);
         setStatus({ state: 'disconnected', message: 'Đang kết nối lại máy chủ…' });
         reconnectTimer = setTimeout(connectSocket, 2000);

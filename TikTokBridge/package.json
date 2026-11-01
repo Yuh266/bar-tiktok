@@ -10,6 +10,7 @@
     "download:gifs": "node scripts/download-mushroom-gifs.js",
     "security:smoke": "node scripts/security-smoke.js",
     "test:ui": "node scripts/engagement-ui-smoke.js",
+    "test:speech-ui": "node scripts/speech-autostart-smoke.js",
     "test:moderation-ui": "node scripts/moderation-ui-smoke.js",
     "test": "npm run check && node --test"
   },

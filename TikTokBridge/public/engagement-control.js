@@ -5,7 +5,8 @@ const liveActivities = {
     pendingFloor: null,
     receivedAt: 0,
     autoInitialized: false,
-    onOpen() { this.pendingFloor = null; if (speechActive) send({ type: 'speech_claim', enabled: true }); },
+    onOpen() { this.pendingFloor = null; claimAutomaticSpeech(); },
+    onClose() { speechActive = false; speechElsewhere = false; giftSpeech.stop(); updateSpeechStatus(); },
     onMessage(data) {
         if (data.type === 'error') document.getElementById('engagement-message').textContent = data.message;
         if (data.type === 'error' && this.pendingFloor) {
@@ -21,8 +22,10 @@ const liveActivities = {
         }
         if (data.type === 'engagement_ack') document.getElementById('engagement-message').textContent = data.message;
         if (data.type === 'gift_thanks' && speechActive) giftSpeech.enqueue(data);
+        if (data.type === 'speech_available') claimAutomaticSpeech();
         if (data.type === 'speech_status') {
             speechActive = Boolean(data.active);
+            speechElsewhere = !speechActive && speechWanted && data.reason === 'other-tab';
             if (!speechActive) giftSpeech.stop();
             updateSpeechStatus();
         }
@@ -96,6 +99,10 @@ document.getElementById('auto-save').addEventListener('click', () => {
 });
 
 let speechActive = false;
+let speechWanted = localStorage.getItem('barclub-speech-enabled') !== 'false';
+let speechElsewhere = false;
+let speechBlocked = false;
+let speechProblem = '';
 const synth = window.speechSynthesis;
 const speechVoice = document.getElementById('speech-voice');
 const speechRate = document.getElementById('speech-rate');
@@ -113,10 +120,14 @@ function populateVoices() {
     updateSpeechStatus();
 }
 function updateSpeechStatus() {
-    document.getElementById('speech-toggle').textContent = speechActive ? 'Tắt đọc cảm ơn' : 'Bật đọc cảm ơn';
+    document.getElementById('speech-toggle').textContent = speechElsewhere ? 'Đọc tại tab này' : speechWanted ? 'Tắt đọc cảm ơn' : 'Bật đọc cảm ơn';
     const voice = availableVoices.find(item => item.voiceURI === speechVoice.value);
     document.getElementById('speech-status').textContent = !synth ? 'Trình duyệt chưa hỗ trợ giọng đọc.'
-        : speechActive ? 'Đang đọc quà trên tab này.' : 'Đang tắt. Bấm bật để cho phép trình duyệt phát giọng đọc.';
+        : !speechWanted ? 'Đang tắt theo lựa chọn của bạn.'
+        : speechElsewhere ? 'Tự động đang bật · Giọng đọc đang phát từ tab quản trị khác.'
+        : speechBlocked ? 'Trình duyệt đang chặn âm thanh. Bấm một lần vào trang để tự đọc tiếp.'
+        : speechProblem ? `Chưa phát được giọng đọc (${speechProblem}). Chọn giọng khác hoặc bấm Nghe thử.`
+        : speechActive ? 'Tự động đang bật · Sẵn sàng đọc khi có quà tặng.' : 'Tự động đang bật · Đang chờ kết nối máy chủ.';
     document.getElementById('speech-voice-hint').textContent = voice?.lang.toLowerCase().startsWith('vi')
         ? 'Giọng tiếng Việt đã sẵn sàng.' : 'Chọn giọng tiếng Việt nếu có; bấm Nghe thử để kiểm tra phát âm.';
 }
@@ -125,10 +136,20 @@ function speakGift(text, done) {
     utterance.lang = 'vi-VN';
     utterance.voice = availableVoices.find(voice => voice.voiceURI === speechVoice.value) || null;
     utterance.rate = Number(speechRate.value); utterance.volume = Number(speechVolume.value);
-    utterance.onend = utterance.onerror = done;
+    utterance.onstart = () => { speechBlocked = false; speechProblem = ''; updateSpeechStatus(); };
+    utterance.onend = () => done();
+    utterance.onerror = event => {
+        if (event.error === 'not-allowed') speechBlocked = true;
+        else if (!['canceled', 'interrupted'].includes(event.error)) speechProblem = event.error;
+        updateSpeechStatus(); done(event.error);
+    };
     synth.speak(utterance);
 }
-const giftSpeech = new GiftSpeechQueue({ speak: speakGift, cancel: () => synth?.cancel() });
+const giftSpeech = new GiftSpeechQueue({ speak: speakGift, cancel: () => synth?.cancel(),
+    blocked: () => { speechBlocked = true; updateSpeechStatus(); } });
+function claimAutomaticSpeech() {
+    if (synth && speechWanted) send({ type: 'speech_claim', enabled: true, takeover: false });
+}
 speechRate.value = localStorage.getItem('barclub-speech-rate') || '1';
 speechVolume.value = localStorage.getItem('barclub-speech-volume') || '0.9';
 for (const input of [speechVoice, speechRate, speechVolume]) input.addEventListener('change', () => {
@@ -136,13 +157,29 @@ for (const input of [speechVoice, speechRate, speechVolume]) input.addEventListe
 });
 document.getElementById('speech-toggle').addEventListener('click', () => {
     if (!synth) return;
-    if (!speechActive) {
-        // A user gesture unlocks speech playback in Chromium.
-        speakGift('Đã bật đọc cảm ơn quà tặng.', () => {});
-    }
-    send({ type: 'speech_claim', enabled: !speechActive });
+    speechWanted = speechElsewhere || !speechWanted;
+    localStorage.setItem('barclub-speech-enabled', String(speechWanted));
+    speechElsewhere = false; speechBlocked = false; speechProblem = '';
+    if (speechWanted) giftSpeech.resume(); else giftSpeech.stop();
+    send({ type: 'speech_claim', enabled: speechWanted });
+    updateSpeechStatus();
 });
 document.getElementById('speech-test').addEventListener('click', () => { if (synth) speakGift('Cảm ơn Minh đã tặng ba hoa hồng nhé!', () => {}); });
+function resumeSpeechFromGesture(event) {
+    if (!event.isTrusted || !speechWanted || event.target.closest?.('#speech-toggle, #speech-test')) return;
+    if (speechBlocked) { speechBlocked = false; speechProblem = ''; giftSpeech.resume(); updateSpeechStatus(); }
+}
+document.addEventListener('pointerdown', resumeSpeechFromGesture);
+document.addEventListener('keydown', resumeSpeechFromGesture);
+window.addEventListener('storage', event => {
+    if (event.key !== 'barclub-speech-enabled') return;
+    speechWanted = event.newValue !== 'false';
+    speechElsewhere = false; speechBlocked = false; speechProblem = '';
+    if (speechWanted) claimAutomaticSpeech();
+    else { giftSpeech.stop(); send({ type: 'speech_claim', enabled: false }); }
+    updateSpeechStatus();
+});
 window.addEventListener('beforeunload', () => giftSpeech.stop());
 if (synth) synth.addEventListener('voiceschanged', populateVoices);
 populateVoices();
+if (socket?.readyState === WebSocket.OPEN) claimAutomaticSpeech();
