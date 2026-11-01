@@ -27,6 +27,8 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 **Đàn vịt ngẫu nhiên:** tự xuất hiện lần đầu sau 20–35 giây, mỗi lượt có 8–11 vịt vàng chạy nối đuôi qua sàn kèm tiếng vịt nhẹ. Sau mỗi lượt nghỉ ngẫu nhiên 45–90 giây rồi chạy tiếp. Avatar của Top 3 tặng quà được tăng 20%; khi rời Top 3 trở về kích thước thường.
 
+**Nhạc DJ trong quản trị:** mở tab **Nhạc DJ**, chọn file rồi bấm **Tải nhạc lên** (MP3/WAV/OGG, tối đa 250 MB/file, chọn nhiều bài được). Nhạc lưu trong `DJ_MUSIC/` và phát trực tiếp từ game. Có thể chọn bài, phát/tạm dừng, bài trước/tiếp, tua ±10 giây, kéo thanh tua hoặc nhập thời gian như `02:30`. Hết bài tự chuyển bài và lặp danh sách. Tải thêm nhạc không làm bài đang nghe chạy lại; trạng thái/thời gian trên quản trị được báo từ bộ phát thật. Có thể đổi thư mục nhạc bằng biến môi trường `MUSIC_DIR` của Bridge. File nhạc cá nhân không đưa lên Git.
+
 **Chống spam combo quà:** cùng người, cùng loại quà chỉ chặn lặp cảm ơn và zoom trong 1 giây tính từ lần kích hoạt gần nhất; hết 1 giây được kích hoạt lại dù vẫn đang gửi liên tục. Đổi loại quà được kích hoạt ngay, kể cả đổi về quà trước đó. Toàn bộ quà và điểm BXH vẫn cộng đủ.
 
 Điểm đấu đội tính từ chat chọn đội và tim, tách riêng BXH quà. Mỗi người tối đa 15 điểm tim/vòng. Khi hòa phiếu đổi sàn, ưu tiên sàn hiện tại nếu cùng đứng đầu; nếu không, ưu tiên lựa chọn có số nhỏ hơn.

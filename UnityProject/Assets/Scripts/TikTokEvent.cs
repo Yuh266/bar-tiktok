@@ -15,6 +15,9 @@ namespace TikTokLiveGame
         public EngagementState engagement;
         public string state;
         public string message;
+        public MusicTrack[] tracks;
+        public string trackId;
+        public float position;
         public string userId;
         public string uniqueId;
         public string nickname;
@@ -81,6 +84,9 @@ namespace TikTokLiveGame
     }
 
     [Serializable]
+    public class MusicTrack { public string id, name, path; }
+
+    [Serializable]
     internal class ClientMessage
     {
         public string type;
@@ -91,5 +97,9 @@ namespace TikTokLiveGame
         public int count;
         public int userIndex;
         public int value;
+        public string trackId;
+        public float position, duration;
+        public bool playing, paused, loading;
+        public string error;
     }
 }

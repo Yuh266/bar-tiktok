@@ -2,13 +2,15 @@
 
 Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tiktok`:
 
-- `npm test`: 56 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
+- `npm test`: 61 kiểm tra đạt, gồm module và kết nối WebSocket thực với một Bridge thử nghiệm riêng.
 - Mục Đổi sàn: chọn/lưu đủ bốn mẫu, hiển thị Đang dùng, ảnh mẫu tải được và không tràn ngang ở 390px. Sàn LED ô vuông cổ điển dùng lại shader gốc; không thêm lựa chọn thứ tư vào luật bình chọn 1/2/3.
 - Kết thúc đấu đội: chốt danh sách người thắng, xóa màu đội cho mọi người (kể cả khi hòa), dùng danh sách đã chốt để trao phóng to/huy hiệu/vòng vàng và pháo hoa trong 12 giây.
 - Quản trị: chỉ client quản trị được reset BXH/kick. Reset giữ người chơi và tổng quà thống kê; quà tiếp theo bắt đầu điểm BXH mới. Kick giữ điểm quà, không bị chat/like thông thường đưa trở lại; lệnh vào sàn cho phép vào lại. Trạng thái được kiểm tra qua khởi động lại Bridge.
 - Danh sách trên sàn dùng chung cho quản trị và Unity, gửi mỗi giây. Giữ nhân vật không tương tác khi có tối đa 80 người; chỉ dọn số người dư khi vượt 80, ưu tiên người không tương tác ít nhất 10 phút và lâu nhất. Kiểm tra Bridge thật với 82 người (3 người không tương tác, 79 người hoạt động) xác nhận chỉ gỡ 2 người cũ nhất, giữ 80 người và điểm quà. Kiểm tra module xác nhận 80 người cũ được giữ qua nhiều giờ, 81 người còn tương tác không bị ép giảm xuống 80; giới hạn kỹ thuật 400 vẫn được giữ. Cơ chế dự phòng khi Unity mất kết nối cũng giữ người dưới ngưỡng 80. Bot nền đếm riêng.
 - Đồng bộ thay đổi danh sách: runtime nạp 100 nhân vật cũ rồi nhận danh sách 4 người còn đúng 4 người + 5 bot; nhận danh sách trống còn 0 người + 5 bot. Cập nhật danh sách không phát lại quà hoặc khởi động lại hiệu ứng. Tìm kiếm quản trị hiển thị số kết quả trên tổng số người.
 - `npm run test:moderation-ui -- http://127.0.0.1:3100`: tìm người, hủy/xác nhận reset, kick và vào lại; không tràn ngang ở 390px, không có lỗi JavaScript.
+- Nhạc: kiểm tra tải Unicode/trùng tên không ghi đè, chặn đường dẫn vượt thư mục/định dạng sai/file quá lớn, dọn file tải dở. API upload cần token của phiên quản trị đang mở; lệnh nhạc chỉ dành cho quản trị, chỉ game native đăng ký bộ phát, đường dẫn riêng không trả về trình duyệt. Trạng thái phát chỉ đổi theo báo cáo thật từ game.
+- `npm run test:music-ui -- http://127.0.0.1:3100`: Chrome riêng và Unity thật có `-musicTestMuted`, tải 3 WAV, phát/tạm dừng, tua khi tạm dừng, tiếp tục, chọn bài, bài trước/tiếp, tua ±10 giây/thanh kéo/nhập thời gian, tự chuyển khi hết bài. Tải bài mới giữ nguyên bài/vị trí đang phát; tải lại trang nhận lại danh sách/trạng thái; không tràn ngang ở 390px và không có lỗi JavaScript. Kiểm tra riêng file MP3 DJ dài hiện có xác nhận tua tới phút 10, tạm dừng rồi tua phút 20 và phát tiếp thành công; không thay đổi file nhạc gốc.
 - Chat TikTok: kiểm tra bằng encode/decode schema `WebcastChatMessage` v3 thực của thư viện đang cài; nội dung nằm ở `content` vẫn được nhận, đồng thời giữ tương thích `comment` cũ. Chat `xanh` qua Bridge thực tạo thành viên đội Xanh, `hey` tạo lệnh vào sàn.
 - Mốc 100 tim: đọc `count/total` của TikTok v3 và giữ `likeCount/totalLikeCount` cũ. Encode/decode schema `WebcastLikeMessage` thực xác nhận gói 99 rồi 1 kích hoạt `grow` 8 giây; gói 0 không tự cộng tim, tổng tim cả phòng không cộng vào riêng một người. Kiểm tra qua Bridge thật xác nhận người chưa vào sàn xuất hiện và phóng to khi đủ 100, đủ 100 tiếp theo kích hoạt lại, không cộng điểm quà vào BXH.
 - Tự chạy: chờ 15 giây khi bật, nghỉ ngẫu nhiên giữa các vòng, trộn đủ ba loại, không lặp liên tiếp, không chồng vòng hoặc bỏ qua kết quả; tạm dừng không cắt vòng đang chơi, cài đặt được lưu qua lần khởi động lại.
@@ -43,5 +45,6 @@ Các kiểm tra đã thực hiện cho bản Bar Club LIVE trong `Yuh266/bar-tik
 - [Trang chọn bốn mẫu sàn](../media/floor-control.png)
 - [Sàn LED ô vuông cổ điển được giữ lại](../media/engagement-classic.png)
 - [Đàn vịt ngẫu nhiên và avatar Top 3](../media/duck-parade.png)
+- [Quản lý và điều khiển nhạc](../media/music-control.png)
 
 Giọng đọc phát từ trình duyệt, cần giữ tab phát mở và thu âm thanh máy tính trong phần mềm LIVE. Việc có giọng tiếng Việt phụ thuộc hệ điều hành/trình duyệt; bảng quản trị hiển thị danh sách giọng đang có.

@@ -14,7 +14,15 @@ namespace TikTokLiveGame
         private const float FadeSeconds = 1.2f;
         private AudioSource output;
         private AudioClip currentClip;
-        private string[] tracks = Array.Empty<string>();
+        private MusicTrack[] tracks = Array.Empty<MusicTrack>();
+        private TikTokWebSocketClient client;
+        private string currentPath = "";
+        private string error = "";
+        private Coroutine loadRoutine;
+        private int loadGeneration;
+        private bool paused;
+        private bool connected;
+        private float nextReportAt;
         private int trackIndex;
         private float configuredVolume = DefaultVolume;
         private float trackStartedAt;
@@ -26,13 +34,8 @@ namespace TikTokLiveGame
 
         private void Awake()
         {
-            tracks = FindTracks(out string selectedFolder);
-            if (tracks.Length == 0)
-            {
-                Debug.Log("Music player is ready. Add MP3, WAV or OGG files to the DJ_MUSIC folder.");
-                enabled = false;
-                return;
-            }
+            tracks = FindTracks(out string selectedFolder).Select(path => new MusicTrack
+                { id = path, name = Path.GetFileName(path), path = path }).ToArray();
 
             configuredVolume = ReadVolume(selectedFolder);
             output = gameObject.AddComponent<AudioSource>();
@@ -41,13 +44,75 @@ namespace TikTokLiveGame
             output.spatialBlend = 0f;
             output.volume = 0f;
             output.priority = 128;
+            output.mute = Array.IndexOf(Environment.GetCommandLineArgs(), "-musicTestMuted") >= 0;
             gameObject.AddComponent<ClubAudioReactive>().Initialize(output);
-            PlayTrack(0);
+            if (tracks.Length > 0) PlayTrack(0);
+            else Debug.Log("Music player is ready. Upload MP3, WAV or OGG from the control panel.");
+        }
+
+        public void Initialize(TikTokWebSocketClient socketClient)
+        {
+            client = socketClient;
+            client.EventReceived += HandleMusic;
+        }
+
+        private void HandleMusic(TikTokEvent message)
+        {
+            if (message.type == "music_library")
+            {
+                tracks = (message.tracks ?? Array.Empty<MusicTrack>()).Where(track => track != null &&
+                    !string.IsNullOrEmpty(track.id) && !string.IsNullOrEmpty(track.path) && Path.IsPathRooted(track.path) &&
+                    new[] { ".mp3", ".wav", ".ogg" }.Contains(Path.GetExtension(track.path).ToLowerInvariant())).ToArray();
+                int existing = Array.FindIndex(tracks, track => string.Equals(track.path, currentPath, StringComparison.OrdinalIgnoreCase));
+                if (existing >= 0) trackIndex = existing;
+                else if (tracks.Length > 0) PlayTrack(0, !paused);
+                else { CancelLoad(); StopCurrentClip(); loading = false; advancePending = false; currentPath = ""; }
+                return;
+            }
+            if (message.type != "music_control") return;
+            switch (message.action)
+            {
+                case "select":
+                    int index = Array.FindIndex(tracks, track => track.id == message.trackId);
+                    if (index >= 0) PlayTrack(index);
+                    break;
+                case "next": if (tracks.Length > 0) PlayTrack((trackIndex + 1) % tracks.Length, !paused); break;
+                case "previous": if (tracks.Length > 0) PlayTrack((trackIndex - 1 + tracks.Length) % tracks.Length, !paused); break;
+                case "pause": paused = true; output.Pause(); break;
+                case "resume":
+                    paused = false;
+                    if (currentClip != null) { output.UnPause(); trackStartedAt = Time.unscaledTime - FadeSeconds; }
+                    else if (!loading && tracks.Length > 0) PlayTrack(trackIndex);
+                    break;
+                case "seek":
+                    if (currentClip != null && !loading)
+                    {
+                        try { output.time = Mathf.Clamp(message.position, 0f, Mathf.Max(0f, currentClip.length - 0.05f)); error = ""; }
+                        catch (Exception) { error = "Bài nhạc này chưa tua được. Vui lòng thử lại."; }
+                        trackStartedAt = Time.unscaledTime - FadeSeconds;
+                    }
+                    break;
+            }
+            Report();
+        }
+
+        private void Report()
+        {
+            if (client == null || !client.IsConnected) return;
+            string id = tracks.Length > 0 && trackIndex < tracks.Length ? tracks[trackIndex].id : "";
+            client.ReportMusic(id, currentClip != null ? output.time : 0f, currentClip != null ? currentClip.length : 0f,
+                output.isPlaying, paused, loading, error);
+            nextReportAt = Time.unscaledTime + 0.5f;
         }
 
         private void Update()
         {
             if (output == null) return;
+            bool isConnected = client != null && client.IsConnected;
+            if (isConnected && !connected) { client.MusicReady(); Debug.Log("Music control ready."); }
+            connected = isConnected;
+            if (isConnected && Time.unscaledTime >= nextReportAt) Report();
+            if (tracks.Length == 0 || paused) return;
             if (advancePending && Time.unscaledTime >= advanceAt)
             {
                 advancePending = false;
@@ -78,31 +143,47 @@ namespace TikTokLiveGame
             }
         }
 
-        private void PlayTrack(int index)
+        private void PlayTrack(int index, bool play = true)
         {
             if (tracks.Length == 0) return;
+            CancelLoad();
             trackIndex = Mathf.Clamp(index, 0, tracks.Length - 1);
             StopCurrentClip();
+            currentPath = tracks[trackIndex].path;
+            paused = !play;
+            error = "";
             loading = true;
             advancePending = false;
             watchdogAt = Time.unscaledTime + 20f;
-            StartCoroutine(LoadAndPlay(tracks[trackIndex]));
+            loadRoutine = StartCoroutine(LoadAndPlay(currentPath, loadGeneration));
         }
 
-        private IEnumerator LoadAndPlay(string path)
+        private void CancelLoad()
+        {
+            loadGeneration++;
+            if (loadRoutine != null) StopCoroutine(loadRoutine);
+            loadRoutine = null;
+        }
+
+        private IEnumerator LoadAndPlay(string path, int generation)
         {
             AudioType type = AudioTypeFor(path);
             string uri = new Uri(path).AbsoluteUri;
             Debug.Log($"Preparing music {trackIndex + 1}/{tracks.Length}: {path}");
             using UnityWebRequest request = UnityWebRequestMultimedia.GetAudioClip(uri, type);
+            request.timeout = 120;
             if (request.downloadHandler is DownloadHandlerAudioClip audioDownload)
                 audioDownload.streamAudio = true;
             yield return request.SendWebRequest();
+            if (generation != loadGeneration) yield break;
 
             loading = false;
+            loadRoutine = null;
             if (request.result != UnityWebRequest.Result.Success)
             {
                 Debug.LogWarning($"Music could not play '{path}': {request.error}");
+                error = "Không đọc được bài nhạc này. Chọn bài khác hoặc tải lại file.";
+                Report();
                 ScheduleAdvance(tracks.Length == 1 ? 2f : 0.75f);
                 yield break;
             }
@@ -111,6 +192,8 @@ namespace TikTokLiveGame
             if (currentClip == null)
             {
                 Debug.LogWarning($"Music decoder returned no audio for '{path}'.");
+                error = "File nhạc không phát được. Vui lòng chọn file khác.";
+                Report();
                 ScheduleAdvance(tracks.Length == 1 ? 2f : 0.75f);
                 yield break;
             }
@@ -120,8 +203,10 @@ namespace TikTokLiveGame
             output.volume = 0f;
             trackStartedAt = Time.unscaledTime;
             watchdogAt = Time.unscaledTime + 5f;
-            output.Play();
+            if (!paused) output.Play();
+            else { output.Play(); output.Pause(); }
             Debug.Log($"Music playing {trackIndex + 1}/{tracks.Length}: {path}");
+            Report();
         }
 
         private void StopCurrentClip()
@@ -197,6 +282,7 @@ namespace TikTokLiveGame
 
         private void OnDestroy()
         {
+            if (client != null) client.EventReceived -= HandleMusic;
             StopAllCoroutines();
             StopCurrentClip();
         }

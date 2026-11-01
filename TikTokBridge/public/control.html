@@ -19,6 +19,7 @@
     <div class="tab-nav">
         <button class="tab-btn active" data-tab="live">Live</button>
         <button class="tab-btn" data-tab="floors">Đổi sàn</button>
+        <button class="tab-btn" data-tab="music">Nhạc DJ</button>
         <button class="tab-btn" data-tab="engagement">Tương tác</button>
         <button class="tab-btn" data-tab="players">Người chơi</button>
         <button class="tab-btn" data-tab="rules">Master Rules</button>
@@ -96,6 +97,36 @@
             </div>
         </div>
     </div>
+</section>
+
+<section class="tab-panel" id="tab-music">
+    <div class="page-header"><p class="page-eyebrow">Âm nhạc</p><h1 class="page-title">Nhạc DJ</h1><p class="page-desc">Tải nhạc và điều khiển bài đang phát trong game.</p></div>
+    <div class="music-grid">
+        <article class="card">
+            <p class="card-label">Đang phát trên game</p><h2 id="music-current" class="card-title music-current">Chưa chọn bài</h2>
+            <p id="music-player-status" class="help" role="status">Đang chờ kết nối…</p>
+            <label class="field-label" for="music-seek">Vị trí phát</label>
+            <input id="music-seek" class="music-seek" type="range" min="0" max="0" step="1" value="0" disabled>
+            <div class="music-time"><span id="music-position">00:00</span><span id="music-duration">00:00</span></div>
+            <div class="music-buttons">
+                <button id="music-previous" class="btn btn-secondary" disabled>Bài trước</button>
+                <button id="music-back" class="btn btn-secondary" disabled>−10 giây</button>
+                <button id="music-toggle" class="btn btn-primary" disabled>Phát nhạc</button>
+                <button id="music-forward" class="btn btn-secondary" disabled>+10 giây</button>
+                <button id="music-next" class="btn btn-secondary" disabled>Bài tiếp</button>
+            </div>
+            <div class="music-jump"><label for="music-seek-input">Tua đến (phút:giây)</label><div class="input-row"><input id="music-seek-input" type="text" inputmode="numeric" placeholder="02:30" maxlength="12"><button id="music-jump" class="btn btn-secondary" disabled>Tua đến</button></div></div>
+            <p class="help">Nhạc phát từ game. Hết bài sẽ tự chuyển sang bài tiếp theo và lặp lại danh sách.</p>
+        </article>
+        <article class="card">
+            <p class="card-label">Thêm bài mới</p><h2 class="card-title">Tải nhạc lên</h2>
+            <label class="field-label" for="music-files">Chọn file nhạc</label><input id="music-files" class="music-files" type="file" accept=".mp3,.wav,.ogg" multiple>
+            <p class="help">MP3, WAV hoặc OGG · Tối đa 250 MB mỗi file. Có thể chọn nhiều bài; bài đang nghe vẫn tiếp tục phát khi tải lên.</p>
+            <button id="music-upload" class="btn btn-green" disabled>Tải nhạc lên</button>
+            <progress id="music-upload-progress" value="0" max="100" hidden></progress><p id="music-upload-status" class="help" role="status"></p>
+        </article>
+    </div>
+    <article class="card music-library-card"><div class="card-header"><div><p class="card-label">Danh sách nhạc · <span id="music-track-count">0</span> bài</p><h2 class="card-title">Chọn bài để phát</h2></div><button id="music-refresh" class="btn btn-secondary btn-sm">Làm mới</button></div><p id="music-message" class="help" role="status"></p><div id="music-track-list" class="music-track-list"></div></article>
 </section>
 
 <!-- ── MASTER RULES ── -->
@@ -553,5 +584,6 @@
 <script src="control.js"></script>
 <script src="engagement-control.js"></script>
 <script src="moderation-control.js"></script>
+<script src="music-control.js"></script>
 </body>
 </html>

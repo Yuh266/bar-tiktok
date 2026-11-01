@@ -19,9 +19,11 @@ namespace TikTokLiveGame
         private Task supervisor;
         private long lastPongTicks;
         private static TikTokWebSocketClient instance;
+        private volatile bool registered;
+        private readonly SemaphoreSlim sendGate = new(1, 1);
 
         public event Action<TikTokEvent> EventReceived;
-        public bool IsConnected => socket != null && socket.State == WebSocketState.Open;
+        public bool IsConnected => registered && socket != null && socket.State == WebSocketState.Open;
         public string ServerUrl => serverUrl;
 
         private void OnEnable()
@@ -63,6 +65,7 @@ namespace TikTokLiveGame
             while (!token.IsCancellationRequested)
             {
                 ClientWebSocket activeSocket = new();
+                registered = false;
                 socket = activeSocket;
                 try
                 {
@@ -75,6 +78,7 @@ namespace TikTokLiveGame
                         role = "overlay"
                     });
                     await SendRawAsync(activeSocket, registration, token);
+                    registered = true;
 
                     using CancellationTokenSource connectionLifetime = CancellationTokenSource.CreateLinkedTokenSource(token);
                     Task receiver = ReceiveLoopAsync(activeSocket, connectionLifetime.Token);
@@ -95,6 +99,7 @@ namespace TikTokLiveGame
                 }
                 finally
                 {
+                    registered = false;
                     if (ReferenceEquals(socket, activeSocket)) socket = null;
                     try { activeSocket.Abort(); } catch { }
                     activeSocket.Dispose();
@@ -140,10 +145,12 @@ namespace TikTokLiveGame
             }
         }
 
-        private static async Task SendRawAsync(ClientWebSocket activeSocket, string json, CancellationToken token)
+        private async Task SendRawAsync(ClientWebSocket activeSocket, string json, CancellationToken token)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(json);
-            await activeSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, token);
+            await sendGate.WaitAsync(token);
+            try { await activeSocket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, token); }
+            finally { sendGate.Release(); }
         }
 
         private async void Send(ClientMessage message)
@@ -169,6 +176,10 @@ namespace TikTokLiveGame
         });
 
         public void DisconnectTikTok() => Send(new ClientMessage { type = "disconnect_tiktok" });
+        public void MusicReady() => Send(new ClientMessage { type = "music_player_ready" });
+        public void ReportMusic(string trackId, float position, float duration, bool playing, bool paused, bool loading, string error) =>
+            Send(new ClientMessage { type = "music_report", trackId = trackId, position = position, duration = duration,
+                playing = playing, paused = paused, loading = loading, error = error });
         public void StartDemo(int count) => Send(new ClientMessage { type = "demo_start", count = count });
         public void StopDemo() => Send(new ClientMessage { type = "demo_stop" });
         public void ResetGame() => Send(new ClientMessage { type = "reset_game" });

@@ -9,6 +9,8 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs/promises');
 const WebSocket = require('ws');
+const { randomBytes } = require('node:crypto');
+const { MusicLibrary } = require('./src/music-library');
 const { TikTokLiveConnection } = require('tiktok-live-connector');
 const { getServerSettings, loadEnvironmentFile } = require('./src/config/environment');
 const { startAvatarServer } = require('./src/avatar-server');
@@ -53,6 +55,31 @@ const server = http.createServer(app);
 
 const { port: PORT, host: HOST, allowLan: ALLOW_LAN } = getServerSettings();
 const dataDir = process.env.DATA_DIR || path.join(__dirname, 'data');
+const musicLibrary = new MusicLibrary({ directory: process.env.MUSIC_DIR || path.join(__dirname, '..', 'DJ_MUSIC'),
+    temporaryDirectory: path.join(dataDir, 'music-uploads') });
+let musicTracks = [];
+let musicPlayer = null;
+let musicReportedAt = 0;
+let musicState = { trackId: '', position: 0, duration: 0, playing: false, paused: false, loading: false, error: '' };
+function musicSnapshot() {
+    return { type: 'music_state', ...musicState,
+        playerConnected: musicPlayer?.readyState === WebSocket.OPEN && Date.now() - musicReportedAt < 5000 };
+}
+function broadcastMusicState() {
+    for (const client of wss.clients) if (client.registered && client.role === 'control') send(client, musicSnapshot());
+}
+function publicMusicTracks() { return musicTracks.map(({ path: ignored, ...track }) => track); }
+let musicRefreshTask = Promise.resolve();
+function refreshMusicLibrary() {
+    const refresh = musicRefreshTask.then(async () => {
+        musicTracks = await musicLibrary.list();
+        for (const client of wss.clients) if (client.registered && client.role === 'control')
+            send(client, { type: 'music_library', tracks: publicMusicTracks() });
+        if (musicPlayer?.readyState === WebSocket.OPEN) send(musicPlayer, { type: 'music_library', tracks: musicTracks });
+    });
+    musicRefreshTask = refresh.catch(() => {});
+    return refresh;
+}
 const engagementSettings = { ...require('./config/engagement.json') };
 try { Object.assign(engagementSettings, JSON.parse(require('node:fs').readFileSync(path.join(dataDir, 'engagement-settings.json'), 'utf8'))); }
 catch (error) { if (error.code !== 'ENOENT') console.warn('Could not read activity settings:', error.message); }
@@ -188,6 +215,28 @@ app.use('/vendor/three', express.static(path.join(__dirname, 'node_modules', 'th
 
 app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', appId: 'bar-club-live-bridge', version: '1.0.0' });
+});
+
+app.get('/api/music', async (_req, res) => {
+    try { await refreshMusicLibrary(); res.json({ tracks: publicMusicTracks(), state: musicSnapshot() }); }
+    catch { res.status(500).json({ error: 'Không đọc được danh sách nhạc.' }); }
+});
+app.post('/api/music/upload', async (req, res) => {
+    const token = req.headers['x-music-token'];
+    const authorized = typeof token === 'string' && [...wss.clients].some(client => client.registered &&
+        client.role === 'control' && client.readyState === WebSocket.OPEN && client.musicUploadToken === token);
+    if (!authorized || !isAllowedOrigin(req.headers.origin, PORT)) return res.status(403).json({ error: 'Mở lại trang quản trị để tải nhạc.' });
+    if (String(req.headers['content-type'] || '').split(';')[0] !== 'application/octet-stream')
+        return res.status(415).json({ error: 'Định dạng tải lên không hợp lệ.' });
+    try {
+        const filename = decodeURIComponent(String(req.headers['x-music-filename'] || ''));
+        const length = req.headers['content-length'] === undefined ? NaN : Number(req.headers['content-length']);
+        const uploaded = await musicLibrary.upload(req, filename, length);
+        await refreshMusicLibrary();
+        res.status(201).json({ uploaded, tracks: publicMusicTracks() });
+    } catch (error) {
+        if (!res.destroyed) res.status(error.status || 400).json({ error: error.status ? error.message : 'Không tải được file nhạc. Vui lòng thử lại.' });
+    }
 });
 
 app.get('/api/config', (_req, res) => {
@@ -803,6 +852,12 @@ async function handleClientMessage(ws, message) {
         if (ws.role === 'control') send(ws, { type: 'master_config', master: masterConfig });
         if (ws.role === 'control') send(ws, giftCatalogMessage());
         if (ws.role === 'control') send(ws, floorRosterMessage());
+        if (ws.role === 'control') {
+            ws.musicUploadToken = randomBytes(24).toString('hex');
+            send(ws, { type: 'music_upload_token', token: ws.musicUploadToken });
+            send(ws, musicSnapshot());
+            await refreshMusicLibrary();
+        }
         send(ws, engagementMessage());
         if (ws.role === 'overlay') {
             send(ws, createSnapshot());
@@ -814,7 +869,7 @@ async function handleClientMessage(ws, message) {
 
     if (!ws.registered) return send(ws, { type: 'error', message: 'Client chưa đăng ký quyền.' });
 
-    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player'].includes(message.type);
+    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player', 'music_command', 'music_refresh'].includes(message.type);
     const operatorOnly = new Set([
         'set_username', 'disconnect_tiktok', 'demo_start', 'demo_stop', 'demo_event', 'reset_game'
     ]).has(message.type);
@@ -823,6 +878,39 @@ async function handleClientMessage(ws, message) {
     }
     if (operatorOnly && ws.role !== 'control' && !ws.nativeClient) {
         return send(ws, { type: 'error', message: 'Client không có quyền điều khiển.' });
+    }
+
+    if (message.type === 'music_player_ready') {
+        if (ws.role !== 'overlay' || !ws.nativeClient) return send(ws, { type: 'error', message: 'Chỉ game mới được đăng ký bộ phát nhạc.' });
+        if (musicPlayer && musicPlayer !== ws && musicPlayer.readyState === WebSocket.OPEN)
+            return send(ws, { type: 'error', message: 'Đã có game khác điều khiển nhạc.' });
+        musicPlayer = ws; musicReportedAt = Date.now();
+        await refreshMusicLibrary(); broadcastMusicState(); return;
+    }
+    if (message.type === 'music_report') {
+        if (musicPlayer !== ws) return send(ws, { type: 'error', message: 'Bộ phát nhạc chưa được đăng ký.' });
+        const finite = value => Number.isFinite(Number(value)) ? Math.max(0, Math.min(86400, Number(value))) : 0;
+        musicState = { trackId: musicTracks.some(track => track.id === message.trackId) ? message.trackId : '',
+            position: finite(message.position), duration: finite(message.duration), playing: message.playing === true,
+            paused: message.paused === true, loading: message.loading === true,
+            error: typeof message.error === 'string' ? message.error.slice(0, 180) : '' };
+        musicReportedAt = Date.now(); broadcastMusicState(); return;
+    }
+    if (message.type === 'music_refresh') {
+        send(ws, { type: 'music_upload_token', token: ws.musicUploadToken });
+        send(ws, musicSnapshot()); await refreshMusicLibrary(); return;
+    }
+    if (message.type === 'music_command') {
+        if (!musicSnapshot().playerConnected) return send(ws, { type: 'music_error', message: 'Mở game để điều khiển nhạc.' });
+        if (!['select', 'next', 'previous', 'pause', 'resume', 'seek'].includes(message.action))
+            return send(ws, { type: 'music_error', message: 'Lệnh nhạc không hợp lệ.' });
+        if (message.action === 'select' && !musicTracks.some(track => track.id === message.trackId))
+            return send(ws, { type: 'music_error', message: 'Bài nhạc không còn trong danh sách.' });
+        if (message.action === 'seek' && (!Number.isFinite(message.position) || !musicState.duration || musicState.loading))
+            return send(ws, { type: 'music_error', message: 'Chờ bài nhạc tải xong rồi tua.' });
+        send(musicPlayer, { type: 'music_control', action: message.action, trackId: message.trackId || '',
+            position: Math.max(0, Math.min(musicState.duration, Number(message.position) || 0)) });
+        return;
     }
 
     if (message.type === 'reset_leaderboard') {
@@ -1002,6 +1090,7 @@ wss.on('connection', (ws, request) => {
     });
     ws.on('error', error => console.warn('WebSocket client error:', error.message));
     ws.on('close', () => {
+        if (musicPlayer === ws) { musicPlayer = null; broadcastMusicState(); }
         if (speechOwner !== ws) return;
         speechOwner = null;
         for (const client of wss.clients)
@@ -1013,6 +1102,7 @@ const engagementTimer = setInterval(() => {
     engagement.tick();
     broadcast(engagementMessage());
     broadcastFloorRoster();
+    if (musicPlayer && Date.now() - musicReportedAt >= 5000) broadcastMusicState();
 }, 1000);
 engagementTimer.unref();
 
@@ -1028,7 +1118,7 @@ const heartbeatTimer = setInterval(() => {
 }, 30000);
 heartbeatTimer.unref();
 
-server.requestTimeout = 10000;
+server.requestTimeout = 300000;
 server.headersTimeout = 5000;
 server.keepAliveTimeout = 5000;
 server.maxHeadersCount = 64;

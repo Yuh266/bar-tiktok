@@ -27,7 +27,7 @@ namespace TikTokLiveGame
             PlayerManager players = new GameObject("Players").AddComponent<PlayerManager>();
             players.transform.SetParent(root.transform);
             GiftEffectManager giftEffects = root.AddComponent<GiftEffectManager>();
-            root.AddComponent<MusicPlaylistPlayer>();
+            root.AddComponent<MusicPlaylistPlayer>().Initialize(client);
             root.AddComponent<DuckParade>();
             TikTokGameController game = root.AddComponent<TikTokGameController>();
             game.Initialize(client, players, giftEffects);
