@@ -38,3 +38,12 @@ test('the existing 400-viewer safety capacity still applies if everyone is activ
     assert.deepEqual(pruneFloorPlayers(players, { now: 10001000 }), ['viewer-0']);
     assert.equal(players.size, 400);
 });
+
+test('the current DJ keeps the seat during idle and capacity cleanup', () => {
+    const idle = viewers(82, 0);
+    assert.deepEqual(pruneFloorPlayers(idle, { now: 36000000, protectedUserId: 'viewer-0' }), ['viewer-1', 'viewer-2']);
+    assert.ok(idle.has('viewer-0'));
+    const active = viewers(401, 10000000);
+    assert.deepEqual(pruneFloorPlayers(active, { now: 10001000, protectedUserId: 'viewer-0' }), ['viewer-1']);
+    assert.ok(active.has('viewer-0'));
+});

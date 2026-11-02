@@ -1,0 +1,175 @@
+ScriptsOnlyBuild:
+  usedScripts: {}
+  serializedClasses: {}
+  methodsToPreserve: []
+  sceneClasses:
+    Assets/Scenes/Main.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 43
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 49
+      Script: {instanceID: 0}
+    - Class: 74
+      Script: {instanceID: 0}
+    - Class: 83
+      Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
+    - Class: 91
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 137
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+  scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 292c78f47cf48fa830532128b9875983
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: DjPerformerController
+  - hash:
+      serializedVersion: 2
+      Hash: bff920036977bab1cd88dd213b19f325
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: DjVideoScreen
+  - hash:
+      serializedVersion: 2
+      Hash: 90fe49236bf12b812eddbbb79a3c8775
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubCameraController
+  - hash:
+      serializedVersion: 2
+      Hash: 61a21d454603b2ec2f37d234638ea260
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubGiftShow
+  - hash:
+      serializedVersion: 2
+      Hash: 0a28694b14efd117393a1de8befb01c2
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: GiftEffectManager
+  - hash:
+      serializedVersion: 2
+      Hash: 54b744a06936620fddd46282b8208c84
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: MusicPlaylistPlayer
+  - hash:
+      serializedVersion: 2
+      Hash: b1c073c792d93dfa3f863765af2a6b17
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: TikTokWebSocketClient
+  - hash:
+      serializedVersion: 2
+      Hash: 6f454344eecbedc4906216f5e385d70b
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubLedShow
+  - hash:
+      serializedVersion: 2
+      Hash: 284a328ff9337cb5af0470159772c9d3
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: PlayerActor
+  - hash:
+      serializedVersion: 2
+      Hash: 53c51ca142bdfa3ca500d128e8273c74
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: AvatarService
+  - hash:
+      serializedVersion: 2
+      Hash: c22310ad859daccbaa8910ac274ce462
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubPulseController
+  - hash:
+      serializedVersion: 2
+      Hash: a6a2c57dbf8c3340f04d4804b996f421
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: PlayerManager
+  - hash:
+      serializedVersion: 2
+      Hash: d4ed7b32291b38b4e000dffd8a067031
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubAudioReactive
+  - hash:
+      serializedVersion: 2
+      Hash: 519f2c31510fea9948b03b42403e93bb
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubLaserBeam
+  - hash:
+      serializedVersion: 2
+      Hash: 299e2b6b748127f71986194e4d593f86
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveBar
+    className: GifPlayer
+  - hash:
+      serializedVersion: 2
+      Hash: 553a0d6b7c62f95cd5f7734947c7c7d5
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: SpriteFlipbook
+  - hash:
+      serializedVersion: 2
+      Hash: 7564886d86dcc60842d4112e22c45367
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: MovingHeadFixture
+  - hash:
+      serializedVersion: 2
+      Hash: ad58b4a367b18d6ce12463355284eab4
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: ClubStrobeLight
+  - hash:
+      serializedVersion: 2
+      Hash: a37f6168ad5ab14c63d174669aeec3d8
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: TikTokGameController
+  - hash:
+      serializedVersion: 2
+      Hash: b02b883ae038e66805111389fb60e19c
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: DiscoLight
+  - hash:
+      serializedVersion: 2
+      Hash: a95591af9398e6208bdecf7e752d6bd3
+    assemblyName: Assembly-CSharp
+    namespaceName: TikTokLiveGame
+    className: VisualCaptureHarness
+  - hash:
+      serializedVersion: 2
+      Hash: 466fc465a935e10d7f60f485463ceffd
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: SmokeMachineController
+  platform: 19
+  scenePathNames:
+  - Assets/Scenes/Main.unity
+  playerPath: C:/Users/Van Kien/Downloads/tiktok-live-bar/Build/BarClub_Live.exe

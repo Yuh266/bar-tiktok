@@ -223,6 +223,7 @@ function connectSocket() {
         window.floorModeration?.onConnection(true);
         window.musicControl?.onConnection(true);
         window.screenControl?.onConnection(true);
+        window.sessionBackup?.onConnection(true);
     });
 
     socket.addEventListener('message', event => {
@@ -232,6 +233,7 @@ function connectSocket() {
         window.floorModeration?.onMessage(data);
         window.musicControl?.onMessage(data);
         window.screenControl?.onMessage(data);
+        window.sessionBackup?.onMessage(data);
         if (data.type === 'status' || data.type === 'error') setStatus(data);
         if (data.type === 'metrics')        setMetrics(data);
         if (data.type === 'master_config')  renderMaster(data.master);
@@ -251,6 +253,7 @@ function connectSocket() {
         window.floorModeration?.onConnection(false);
         window.musicControl?.onConnection(false);
         window.screenControl?.onConnection(false);
+        window.sessionBackup?.onConnection(false);
         setStatus({ state: 'disconnected', message: 'Đang kết nối lại máy chủ…' });
         reconnectTimer = setTimeout(connectSocket, 2000);
     });

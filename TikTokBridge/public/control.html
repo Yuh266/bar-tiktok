@@ -276,7 +276,7 @@
         <div class="action-grid" style="margin-bottom:16px;">
             <button data-action="gift" data-value="1"  class="btn btn-secondary">🌹 Rose · 1💎</button>
             <button data-action="gift" data-value="1"  data-gift-name="TikTok"       class="btn btn-secondary">🎵 TikTok · 1💎</button>
-            <button data-action="gift" data-value="5"  data-gift-name="Finger Heart" class="btn btn-secondary">🫰 Finger Heart · 5💎</button>
+            <button data-action="gift" data-value="5"  data-gift-name="Finger Heart" class="btn btn-secondary">🐉 Finger Heart · 5💎 · Cưỡi rồng</button>
             <button data-action="gift" data-value="5"  class="btn btn-secondary">🕺 Gift · 5💎</button>
         </div>
 
@@ -306,6 +306,11 @@
         <h1 class="page-title">Tương tác &amp; giọng cảm ơn</h1>
         <p class="page-desc">Mỗi lần mở một hoạt động. Người xem tham gia miễn phí bằng chat và thả tim.</p>
     </div>
+    <article class="card session-backup-card">
+        <div class="card-header"><div><p class="card-label">Hiển thị trong game</p><h2 class="card-title">Trò chơi ngẫu nhiên</h2></div><button id="games-toggle" class="btn btn-danger" disabled>Tắt trò chơi</button></div>
+        <p class="help">Tắt ngay đấu đội Đỏ–Xanh, bình chọn sàn, cùng nhảy và ẩn ô trò chơi. Ô năng lượng vẫn nhận tim và mở tiệc. Lựa chọn được nhớ khi mở lại.</p>
+        <p id="games-status" class="help" role="status">Đang kết nối…</p>
+    </article>
     <div class="card activity-summary">
         <div><p class="card-label">Đang diễn ra</p><h2 id="activity-status" class="card-title">Đang kết nối…</h2><p id="engagement-message" class="help" role="status"></p></div>
         <button id="activity-stop" class="btn btn-secondary" disabled>Kết thúc sớm</button>
@@ -444,6 +449,17 @@
         <p class="page-desc">Số liệu theo dõi phiên live hiện tại.</p>
     </div>
 
+    <article class="card session-backup-card">
+        <div class="card-header">
+            <div><p class="card-label">Giữ dữ liệu phiên LIVE</p><h2 class="card-title">Sao lưu phiên hiện tại</h2></div>
+            <button id="session-backup" type="button" class="btn btn-green" disabled>Sao lưu</button>
+        </div>
+        <p class="help">Lưu BXH, điểm quà, người trên sàn và người giữ bàn DJ. Mỗi lần bấm tạo một bản mới; reset game không xóa bản sao.</p>
+        <p id="session-backup-status" class="help" role="status" aria-live="polite">Đang chờ kết nối máy chủ…</p>
+        <p class="help">Bản sao lưu trên máy chạy Bridge trong <strong>TikTokBridge/data/backups</strong>.</p>
+        <p id="session-backup-file" class="help session-backup-file" hidden></p>
+    </article>
+
     <div class="card">
         <div class="card-header">
             <div>
@@ -560,6 +576,7 @@
                     <option value="camera">Zoom camera</option>
                     <option value="change">Đổi nhân vật</option>
                     <option value="walk">Đi vòng</option>
+                    <option value="dragon">Cưỡi rồng bay</option>
                     <option value="grow">Phóng lớn</option>
                     <option value="medal">Cánh + huy hiệu</option>
                     <option value="vip">VIP camera</option>
@@ -603,5 +620,6 @@
 <script src="moderation-control.js"></script>
 <script src="music-control.js"></script>
 <script src="screen-control.js"></script>
+<script src="session-backup.js"></script>
 </body>
 </html>

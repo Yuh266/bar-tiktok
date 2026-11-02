@@ -5,15 +5,18 @@ const liveActivities = {
     pendingFloor: null,
     receivedAt: 0,
     autoInitialized: false,
-    onOpen() { this.pendingFloor = null; claimAutomaticSpeech(); },
-    onClose() { speechActive = false; speechElsewhere = false; giftSpeech.stop(); updateSpeechStatus(); },
+    pendingGames: null,
+    onOpen() { this.pendingFloor = null; this.render(); claimAutomaticSpeech(); },
+    onClose() { this.pendingGames = null; this.render(); speechActive = false; speechElsewhere = false; giftSpeech.stop(); updateSpeechStatus(); },
     onMessage(data) {
+        if (data.type === 'error' && this.pendingGames !== null) { this.pendingGames = null; this.render(); }
         if (data.type === 'error') document.getElementById('engagement-message').textContent = data.message;
         if (data.type === 'error' && this.pendingFloor) {
             document.getElementById('floor-message').textContent = data.message;
             this.pendingFloor = null;
         }
         if (data.type === 'engagement_state') {
+            if (this.pendingGames === data.engagement.gamesEnabled) this.pendingGames = null;
             this.state = data.engagement; this.receivedAt = Date.now(); this.render();
             if (this.pendingFloor === this.state.floorTheme) {
                 document.getElementById('floor-message').textContent = `Đã đổi sàn trong game: ${document.getElementById('floor-current').textContent}.`;
@@ -33,6 +36,14 @@ const liveActivities = {
     render() {
         const state = this.state;
         if (!state) return;
+        const gamesEnabled = state.gamesEnabled !== false;
+        const connected = socket?.readyState === WebSocket.OPEN;
+        const toggle = document.getElementById('games-toggle');
+        toggle.textContent = gamesEnabled ? 'Tắt trò chơi' : 'Bật trò chơi';
+        toggle.className = gamesEnabled ? 'btn btn-danger' : 'btn btn-gold';
+        toggle.disabled = !connected || this.pendingGames !== null;
+        document.getElementById('games-status').textContent = this.pendingGames !== null ? 'Đang cập nhật…' : gamesEnabled ? 'Đang bật trò chơi và ô trò chơi trong game.' : 'Đã tắt trò chơi và ẩn ô trò chơi trong game. Ô năng lượng vẫn hoạt động.';
+        document.getElementById('auto-toggle').disabled = !connected || !gamesEnabled;
         const names = { battle: 'Đấu đội Đỏ – Xanh', vote: 'Bình chọn sàn', dance: 'Cả phòng cùng nhảy' };
         const active = state[state.activity];
         if (state.auto) {
@@ -49,7 +60,7 @@ const liveActivities = {
             }
         }
         const remaining = active ? Math.max(0, Math.ceil((active.endsAt - state.serverTime - (Date.now() - this.receivedAt)) / 1000)) : 0;
-        document.getElementById('activity-status').textContent = state.activity ? `${names[state.activity]} · ${remaining}s` : state.lastResult || 'Sẵn sàng mở hoạt động';
+        document.getElementById('activity-status').textContent = !gamesEnabled ? 'Trò chơi đang tắt' : state.activity ? `${names[state.activity]} · ${remaining}s` : state.lastResult || 'Sẵn sàng mở hoạt động';
         document.getElementById('battle-score').textContent = `Đỏ ${state.battle.red} (${state.battle.redMembers} người) — Xanh ${state.battle.blue} (${state.battle.blueMembers} người)`;
         document.getElementById('vote-score').textContent = `1 Neon: ${state.vote.neon} · 2 Disco: ${state.vote.disco} · 3 Dung nham: ${state.vote.lava}`;
         document.getElementById('dance-score').textContent = `${state.dance.count}/${state.dance.target} người đã chat “nhảy”`;
@@ -66,7 +77,7 @@ const liveActivities = {
             button.textContent = selected ? 'Đang dùng' : 'Dùng sàn này';
             button.closest('[data-theme-card]')?.classList.toggle('is-selected', selected);
         }
-        for (const button of document.querySelectorAll('[data-engagement-start]')) button.disabled = Boolean(state.activity);
+        for (const button of document.querySelectorAll('[data-engagement-start]')) button.disabled = !connected || !gamesEnabled || Boolean(state.activity);
         document.getElementById('activity-stop').disabled = !state.activity;
         const list = document.getElementById('loyal-viewers');
         list.replaceChildren(...state.members.filter(member => member.loyaltyDays > 0).sort((a, b) => b.loyaltyDays - a.loyaltyDays).slice(0, 8).map(member => {
@@ -78,6 +89,12 @@ const liveActivities = {
     }
 };
 window.liveActivities = liveActivities;
+document.getElementById('games-toggle').addEventListener('click', () => {
+    if (!liveActivities.state || liveActivities.pendingGames !== null) return;
+    liveActivities.pendingGames = liveActivities.state.gamesEnabled === false;
+    send({ type: 'engagement_command', action: 'games_config', enabled: liveActivities.pendingGames });
+    liveActivities.render();
+});
 setInterval(() => liveActivities.render(), 1000);
 for (const button of document.querySelectorAll('[data-engagement-start]')) button.addEventListener('click', () => {
     const action = button.dataset.engagementStart;

@@ -8,6 +8,7 @@ namespace TikTokLiveGame
 {
     public sealed class PlayerManager : MonoBehaviour
     {
+        public const int TopRankCount = 5;
         [SerializeField] private int maxPlayers = 400;
         [SerializeField] private float playerTtlSeconds = 600f;
         private const int NpcCrowdTarget = 5;
@@ -17,6 +18,7 @@ namespace TikTokLiveGame
         private readonly Dictionary<string, int> crowdSlots = new();
         private int focusVersion;
         private string focusedUserId;
+        private PlayerActor guestDj;
         private float nextNpcRefillAt;
         private float lastRosterAt = float.NegativeInfinity;
         private const float NpcAmbientAlpha = 1f;
@@ -45,6 +47,21 @@ namespace TikTokLiveGame
         public int ViewerCount => players.Values.Count(actor => !actor.IsNpc);
         public int BotCount => players.Count - ViewerCount;
         public PlayerActor Find(string userId) => !string.IsNullOrWhiteSpace(userId) && players.TryGetValue(userId, out PlayerActor actor) ? actor : null;
+
+        public PlayerActor[] PickParadeViewers()
+        {
+            List<PlayerActor> candidates = players.Values
+                .Where(actor => actor != null && !actor.IsNpc && !actor.IsGuestDj && !actor.IsInParade && !actor.IsDragonRiding).ToList();
+            int maximum = Mathf.Min(8, candidates.Count);
+            if (maximum == 0) return System.Array.Empty<PlayerActor>();
+            int count = Random.Range(Mathf.Min(3, maximum), maximum + 1);
+            for (int index = 0; index < count; index++)
+            {
+                int pick = Random.Range(index, candidates.Count);
+                (candidates[index], candidates[pick]) = (candidates[pick], candidates[index]);
+            }
+            return candidates.Take(count).ToArray();
+        }
 
         public bool TryGetCrowdBounds(out Bounds bounds)
         {
@@ -101,12 +118,22 @@ namespace TikTokLiveGame
                 .Where(id => !string.IsNullOrWhiteSpace(id))
                 .Distinct()
                 .Where(id => players.TryGetValue(id, out PlayerActor actor) && !actor.IsNpc)
-                .Take(3)
+                .Take(TopRankCount)
                 .Select((id, index) => new { id, rank = index + 1 })
                 .ToDictionary(item => item.id, item => item.rank);
             foreach (KeyValuePair<string, PlayerActor> pair in players)
                 pair.Value.SetTopRank(ranks.TryGetValue(pair.Key, out int rank) ? rank : 0);
             ApplyVisibilityState();
+        }
+
+        public void UpdateGuestDj(string userId)
+        {
+            PlayerActor next = Find(userId);
+            if (next != null && next.IsNpc) next = null;
+            if (guestDj == next) return;
+            if (guestDj != null) guestDj.EndDjPerformance();
+            guestDj = next;
+            if (guestDj != null) guestDj.PerformAsDj();
         }
 
         public PlayerActor GetOrCreate(TikTokEvent data)
@@ -344,7 +371,7 @@ namespace TikTokLiveGame
             // disconnected. Only remove excess idle avatars above 80 viewers.
             int excess = ViewerCount - InactiveCleanupAbove;
             if (Time.unscaledTime - lastRosterAt > 3f && excess > 0)
-                foreach (string id in players.Where(pair => !pair.Value.IsNpc && pair.Value.LastActiveTime < cutoff)
+                foreach (string id in players.Where(pair => !pair.Value.IsNpc && !pair.Value.IsGuestDj && pair.Value.LastActiveTime < cutoff)
                     .OrderBy(pair => pair.Value.LastActiveTime).Take(excess).Select(pair => pair.Key).ToArray())
                     Remove(id);
             if (Time.unscaledTime >= nextNpcRefillAt) EnsureNpcCrowd();
@@ -355,6 +382,7 @@ namespace TikTokLiveGame
             foreach (PlayerActor actor in players.Values) Destroy(actor.gameObject);
             focusVersion++;
             focusedUserId = null;
+            guestDj = null;
             players.Clear();
             playerOrder.Clear();
             crowdSlots.Clear();
@@ -365,7 +393,7 @@ namespace TikTokLiveGame
 
         private void RemoveOldest()
         {
-            KeyValuePair<string, PlayerActor> oldest = players.OrderBy(pair => pair.Value.LastActiveTime).FirstOrDefault();
+            KeyValuePair<string, PlayerActor> oldest = players.Where(pair => !pair.Value.IsGuestDj).OrderBy(pair => pair.Value.LastActiveTime).FirstOrDefault();
             if (!string.IsNullOrEmpty(oldest.Key)) Remove(oldest.Key);
         }
 

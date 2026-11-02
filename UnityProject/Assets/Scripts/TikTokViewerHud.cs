@@ -119,6 +119,7 @@ namespace TikTokLiveGame
                 "camera" => "Zoom vào người tặng",
                 "change" => "Đổi nhân vật",
                 "walk" => "Nhún nhảy tại chỗ",
+                "dragon" => "Cưỡi rồng bay",
                 "medal" => "Nhận cánh VIP",
                 "fireworks" => "Bắn pháo hoa",
                 "grow" => "Nhân vật khổng lồ",
@@ -138,11 +139,14 @@ namespace TikTokLiveGame
 
             float rankX = x + 276;
             const float panelWidth = 244f;
-            DrawAssetPanel(new Rect(rankX, 10, panelWidth, 88), rankPanel, new Color(0.65f, 0.4f, 1f, 0.94f));
-            GUI.Label(new Rect(rankX + 18, 14, 208, 19), "TOP QUÀ TRÊN SÀN", viewerHeading);
-            Donor[] top = ActiveDonors().Take(3).ToArray();
+            const float rankPanelHeight = 34f + PlayerManager.TopRankCount * 18f;
+            float giftY = 10f + rankPanelHeight + 5f;
+            viewerOverlayBottom = Mathf.Max(viewerOverlayBottom, 10f + rankPanelHeight);
+            DrawAssetPanel(new Rect(rankX, 10, panelWidth, rankPanelHeight), rankPanel, new Color(0.65f, 0.4f, 1f, 0.94f));
+            GUI.Label(new Rect(rankX + 18, 14, 208, 19), $"TOP {PlayerManager.TopRankCount} QUÀ TRÊN SÀN", viewerHeading);
+            Donor[] top = ActiveDonors().Take(PlayerManager.TopRankCount).ToArray();
             Color previous = GUI.color;
-            for (int index = 0; index < 3; index++)
+            for (int index = 0; index < PlayerManager.TopRankCount; index++)
             {
                 GUI.color = index == 0 ? new Color(1f, 0.84f, 0.35f) : Color.white;
                 float y = 34 + index * 18;
@@ -163,8 +167,8 @@ namespace TikTokLiveGame
             float nameHeight = giftNameStyle.CalcHeight(new GUIContent(giftDisplayName), textWidth);
             float effectHeight = giftDescriptionStyle.CalcHeight(new GUIContent(effect), textWidth);
             float cardHeight = Mathf.Max(106f, 44f + nameHeight + effectHeight);
-            DrawAssetPanel(new Rect(rankX, 103, panelWidth, cardHeight), giftPanel, new Color(0.15f, 0.8f, 1f, 0.94f));
-            GUI.Label(new Rect(rankX + 14, 107, 216, 18), freeLikes ? "THẢ TIM · MIỄN PHÍ" : $"QUÀ · HIỆU ỨNG   {selected + 1}/{viewerGuide.Length}", viewerHeading);
+            DrawAssetPanel(new Rect(rankX, giftY, panelWidth, cardHeight), giftPanel, new Color(0.15f, 0.8f, 1f, 0.94f));
+            GUI.Label(new Rect(rankX + 14, giftY + 4, 216, 18), freeLikes ? "THẢ TIM · MIỄN PHÍ" : $"QUÀ · HIỆU ỨNG   {selected + 1}/{viewerGuide.Length}", viewerHeading);
             Texture2D icon = viewerStar;
             if (!string.IsNullOrEmpty(item.iconResource)) icon = Resources.Load<Texture2D>(item.iconResource) ?? icon;
             if (icon == viewerStar && !string.IsNullOrEmpty(item.giftPictureUrl) && giftIcons.TryGetValue(item.giftPictureUrl, out Texture2D actual)) icon = actual;
@@ -174,16 +178,16 @@ namespace TikTokLiveGame
                 if (freeLikes)
                 {
                     GUI.color = new Color(1f, 0.2f, 0.45f);
-                    GUI.DrawTextureWithTexCoords(new Rect(rankX + 12, 132, 46, 46), icon, new Rect(0.25f, 0.25f, 0.5f, 0.5f), true);
+                    GUI.DrawTextureWithTexCoords(new Rect(rankX + 12, giftY + 29, 46, 46), icon, new Rect(0.25f, 0.25f, 0.5f, 0.5f), true);
                 }
-                else GUI.DrawTexture(new Rect(rankX + 12, 132, 46, 46), icon, ScaleMode.ScaleToFit, true);
+                else GUI.DrawTexture(new Rect(rankX + 12, giftY + 29, 46, 46), icon, ScaleMode.ScaleToFit, true);
                 GUI.color = previousTint;
             }
             float textX = rankX + 64;
-            GUI.Label(new Rect(textX, 128, textWidth, nameHeight), giftDisplayName, giftNameStyle);
-            GUI.Label(new Rect(textX, 128 + nameHeight, textWidth, 18), cost, viewerSmall);
-            GUI.Label(new Rect(textX, 146 + nameHeight, textWidth, effectHeight), effect, giftDescriptionStyle);
-            viewerOverlayBottom = 103 + cardHeight;
+            GUI.Label(new Rect(textX, giftY + 25, textWidth, nameHeight), giftDisplayName, giftNameStyle);
+            GUI.Label(new Rect(textX, giftY + 25 + nameHeight, textWidth, 18), cost, viewerSmall);
+            GUI.Label(new Rect(textX, giftY + 43 + nameHeight, textWidth, effectHeight), effect, giftDescriptionStyle);
+            viewerOverlayBottom = Mathf.Max(viewerOverlayBottom, giftY + cardHeight);
             // No feed, operator statistics, connection labels, or UI in the comment region.
         }
     }

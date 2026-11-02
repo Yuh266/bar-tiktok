@@ -14,7 +14,8 @@
     "test:moderation-ui": "node scripts/moderation-ui-smoke.js",
     "test": "npm run check && node --test",
     "test:music-ui": "node scripts/music-ui-smoke.js",
-    "test:screen-ui": "node scripts/screen-ui-smoke.js"
+    "test:screen-ui": "node scripts/screen-ui-smoke.js",
+    "test:backup-ui": "node scripts/session-backup-ui-smoke.js"
   },
   "keywords": [],
   "author": "Bar Club",

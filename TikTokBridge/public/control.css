@@ -940,6 +940,10 @@ kbd {
 #reset-leaderboard { margin-top: 18px; }
 .leaderboard-confirm { margin-top: 14px; border: 1px solid var(--danger-bdr); padding: 12px; border-radius: 8px; }
 @media (max-width: 820px) { .moderation-grid { grid-template-columns: 1fr; } }
+.session-backup-card { margin-bottom: 16px; }
+.session-backup-card > .help { margin-top: 10px; }
+.session-backup-file { overflow-wrap: anywhere; }
+.session-backup-card .card-header { flex-wrap: wrap; gap: 12px; }
 .engagement-grid .card > .help { margin-top: 12px; line-height: 1.7; }
 .activity-summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .activity-score { margin: 18px 0; font-size: 16px; color: var(--gold); font-weight: 700; }

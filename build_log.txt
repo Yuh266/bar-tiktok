@@ -1,0 +1,3282 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+[Licensing::IpcConnector] Channel LicenseClient-Van Kien doesn't exist
+Built from '6000.2/staging' branch; Version is '6000.2.10f1 (d3d30d158480) revision 13882125'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) 64bit CoreSingleLanguage' Language: 'en' Physical Memory: 7895 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+Date: 2026-11-01T05:39:47Z
+[Licensing::Module] Successfully launched the LicensingClient (PId: 8000)
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity 6000.2.10f1\Editor\Unity.exe
+-quit
+-batchmode
+-projectPath
+C:\Users\Van Kien\Downloads\tiktok-live-bar\UnityProject
+-buildWindows64Player
+C:\Users\Van Kien\Downloads\tiktok-live-bar\Build\BarClub_Live.exe
+-logFile
+C:\Users\Van Kien\Downloads\tiktok-live-bar\build_log.txt
+Successfully changed project path to: C:\Users\Van Kien\Downloads\tiktok-live-bar\UnityProject
+C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+[UnityMemory] Configuration Parameters - Can be set up in boot.config
+    "memorysetup-allocator-temp-initial-block-size-main=262144"
+    "memorysetup-allocator-temp-initial-block-size-worker=262144"
+    "memorysetup-bucket-allocator-granularity=16"
+    "memorysetup-bucket-allocator-bucket-count=8"
+    "memorysetup-bucket-allocator-block-size=33554432"
+    "memorysetup-bucket-allocator-block-count=8"
+    "memorysetup-main-allocator-block-size=16777216"
+    "memorysetup-thread-allocator-block-size=16777216"
+    "memorysetup-gfx-main-allocator-block-size=16777216"
+    "memorysetup-gfx-thread-allocator-block-size=16777216"
+    "memorysetup-cache-allocator-block-size=4194304"
+    "memorysetup-typetree-allocator-block-size=2097152"
+    "memorysetup-profiler-bucket-allocator-granularity=16"
+    "memorysetup-profiler-bucket-allocator-bucket-count=8"
+    "memorysetup-profiler-bucket-allocator-block-size=33554432"
+    "memorysetup-profiler-bucket-allocator-block-count=8"
+    "memorysetup-profiler-allocator-block-size=16777216"
+    "memorysetup-profiler-editor-allocator-block-size=1048576"
+    "memorysetup-temp-allocator-size-main=16777216"
+    "memorysetup-job-temp-allocator-block-size=2097152"
+    "memorysetup-job-temp-allocator-block-size-background=1048576"
+    "memorysetup-job-temp-allocator-reduction-small-platforms=262144"
+    "memorysetup-temp-allocator-size-background-worker=32768"
+    "memorysetup-temp-allocator-size-job-worker=262144"
+    "memorysetup-temp-allocator-size-preload-manager=33554432"
+    "memorysetup-temp-allocator-size-nav-mesh-worker=65536"
+    "memorysetup-temp-allocator-size-audio-worker=65536"
+    "memorysetup-temp-allocator-size-cloud-worker=32768"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gi-baking-worker=262144"
+    "memorysetup-temp-allocator-size-gfx=262144"
+Player connection [14196]  Target information:
+
+Player connection [14196]  * "[IP] 192.168.1.61 [Port] 55504 [Flags] 2 [Guid] 1109634664 [EditorId] 1109634664 [Version] 1048832 [Id] WindowsEditor(7,LAPTOP-9ETLQ1M7) [Debug] 1 [PackageName] WindowsEditor [ProjectName] Editor" 
+
+Player connection [14196] Host joined multi-casting on [225.0.0.222:54997]...
+Player connection [14196] Host joined alternative multi-casting on [225.0.0.222:34997]...
+Input System module state changed to: Initialized.
+[Physics::Module] Initialized fallback backend.
+[Physics::Module] Id: 0xdecafbad
+[Package Manager] Connected to IPC stream "Upm-20232" after 0.9 seconds.
+Library Redirect Path: Library/
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Van Kien" at "2026-11-01T05:39:48.7911724Z"
+[Licensing::Client] Code 10 while verifying Licensing Client signature (process Id: 8000, path: "C:/Program Files/Unity 6000.2.10f1/Editor/Data/Resources/Licensing/Client/Unity.Licensing.Client.exe")
+[Licensing::Module] LicensingClient has failed validation; ignoring
+[Physics::Module] Selected backend.
+[Physics::Module] Name: PhysX
+[Physics::Module] Id: 0xf2b8ea05
+[Physics::Module] SDK Version: 4.1.2
+[Physics::Module] Integration Version: 1.0.0
+[Physics::Module] Threading Mode: Multi-Threaded
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.01 ms.
+Initialize engine version: 6000.2.10f1 (d3d30d158480)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity 6000.2.10f1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject/Assets
+GfxDevice: creating device client; kGfxThreadingModeNonThreaded
+[Licensing::Client] Handshaking with LicensingClient:
+  Version:                 1.17.2+ff71f16
+  Session Id:              660aad89433c453db578c1fe5e30dd57
+  Correlation Id:          a785a2b978387be41b430fee57281c46
+  External correlation Id: 6898899420592795936
+  Machine Id:              +8/NduB0vRv+z0ahbAN/kNU7PyA=
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-Van Kien" (connect: 1.29s, validation: 0.55s, handshake: 0.11s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-Van Kien-notifications" at "2026-11-01T05:39:49.4536563Z"
+[Licensing::Module] Connected to LicensingClient (PId: 8000, launch time: 0.03, total connection time: 1.95s)
+[Licensing::Module] Error: Access token is unavailable; failed to update
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Client] Successfully updated license, isAsync: False, time: 0.09
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 2050 (ID=0x25a9)
+    Vendor:   NVIDIA
+    VRAM:     3979 MB
+    Driver:   31.0.15.3210
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Module] Licensing Background thread has ended after 2.11s
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity 6000.2.10f1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity 6000.2.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit-win32'
+Mono config path = 'C:/Program Files/Unity 6000.2.10f1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56232
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
+ImportWorker Server TCP listen port: 0
+AcceleratorClientConnectionCallback - disconnected - :0
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity 6000.2.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.008618 seconds.
+- Loaded All Assemblies, in  1.163 seconds
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  0.709 seconds
+Domain Reload Profiling: 1869ms
+	BeginReloadAssembly (447ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (0ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (4ms)
+	RebuildCommonClasses (161ms)
+	RebuildNativeTypeToScriptingClass (18ms)
+	initialDomainReloadingComplete (127ms)
+	LoadAllAssembliesAndSetupDomain (407ms)
+		LoadAssemblies (435ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (396ms)
+			TypeCache.Refresh (389ms)
+				TypeCache.ScanAssembly (361ms)
+			BuildScriptInfoCaches (1ms)
+			ResolveRequiredComponents (5ms)
+	FinalizeReload (711ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (632ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (144ms)
+			SetLoadedEditorAssemblies (14ms)
+			BeforeProcessingInitializeOnLoad (155ms)
+			ProcessInitializeOnLoadAttributes (236ms)
+			ProcessInitializeOnLoadMethodAttributes (82ms)
+			AfterProcessingInitializeOnLoad (0ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (0ms)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Application.AssetDatabase Initial Refresh Start
+Package Manager log level set to [2]
+[Package Manager] Restoring resolved packages state from cache
+[Licensing::Client] Successfully resolved entitlement details
+[Package Manager] Registered 13 packages:
+  Built-in packages:
+    com.unity.modules.animation@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.animation)
+    com.unity.modules.audio@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.audio)
+    com.unity.modules.imgui@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.imgui)
+    com.unity.modules.jsonserialize@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.jsonserialize)
+    com.unity.modules.particlesystem@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.particlesystem)
+    com.unity.modules.screencapture@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.screencapture)
+    com.unity.modules.video@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.video)
+    com.unity.modules.physics@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.physics)
+    com.unity.modules.ui@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.ui)
+    com.unity.modules.unitywebrequest@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequest)
+    com.unity.modules.unitywebrequestaudio@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequestaudio)
+    com.unity.modules.unitywebrequesttexture@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.unitywebrequesttexture)
+    com.unity.modules.imageconversion@1.0.0 (location: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Resources\PackageManager\BuiltInPackages\com.unity.modules.imageconversion)
+[Subsystems] No new subsystems found in resolved package list.
+[Package Manager] Done registering packages in 0.02 seconds
+[ScriptCompilation] Requested script compilation because: Assetdatabase observed changes in script compilation related files
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Starting: C:\Program Files\Unity 6000.2.10f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
+WorkingDir: C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+DisplayProgressbar: Compiling Scripts
+ExitCode: 0 Duration: 4s379ms
+[137/143    3s] Csc Library/Bee/artifacts/1900b0aE.dag/Assembly-CSharp.dll (+2 others)
+[141/143    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.pdb
+[142/143    0s] CopyFiles Library/ScriptAssemblies/Assembly-CSharp.dll
+*** Tundra build success (4.28 seconds), 3 items updated, 143 evaluated
+Total cache size 0
+Total cache size after purge 0, took 00:00:00.0203071
+AssetDatabase: script compilation time: 5.938984s
+Begin MonoManager ReloadAssembly
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+- Loaded All Assemblies, in  1.496 seconds
+Start importing ProjectSettings/ProjectSettings.asset using Guid(00000000000000004000000000000000) (LibraryAssetImporter) -> (artifact id: '9f13425ac0cdddbbb6a4f8882c6d05bc') in 0.1201776 seconds
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Native extension for WindowsStandalone target not found
+Mono: successfully reloaded assembly
+- Finished resetting the current domain, in  1.129 seconds
+Domain Reload Profiling: 2617ms
+	BeginReloadAssembly (350ms)
+		ExecutionOrderSort (0ms)
+		DisableScriptedObjects (29ms)
+		BackupInstance (0ms)
+		ReleaseScriptingObjects (0ms)
+		CreateAndSetChildDomain (47ms)
+	RebuildCommonClasses (83ms)
+	RebuildNativeTypeToScriptingClass (24ms)
+	initialDomainReloadingComplete (65ms)
+	LoadAllAssembliesAndSetupDomain (965ms)
+		LoadAssemblies (1142ms)
+		RebuildTransferFunctionScriptingTraits (0ms)
+		AnalyzeDomain (20ms)
+			TypeCache.Refresh (11ms)
+				TypeCache.ScanAssembly (2ms)
+			BuildScriptInfoCaches (1ms)
+			ResolveRequiredComponents (3ms)
+	FinalizeReload (1130ms)
+		ReleaseScriptCaches (0ms)
+		RebuildScriptCaches (0ms)
+		SetupLoadedEditorAssemblies (750ms)
+			LogAssemblyErrors (0ms)
+			InitializePlatformSupportModulesInManaged (145ms)
+			SetLoadedEditorAssemblies (11ms)
+			BeforeProcessingInitializeOnLoad (226ms)
+			ProcessInitializeOnLoadAttributes (305ms)
+			ProcessInitializeOnLoadMethodAttributes (37ms)
+			AfterProcessingInitializeOnLoad (26ms)
+			EditorAssembliesLoaded (0ms)
+		ExecutionOrderSort2 (0ms)
+		AwakeInstancesAfterBackupRestoration (29ms)
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Asset Pipeline Refresh (id=33d56c2fba874b9418cb4590ccf52ca1): Total: 9.166 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+	Summary:
+		Imports: total=1 (actual=1, local cache=0, cache server=0)
+		Asset DB Process Time: managed=18 ms, native=1541 ms
+		Asset DB Callback time: managed=114 ms, native=31 ms
+		Scripting: domain reloads=1, domain reload time=1497 ms, compile time=5945 ms, other=16 ms
+		Project Asset Count: scripts=77, non-scripts=265
+		Asset File Changes: new=0, changed=2, moved=0, deleted=0
+		Scan Filter Count: 0
+	InvokeCustomDependenciesCallbacks: 0.004ms
+	InvokePackagesCallback: 29.425ms
+	ApplyChangesToAssetFolders: 0.923ms
+	Scan: 114.774ms
+	OnSourceAssetsModified: 2.711ms
+	CategorizeAssetsWithTransientArtifact: 0.991ms
+	ProcessAssetsWithTransientArtifactChanges: 3.248ms
+	CategorizeAssets: 10.841ms
+	ImportOutOfDateAssets: 1269.828ms (-4813.965ms without children)
+		ImportManagerImport: 137.231ms (15.012ms without children)
+			ImportInProcess: 121.784ms
+			UpdateCategorizedAssets: 0.435ms
+		CompileScripts: 5945.495ms
+		ReloadNativeAssets: 0.001ms
+		UnloadImportedAssets: 0.352ms
+		ReloadImportedAssets: 0.002ms
+		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.129ms
+		InitializingProgressBar: 0.001ms
+		PostProcessAllAssetNotificationsAddChangedAssets: 0.001ms
+		OnDemandSchedulerStart: 0.579ms
+	PostProcessAllAssets: 119.438ms
+	Hotreload: 1.731ms
+	GatherAllCurrentPrimaryArtifactRevisions: 0.007ms
+	UnloadStreamsBegin: 0.743ms
+	PersistCurrentRevisions: 0.259ms
+	UnloadStreamsEnd: 0.002ms
+	GenerateScriptTypeHashes: 0.005ms
+	Untracked: 7611.407ms
+
+Application.AssetDatabase Initial Refresh End
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.03 seconds
+Scanning for USB devices : 8.163ms
+Initializing Unity extensions:
+[MODES] ModeService[none].Initialize
+[MODES] ModeService[none].LoadModes
+[MODES] Loading mode Default (0) for mode-current-id-Bar Club
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 46 unused Assets / (478.4 KB). Loaded Objects now: 569.
+Memory consumption went from 85.6 MB to 85.1 MB.
+Total: 12.156000 ms (FindLiveObjects: 0.135000 ms CreateObjectMapping: 0.014400 ms MarkObjects: 11.571200 ms  DeleteObjects: 0.431800 ms)
+
+building x86_64 windows player!
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Starting: C:\Program Files\Unity 6000.2.10f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aESkipCompile.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssembliesAndTypeDB
+WorkingDir: C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+ExitCode: 0 Duration: 0s769ms
+[2/3        0s] BuildPlayerDataGenerator Library/BuildPlayerData/Editor/TypeDb-All.json
+*** Tundra build success (0.68 seconds), 1 items updated, 3 evaluated
+Total cache size 0
+Total cache size after purge 0, took 00:00:00.0194775
+Asset Pipeline Refresh (id=9af4368b98dfd7a4ea63f7c827fb1eca): Total: 0.010 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+[ScriptCompilation] Requested script compilation because: Recompiling scripts for player build.
+BuildPlayer: start building target 19
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Starting: C:\Program Files\Unity 6000.2.10f1\Editor\Data\bee_backend.exe --ipc --defer-dag-verification --dagfile="Library/Bee/1900b0aP.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssembliesAndTypeDB
+WorkingDir: C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Curl error 7: Failed to connect to config.uca.cloud.unity3d.com port 443 after 4100 ms: Could not connect to server
+Total cache size 0
+Total cache size after purge 0, took 00:00:00.0079146
+ExitCode: 0 Duration: 2s756ms
+[60/65      0s] Csc Library/Bee/artifacts/1900b0aP.dag/Assembly-CSharp.dll (+2 others)
+[61/65      0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.pdb
+[62/65      0s] CopyFiles Library/Bee/PlayerScriptAssemblies/Assembly-CSharp.dll
+[64/65      0s] BuildPlayerDataGenerator Library/BuildPlayerData/Player/RuntimeInitializeOnLoads.json (+1 other)
+*** Tundra build success (2.69 seconds), 4 items updated, 65 evaluated
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Rebuilding Data files because ProjectSettings/ProjectSettings.asset is dirty (hash)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Opening scene 'Assets/Scenes/Main.unity'
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+[Licensing::Client] Error: Code 404 while processing request (status: Found 0 entitlement groups and 0 free entitlements matching requested entitlement ids)
+[Licensing::Module] Error: 'com.unity.editor.headless' was not found.
+Loaded scene 'Assets/Scenes/Main.unity'
+	Deserialize:            1.988 ms
+	Integration:            11.473 ms
+	Integration of assets:  0.005 ms
+	Thread Wait Time:       9.092 ms
+	Total Operation Time:   22.558 ms
+Unloading 20 unused Assets / (0.6 MB). Loaded Objects now: 585.
+Memory consumption went from 89.1 MB to 88.5 MB.
+Total: 9.213300 ms (FindLiveObjects: 0.086200 ms CreateObjectMapping: 0.010000 ms MarkObjects: 8.627400 ms  DeleteObjects: 0.487000 ms)
+
+Created GICache directory at C:/Users/Van Kien/AppData/LocalLow/Unity/Caches/GiCache. Took: 0.060s, timestamps: [19.418 - 19.478]
+
+
+Mono dependencies included in the build
+Dependency assembly - System.Web.WebPages.Razor.dll
+Dependency assembly - System.Runtime.Handles.dll
+Dependency assembly - System.Security.Cryptography.Encryption.Aes.dll
+Dependency assembly - System.Threading.AccessControl.dll
+Dependency assembly - Mono.XBuild.Tasks.dll
+Dependency assembly - System.Diagnostics.TraceSource.dll
+Dependency assembly - System.Runtime.Serialization.Primitives.dll
+Dependency assembly - System.Net.Ping.dll
+Dependency assembly - System.Web.Http.SelfHost.dll
+Dependency assembly - System.Resources.Writer.dll
+Dependency assembly - System.Threading.Tasks.Parallel.dll
+Dependency assembly - System.ComponentModel.EventBasedAsync.dll
+Dependency assembly - Mono.Parallel.dll
+Dependency assembly - System.Data.DataSetExtensions.dll
+Dependency assembly - System.Security.Cryptography.Pkcs.dll
+Dependency assembly - System.Dynamic.Runtime.dll
+Dependency assembly - System.ServiceModel.Http.dll
+Dependency assembly - System.Deployment.dll
+Dependency assembly - System.Data.dll
+Dependency assembly - System.Runtime.InteropServices.dll
+Dependency assembly - System.Web.Abstractions.dll
+Dependency assembly - System.Reflection.Emit.dll
+Dependency assembly - Mono.CSharp.dll
+Dependency assembly - System.ComponentModel.Primitives.dll
+Dependency assembly - System.Threading.dll
+Dependency assembly - System.ValueTuple.dll
+Dependency assembly - System.IdentityModel.Selectors.dll
+Dependency assembly - System.Web.dll
+Dependency assembly - System.Diagnostics.Debug.dll
+Dependency assembly - System.Drawing.Primitives.dll
+Dependency assembly - System.Xml.dll
+Dependency assembly - System.Reactive.Observable.Aliases.dll
+Dependency assembly - System.Diagnostics.FileVersionInfo.dll
+Dependency assembly - I18N.Other.dll
+Dependency assembly - System.Data.Services.dll
+Dependency assembly - System.Net.Mail.dll
+Dependency assembly - System.Security.Cryptography.Encryption.ECDsa.dll
+Dependency assembly - Mono.Messaging.dll
+Dependency assembly - System.IO.dll
+Dependency assembly - Mono.Data.Tds.dll
+Dependency assembly - Assembly-CSharp.dll
+Dependency assembly - System.Xml.XDocument.dll
+Dependency assembly - System.Management.dll
+Dependency assembly - System.Xml.XPath.dll
+Dependency assembly - System.Workflow.ComponentModel.dll
+Dependency assembly - System.Security.Cryptography.Hashing.Algorithms.dll
+Dependency assembly - System.Data.Common.dll
+Dependency assembly - System.Configuration.dll
+Dependency assembly - System.Web.Http.WebHost.dll
+Dependency assembly - System.Collections.NonGeneric.dll
+Dependency assembly - System.IO.MemoryMappedFiles.dll
+Dependency assembly - System.IO.Pipes.dll
+Dependency assembly - System.Net.Utilities.dll
+Dependency assembly - System.Reactive.Windows.Forms.dll
+Dependency assembly - System.Threading.ThreadPool.dll
+Dependency assembly - System.Net.Http.dll
+Dependency assembly - System.Diagnostics.Tracing.dll
+Dependency assembly - System.Design.dll
+Dependency assembly - System.Net.WebSockets.dll
+Dependency assembly - System.Security.Cryptography.Cng.dll
+Dependency assembly - System.Runtime.InteropServices.RuntimeInformation.dll
+Dependency assembly - System.Reflection.Primitives.dll
+Dependency assembly - System.ServiceModel.Activation.dll
+Dependency assembly - System.Diagnostics.Tools.dll
+Dependency assembly - System.Runtime.Remoting.dll
+Dependency assembly - System.Globalization.Calendars.dll
+Dependency assembly - System.Security.AccessControl.dll
+Dependency assembly - I18N.CJK.dll
+Dependency assembly - System.ServiceProcess.ServiceController.dll
+Dependency assembly - PEAPI.dll
+Dependency assembly - System.Runtime.Serialization.Formatters.Soap.dll
+Dependency assembly - System.Workflow.Runtime.dll
+Dependency assembly - Mono.CompilerServices.SymbolWriter.dll
+Dependency assembly - System.Reflection.Context.dll
+Dependency assembly - System.IO.FileSystem.Watcher.dll
+Dependency assembly - System.Net.NetworkInformation.dll
+Dependency assembly - System.Net.Http.Rtc.dll
+Dependency assembly - System.Web.WebPages.dll
+Dependency assembly - System.Security.Cryptography.Algorithms.dll
+Dependency assembly - System.Web.Extensions.Design.dll
+Dependency assembly - System.Xml.Linq.dll
+Dependency assembly - System.AppContext.dll
+Dependency assembly - System.Runtime.Serialization.Json.dll
+Dependency assembly - System.Security.SecureString.dll
+Dependency assembly - System.Data.Linq.dll
+Dependency assembly - System.Diagnostics.StackTrace.dll
+Dependency assembly - Microsoft.Web.Infrastructure.dll
+Dependency assembly - System.IO.UnmanagedMemoryStream.dll
+Dependency assembly - System.Reflection.dll
+Dependency assembly - System.Web.Razor.dll
+Dependency assembly - System.Messaging.dll
+Dependency assembly - System.ComponentModel.DataAnnotations.dll
+Dependency assembly - System.Web.Mobile.dll
+Dependency assembly - System.Diagnostics.TextWriterTraceListener.dll
+Dependency assembly - System.Console.dll
+Dependency assembly - I18N.dll
+Dependency assembly - SystemWebTestShim.dll
+Dependency assembly - System.Xml.XmlDocument.dll
+Dependency assembly - System.Data.Services.Client.dll
+Dependency assembly - System.Numerics.dll
+Dependency assembly - Microsoft.Win32.Primitives.dll
+Dependency assembly - System.Security.Principal.dll
+Dependency assembly - System.Xml.XPath.XDocument.dll
+Dependency assembly - Microsoft.Build.Engine.dll
+Dependency assembly - Mono.Http.dll
+Dependency assembly - System.Data.Entity.dll
+Dependency assembly - System.DirectoryServices.dll
+Dependency assembly - Mono.Cairo.dll
+Dependency assembly - CustomMarshalers.dll
+Dependency assembly - System.Text.Encoding.CodePages.dll
+Dependency assembly - System.Reactive.Providers.dll
+Dependency assembly - Mono.Security.dll
+Dependency assembly - System.ComponentModel.Composition.dll
+Dependency assembly - System.Runtime.Serialization.dll
+Dependency assembly - cscompmgd.dll
+Dependency assembly - System.Linq.Queryable.dll
+Dependency assembly - System.Xml.ReaderWriter.dll
+Dependency assembly - System.Threading.Thread.dll
+Dependency assembly - System.Net.Requests.dll
+Dependency assembly - I18N.MidEast.dll
+Dependency assembly - System.Reactive.Interfaces.dll
+Dependency assembly - System.ServiceModel.dll
+Dependency assembly - System.ServiceModel.Web.dll
+Dependency assembly - System.Xaml.dll
+Dependency assembly - System.Collections.Specialized.dll
+Dependency assembly - System.Runtime.DurableInstancing.dll
+Dependency assembly - System.Reflection.Emit.Lightweight.dll
+Dependency assembly - System.ServiceModel.Routing.dll
+Dependency assembly - Microsoft.Build.Framework.dll
+Dependency assembly - System.Security.Cryptography.ProtectedData.dll
+Dependency assembly - System.Diagnostics.TraceEvent.dll
+Dependency assembly - System.Reflection.DispatchProxy.dll
+Dependency assembly - Mono.Security.Win32.dll
+Dependency assembly - System.Windows.dll
+Dependency assembly - System.Buffers.dll
+Dependency assembly - System.Net.Sockets.dll
+Dependency assembly - System.Web.Mvc.dll
+Dependency assembly - System.ServiceModel.Duplex.dll
+Dependency assembly - System.Net.Security.dll
+Dependency assembly - System.Runtime.CompilerServices.VisualC.dll
+Dependency assembly - System.Reflection.TypeExtensions.dll
+Dependency assembly - System.Net.AuthenticationManager.dll
+Dependency assembly - System.Globalization.dll
+Dependency assembly - Microsoft.Build.Utilities.v4.0.dll
+Dependency assembly - netstandard.dll
+Dependency assembly - System.Runtime.InteropServices.WindowsRuntime.dll
+Dependency assembly - System.Reactive.Windows.Threading.dll
+Dependency assembly - monodoc.dll
+Dependency assembly - System.Dynamic.dll
+Dependency assembly - Mono.Posix.dll
+Dependency assembly - System.ServiceProcess.dll
+Dependency assembly - System.Reactive.Runtime.Remoting.dll
+Dependency assembly - RabbitMQ.Client.dll
+Dependency assembly - System.Security.Cryptography.Encryption.dll
+Dependency assembly - SMDiagnostics.dll
+Dependency assembly - Microsoft.Build.dll
+Dependency assembly - System.Net.ServicePoint.dll
+Dependency assembly - System.IO.FileSystem.DriveInfo.dll
+Dependency assembly - System.Configuration.Install.dll
+Dependency assembly - System.ComponentModel.Annotations.dll
+Dependency assembly - I18N.West.dll
+Dependency assembly - System.Resources.ReaderWriter.dll
+Dependency assembly - System.Security.Cryptography.OpenSsl.dll
+Dependency assembly - System.Linq.dll
+Dependency assembly - Microsoft.Build.Tasks.v4.0.dll
+Dependency assembly - System.Runtime.Serialization.Formatters.dll
+Dependency assembly - System.Text.Encoding.Extensions.dll
+Dependency assembly - Mono.Messaging.RabbitMQ.dll
+Dependency assembly - Commons.Xml.Relaxng.dll
+Dependency assembly - System.Security.Claims.dll
+Dependency assembly - System.DirectoryServices.Protocols.dll
+Dependency assembly - System.IO.Compression.FileSystem.dll
+Dependency assembly - System.Reactive.Linq.dll
+Dependency assembly - System.Security.dll
+Dependency assembly - System.Transactions.dll
+Dependency assembly - System.Windows.Forms.DataVisualization.dll
+Dependency assembly - System.Threading.Tasks.dll
+Dependency assembly - System.Globalization.Extensions.dll
+Dependency assembly - Mono.C5.dll
+Dependency assembly - System.ServiceModel.Discovery.dll
+Dependency assembly - Mono.Profiler.Log.dll
+Dependency assembly - System.Security.Cryptography.Primitives.dll
+Dependency assembly - System.EnterpriseServices.dll
+Dependency assembly - Microsoft.Win32.Registry.dll
+Dependency assembly - System.Security.Cryptography.Hashing.dll
+Dependency assembly - System.IdentityModel.dll
+Dependency assembly - System.ServiceModel.NetTcp.dll
+Dependency assembly - System.ServiceModel.Internals.dll
+Dependency assembly - System.Web.Extensions.dll
+Dependency assembly - System.Security.Cryptography.X509Certificates.dll
+Dependency assembly - WebMatrix.Data.dll
+Dependency assembly - System.Runtime.Extensions.dll
+Dependency assembly - Microsoft.Win32.Registry.AccessControl.dll
+Dependency assembly - System.Security.Cryptography.DeriveBytes.dll
+Dependency assembly - System.IO.FileSystem.AccessControl.dll
+Dependency assembly - I18N.Rare.dll
+Dependency assembly - System.IO.FileSystem.dll
+Dependency assembly - Mono.Btls.Interface.dll
+Dependency assembly - System.Net.WebHeaderCollection.dll
+Dependency assembly - System.Data.OracleClient.dll
+Dependency assembly - System.Web.Http.dll
+Dependency assembly - System.Web.WebPages.Deployment.dll
+Dependency assembly - Microsoft.VisualC.dll
+Dependency assembly - System.Collections.Concurrent.dll
+Dependency assembly - System.Collections.dll
+Dependency assembly - System.ServiceModel.Primitives.dll
+Dependency assembly - mscorlib.dll
+Dependency assembly - Mono.Data.Sqlite.dll
+Dependency assembly - System.Windows.Forms.dll
+Dependency assembly - System.Reflection.Emit.ILGeneration.dll
+Dependency assembly - System.Threading.Tasks.Dataflow.dll
+Dependency assembly - System.Runtime.Loader.dll
+Dependency assembly - System.Resources.Reader.dll
+Dependency assembly - System.ObjectModel.dll
+Dependency assembly - System.Core.dll
+Dependency assembly - System.Reactive.PlatformServices.dll
+Dependency assembly - System.Net.Cache.dll
+Dependency assembly - System.Security.Cryptography.Encoding.dll
+Dependency assembly - System.Runtime.Serialization.Xml.dll
+Dependency assembly - System.Reactive.Debugger.dll
+Dependency assembly - System.Linq.Parallel.dll
+Dependency assembly - System.Security.Cryptography.RSA.dll
+Dependency assembly - System.Memory.dll
+Dependency assembly - System.IO.FileSystem.Primitives.dll
+Dependency assembly - Novell.Directory.Ldap.dll
+Dependency assembly - System.IO.Compression.dll
+Dependency assembly - System.Drawing.Design.dll
+Dependency assembly - System.Net.Http.WebRequest.dll
+Dependency assembly - Mono.WebBrowser.dll
+Dependency assembly - System.Xml.XPath.XmlDocument.dll
+Dependency assembly - Mono.Tasklets.dll
+Dependency assembly - Mono.Simd.dll
+Dependency assembly - System.Web.Services.dll
+Dependency assembly - System.Numerics.Vectors.dll
+Dependency assembly - System.Reflection.Extensions.dll
+Dependency assembly - System.Security.Principal.Windows.dll
+Dependency assembly - System.Net.WebSockets.Client.dll
+Dependency assembly - System.Diagnostics.Contracts.dll
+Dependency assembly - System.Linq.Expressions.dll
+Dependency assembly - System.Text.Encoding.dll
+Dependency assembly - System.ServiceModel.Security.dll
+Dependency assembly - System.Threading.Overlapped.dll
+Dependency assembly - System.Reactive.Core.dll
+Dependency assembly - System.Runtime.dll
+Dependency assembly - System.Threading.Tasks.Extensions.dll
+Dependency assembly - System.Net.Primitives.dll
+Dependency assembly - System.Resources.ResourceManager.dll
+Dependency assembly - System.Text.RegularExpressions.dll
+Dependency assembly - System.Security.Cryptography.Encryption.ECDiffieHellman.dll
+Dependency assembly - System.Xml.XmlSerializer.dll
+Dependency assembly - System.Workflow.Activities.dll
+Dependency assembly - System.Data.SqlClient.dll
+Dependency assembly - System.ComponentModel.dll
+Dependency assembly - System.Net.NameResolution.dll
+Dependency assembly - System.Web.Routing.dll
+Dependency assembly - ICSharpCode.SharpZipLib.dll
+Dependency assembly - System.Threading.Timer.dll
+Dependency assembly - System.Net.HttpListener.dll
+Dependency assembly - System.Xml.Serialization.dll
+Dependency assembly - System.Json.Microsoft.dll
+Dependency assembly - WindowsBase.dll
+Dependency assembly - System.Web.RegularExpressions.dll
+Dependency assembly - IBM.Data.DB2.dll
+Dependency assembly - System.Diagnostics.Process.dll
+Dependency assembly - System.Json.dll
+Dependency assembly - System.Net.dll
+Dependency assembly - System.Web.DynamicData.dll
+Dependency assembly - System.Runtime.Numerics.dll
+Dependency assembly - Mono.Options.dll
+Dependency assembly - System.Runtime.Caching.dll
+Dependency assembly - System.Reactive.Experimental.dll
+Dependency assembly - System.Xml.Xsl.Primitives.dll
+Dependency assembly - System.Web.ApplicationServices.dll
+Dependency assembly - Microsoft.CSharp.dll
+Dependency assembly - System.Security.Cryptography.RandomNumberGenerator.dll
+Dependency assembly - Accessibility.dll
+Dependency assembly - Mono.Management.dll
+Dependency assembly - System.IO.IsolatedStorage.dll
+Dependency assembly - System.IO.Compression.ZipFile.dll
+Dependency assembly - System.ComponentModel.TypeConverter.dll
+Dependency assembly - System.Net.Http.Formatting.dll
+Dependency assembly - System.dll
+Dependency assembly - System.Security.Cryptography.Csp.dll
+Dependency assembly - System.Drawing.dll
+
+Unloading 243 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 627 unused Assets / (45.5 MB). Loaded Objects now: 592.
+Memory consumption went from 193.7 MB to 148.2 MB.
+Total: 11.713200 ms (FindLiveObjects: 0.174700 ms CreateObjectMapping: 0.023900 ms MarkObjects: 6.244400 ms  DeleteObjects: 5.266100 ms)
+
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (1.1 KB). Loaded Objects now: 592.
+Memory consumption went from 148.1 MB to 148.1 MB.
+Total: 6.140200 ms (FindLiveObjects: 0.063200 ms CreateObjectMapping: 0.008700 ms MarkObjects: 6.057500 ms  DeleteObjects: 0.008700 ms)
+
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 166 unused Assets / (149.2 MB). Loaded Objects now: 592.
+Memory consumption went from 259.3 MB to 110.1 MB.
+Total: 44.440100 ms (FindLiveObjects: 0.086900 ms CreateObjectMapping: 0.013000 ms MarkObjects: 13.256200 ms  DeleteObjects: 31.080700 ms)
+
+Compiling shader "Standard" pass "FORWARD" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1992
+    After settings filtering:   1992
+    After built-in stripping:   24
+    After scriptable stripping: 24
+    Processed in 0.02 seconds
+    starting compilation...
+    d3d11 finished in 0.01 seconds. Local cache hits 24 (0.05s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1512
+    After settings filtering:   1512
+    After built-in stripping:   12
+    After scriptable stripping: 12
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 12 (0.02s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD_DELTA" (vp)
+    Target graphics API: d3d11
+    Full variant space:         564
+    After settings filtering:   564
+    After built-in stripping:   39
+    After scriptable stripping: 39
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.01 seconds. Local cache hits 39 (0.08s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD_DELTA" (fp)
+    Target graphics API: d3d11
+    Full variant space:         564
+    After settings filtering:   564
+    After built-in stripping:   39
+    After scriptable stripping: 39
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.01 seconds. Local cache hits 39 (0.06s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "ShadowCaster" (vp)
+    Target graphics API: d3d11
+    Full variant space:         8
+    After settings filtering:   8
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "ShadowCaster" (fp)
+    Target graphics API: d3d11
+    Full variant space:         8
+    After settings filtering:   8
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "DEFERRED" (vp)
+    Target graphics API: d3d11
+    Full variant space:         228
+    After settings filtering:   228
+    After built-in stripping:   12
+    After scriptable stripping: 12
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 12 (0.02s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "DEFERRED" (fp)
+    Target graphics API: d3d11
+    Full variant space:         228
+    After settings filtering:   228
+    After built-in stripping:   12
+    After scriptable stripping: 12
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 12 (0.02s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD" (vp)
+    Target graphics API: d3d11
+    Full variant space:         624
+    After settings filtering:   624
+    After built-in stripping:   24
+    After scriptable stripping: 24
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 24 (0.03s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD" (fp)
+    Target graphics API: d3d11
+    Full variant space:         444
+    After settings filtering:   444
+    After built-in stripping:   12
+    After scriptable stripping: 12
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 12 (0.02s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD_DELTA" (vp)
+    Target graphics API: d3d11
+    Full variant space:         420
+    After settings filtering:   420
+    After built-in stripping:   30
+    After scriptable stripping: 30
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 30 (0.05s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "FORWARD_DELTA" (fp)
+    Target graphics API: d3d11
+    Full variant space:         420
+    After settings filtering:   420
+    After built-in stripping:   30
+    After scriptable stripping: 30
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 30 (0.04s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "ShadowCaster" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Standard" pass "ShadowCaster" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Standard in 0.00s
+    d3d11 (total internal programs: 250, unique: 214)
+Compiling shader "TikTokLiveGame/LedDanceFloor" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/LedDanceFloor" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader TikTokLiveGame/LedDanceFloor in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Custom/SimpleParticle" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Custom/SimpleParticle" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Custom/SimpleParticle in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Custom/ProceduralSmoke" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Custom/ProceduralSmoke" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Custom/ProceduralSmoke in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "TikTokLiveGame/CircularAvatar" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/CircularAvatar" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader TikTokLiveGame/CircularAvatar in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Custom/NeonGrid" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Custom/NeonGrid" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Custom/NeonGrid in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "BarClub/AdditiveVfx" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "BarClub/AdditiveVfx" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader BarClub/AdditiveVfx in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "TikTokLiveGame/ClubColor" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/ClubColor" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader TikTokLiveGame/ClubColor in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "TikTokLiveGame/ClubLit" pass "FORWARD" (vp)
+    Target graphics API: d3d11
+    Full variant space:         664
+    After settings filtering:   664
+    After built-in stripping:   8
+    After scriptable stripping: 8
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 8 (0.01s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/ClubLit" pass "FORWARD" (fp)
+    Target graphics API: d3d11
+    Full variant space:         504
+    After settings filtering:   504
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/ClubLit" pass "FORWARD" (vp)
+    Target graphics API: d3d11
+    Full variant space:         188
+    After settings filtering:   188
+    After built-in stripping:   13
+    After scriptable stripping: 13
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 13 (0.01s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/ClubLit" pass "FORWARD" (fp)
+    Target graphics API: d3d11
+    Full variant space:         188
+    After settings filtering:   188
+    After built-in stripping:   13
+    After scriptable stripping: 13
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 13 (0.02s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/ClubLit" pass "DEFERRED" (vp)
+    Target graphics API: d3d11
+    Full variant space:         76
+    After settings filtering:   76
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/ClubLit" pass "DEFERRED" (fp)
+    Target graphics API: d3d11
+    Full variant space:         76
+    After settings filtering:   76
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader TikTokLiveGame/ClubLit in 0.00s
+    d3d11 (total internal programs: 46, unique: 46)
+Compiling shader "TikTokLiveGame/CharacterSprite" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "TikTokLiveGame/CharacterSprite" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader TikTokLiveGame/CharacterSprite in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Skybox/Procedural" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         3
+    After settings filtering:   3
+    After built-in stripping:   3
+    After scriptable stripping: 3
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 3 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Skybox/Procedural" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         3
+    After settings filtering:   3
+    After built-in stripping:   3
+    After scriptable stripping: 3
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 3 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Skybox/Procedural in 0.00s
+    d3d11 (total internal programs: 6, unique: 6)
+Compiling shader "Legacy Shaders/VertexLit" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         12
+    After settings filtering:   12
+    After built-in stripping:   3
+    After scriptable stripping: 3
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 3 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/VertexLit" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         12
+    After settings filtering:   12
+    After built-in stripping:   3
+    After scriptable stripping: 3
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 3 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/VertexLit" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/VertexLit" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/VertexLit" pass "ShadowCaster" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/VertexLit" pass "ShadowCaster" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Legacy Shaders/VertexLit in 0.00s
+    d3d11 (total internal programs: 12, unique: 12)
+Compiling shader "Legacy Shaders/Diffuse" pass "FORWARD" (vp)
+    Target graphics API: d3d11
+    Full variant space:         664
+    After settings filtering:   664
+    After built-in stripping:   8
+    After scriptable stripping: 8
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 8 (0.01s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/Diffuse" pass "FORWARD" (fp)
+    Target graphics API: d3d11
+    Full variant space:         504
+    After settings filtering:   504
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/Diffuse" pass "FORWARD" (vp)
+    Target graphics API: d3d11
+    Full variant space:         20
+    After settings filtering:   20
+    After built-in stripping:   5
+    After scriptable stripping: 5
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 5 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/Diffuse" pass "FORWARD" (fp)
+    Target graphics API: d3d11
+    Full variant space:         20
+    After settings filtering:   20
+    After built-in stripping:   5
+    After scriptable stripping: 5
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 5 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/Diffuse" pass "DEFERRED" (vp)
+    Target graphics API: d3d11
+    Full variant space:         76
+    After settings filtering:   76
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Legacy Shaders/Diffuse" pass "DEFERRED" (fp)
+    Target graphics API: d3d11
+    Full variant space:         76
+    After settings filtering:   76
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Legacy Shaders/Diffuse in 0.00s
+    d3d11 (total internal programs: 30, unique: 30)
+Compiling shader "Hidden/Internal-StencilWrite" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-StencilWrite" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-StencilWrite in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DepthNormalsTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-DepthNormalsTexture in 0.00s
+    d3d11 (total internal programs: 20, unique: 17)
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ScreenSpaceShadows" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-ScreenSpaceShadows in 0.00s
+    d3d11 (total internal programs: 32, unique: 20)
+Compiling shader "Hidden/Internal-CombineDepthNormals" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-CombineDepthNormals" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-CombineDepthNormals in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/BlitCopy" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/BlitCopy" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/BlitCopy in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/BlitCopyDepth" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/BlitCopyDepth" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/BlitCopyDepth in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/ConvertTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/ConvertTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/ConvertTexture in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/Internal-DeferredShading" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         94
+    After settings filtering:   94
+    After built-in stripping:   26
+    After scriptable stripping: 26
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 26 (0.03s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DeferredShading" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         94
+    After settings filtering:   94
+    After built-in stripping:   26
+    After scriptable stripping: 26
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 26 (0.04s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DeferredShading" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DeferredShading" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-DeferredShading in 0.00s
+    d3d11 (total internal programs: 54, unique: 54)
+Compiling shader "Hidden/Internal-DeferredReflections" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DeferredReflections" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DeferredReflections" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DeferredReflections" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-DeferredReflections in 0.00s
+    d3d11 (total internal programs: 6, unique: 6)
+Compiling shader "Hidden/Internal-MotionVectors" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-MotionVectors" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-MotionVectors" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-MotionVectors" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-MotionVectors" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-MotionVectors" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-MotionVectors in 0.00s
+    d3d11 (total internal programs: 6, unique: 5)
+Compiling shader "Hidden/Internal-Flare" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-Flare" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-Flare in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/Internal-Halo" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-Halo" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-Halo in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/BlitCopyWithDepth" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/BlitCopyWithDepth" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/BlitCopyWithDepth in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/BlitToDepth" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/BlitToDepth" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/BlitToDepth in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/BlitToDepth_MSAA" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/BlitToDepth_MSAA" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/BlitToDepth_MSAA in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/BlitCopyHDRTonemap" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/BlitCopyHDRTonemap" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/BlitCopyHDRTonemap in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/Internal-DebugPattern" pass "Target Color and DepthStencil" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DebugPattern" pass "Target Color and DepthStencil" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DebugPattern" pass "Target only Color" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DebugPattern" pass "Target only Color" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DebugPattern" pass "Target only DepthStencil" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-DebugPattern" pass "Target only DepthStencil" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-DebugPattern in 0.00s
+    d3d11 (total internal programs: 6, unique: 4)
+Compiling shader "Hidden/Internal-GUITextureClip" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureClip" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureClip" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureClip" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-GUITextureClip in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/Internal-GUITextureClipText" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureClipText" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureClipText" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureClipText" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-GUITextureClipText in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/Internal-GUITexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-GUITexture in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/Internal-GUITextureBlit" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureBlit" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureBlit" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUITextureBlit" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-GUITextureBlit in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/Internal-GUIRoundedRect" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUIRoundedRect" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUIRoundedRect" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUIRoundedRect" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-GUIRoundedRect in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/Internal-GUIRoundedRectWithColorPerBorder" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUIRoundedRectWithColorPerBorder" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUIRoundedRectWithColorPerBorder" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-GUIRoundedRectWithColorPerBorder" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-GUIRoundedRectWithColorPerBorder in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/Internal-UIRDefault" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-UIRDefault" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-UIRDefault in 0.00s
+    d3d11 (total internal programs: 4, unique: 4)
+Compiling shader "Hidden/Internal-UIRAtlasBlitCopy" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-UIRAtlasBlitCopy" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-UIRAtlasBlitCopy in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Sprites/Default" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         8
+    After settings filtering:   8
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Sprites/Default" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         8
+    After settings filtering:   8
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Sprites/Default in 0.00s
+    d3d11 (total internal programs: 8, unique: 8)
+Compiling shader "Sprites/Mask" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Sprites/Mask" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Sprites/Mask in 0.00s
+    d3d11 (total internal programs: 8, unique: 8)
+Compiling shader "UI/Default" pass "Default" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "UI/Default" pass "Default" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader UI/Default in 0.00s
+    d3d11 (total internal programs: 8, unique: 8)
+Compiling shader "UI/DefaultETC1" pass "Default" (vp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "UI/DefaultETC1" pass "Default" (fp)
+    Target graphics API: d3d11
+    Full variant space:         4
+    After settings filtering:   4
+    After built-in stripping:   4
+    After scriptable stripping: 4
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 4 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader UI/DefaultETC1 in 0.00s
+    d3d11 (total internal programs: 8, unique: 8)
+Compiling shader "Hidden/CubeBlur" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeBlur" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeBlur" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeBlur" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/CubeBlur in 0.00s
+    d3d11 (total internal programs: 4, unique: 3)
+Compiling shader "Hidden/CubeCopy" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeCopy" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeCopy" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeCopy" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/CubeCopy in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/CubeBlend" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeBlend" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeBlend" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/CubeBlend" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/CubeBlend in 0.00s
+    d3d11 (total internal programs: 4, unique: 2)
+Compiling shader "Hidden/VR/BlitTexArraySlice" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VR/BlitTexArraySlice" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/VR/BlitTexArraySlice in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-ODSWorldTexture" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-ODSWorldTexture in 0.00s
+    d3d11 (total internal programs: 20, unique: 15)
+Compiling shader "Hidden/Internal-CubemapToEquirect" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/Internal-CubemapToEquirect" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/Internal-CubemapToEquirect in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/VR/BlitFromTex2DToTexArraySlice" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VR/BlitFromTex2DToTexArraySlice" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VR/BlitFromTex2DToTexArraySlice" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VR/BlitFromTex2DToTexArraySlice" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VR/BlitFromTex2DToTexArraySlice" pass "" (gp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/VR/BlitFromTex2DToTexArraySlice in 0.00s
+    d3d11 (total internal programs: 5, unique: 5)
+Compiling shader "Hidden/VideoComposite" pass "Default" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoComposite" pass "Default" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/VideoComposite in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Compiling shader "Hidden/VideoDecode" pass "YCbCr_To_RGB1" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "YCbCr_To_RGB1" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "YCbCrA_To_RGBAFull" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "YCbCrA_To_RGBAFull" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "YCbCrA_To_RGBA" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "YCbCrA_To_RGBA" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_RGBA_To_RGBA" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_RGBA_To_RGBA" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_RGBASplit_To_RGBA" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_RGBASplit_To_RGBA" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_NV12_To_RGB1" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_NV12_To_RGB1" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_NV12_To_RGBA" (vp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_NV12_To_RGBA" (fp)
+    Target graphics API: d3d11
+    Full variant space:         2
+    After settings filtering:   2
+    After built-in stripping:   2
+    After scriptable stripping: 2
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 2 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_P010_To_RGB1" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/VideoDecode" pass "Flip_P010_To_RGB1" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/VideoDecode in 0.00s
+    d3d11 (total internal programs: 30, unique: 19)
+Compiling shader "Hidden/TextCore/Distance Field SSD" pass "" (vp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Compiling shader "Hidden/TextCore/Distance Field SSD" pass "" (fp)
+    Target graphics API: d3d11
+    Full variant space:         1
+    After settings filtering:   1
+    After built-in stripping:   1
+    After scriptable stripping: 1
+    Processed in 0.00 seconds
+    starting compilation...
+    d3d11 finished in 0.00 seconds. Local cache hits 1 (0.00s CPU time), remote cache hits 0 (0.00s CPU time), compiled 0 variants (0.00s CPU time), skipped 0 variants
+    Prepared data for serialisation in 0.00s
+Serialized binary data for shader Hidden/TextCore/Distance Field SSD in 0.00s
+    d3d11 (total internal programs: 2, unique: 2)
+Asset Pipeline Refresh (id=6e1e35ae9f2ff644ea13b6eb3f99d62c): Total: 0.031 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Starting: C:\Program Files\Unity 6000.2.10f1\Editor\Data\bee_backend.exe --ipc --dagfile="Library/Bee/Playerbcfae681.dag" --profile="Library/Bee/backend1.traceevents" Player
+WorkingDir: C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+DisplayProgressbar: Incremental Player Build
+Curl error 7: Failed to connect to cdp.cloud.unity3d.com port 443 after 4110 ms: Could not connect to server
+ExitCode: 4 Duration: 3s740ms
+Starting: C:\Program Files\Unity 6000.2.10f1\Editor\Data\Tools\netcorerun\netcorerun.exe "C:\Program Files\Unity 6000.2.10f1\Editor\Data\PlaybackEngines\WindowsStandaloneSupport\WinPlayerBuildProgram.exe" "C:/Program Files/Unity 6000.2.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Bee;C:/Program Files/Unity 6000.2.10f1/Editor/Data/Tools/BuildPipeline" "Library/Bee/Playerbcfae681.dag.json" "Library/Bee/Playerbcfae681-inputdata.json" "Library\Bee\buildprogram0.traceevents"
+WorkingDir: C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+ExitCode: 0 Duration: 0s730ms
+Starting: C:\Program Files\Unity 6000.2.10f1\Editor\Data\bee_backend.exe --ipc --dagfile="Library/Bee/Playerbcfae681.dag" --dagfilejson="Library\Bee\Playerbcfae681.dag.json" --profile="Library/Bee/backend2.traceevents" Player
+WorkingDir: C:/Users/Van Kien/Downloads/tiktok-live-bar/UnityProject
+ExitCode: 0 Duration: 0s179ms
+Total cache size 0
+Total cache size after purge 0, took 00:00:00.0102450
+Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+
+-------------------------------------------------------------------------------
+Build Report
+Uncompressed usage by category (Percentages based on user generated assets only):
+Textures               66.2 mb	 94.4% 
+Meshes                 2.8 mb	 4.0% 
+Animations             518.8 kb	 0.7% 
+Sounds                 131.7 kb	 0.2% 
+Shaders                141.9 kb	 0.2% 
+Other Assets           321.4 kb	 0.4% 
+Levels                 0.0 kb	 0.0% 
+File headers           20.3 kb	 0.0% 
+Total User Assets      70.1 mb	 100.0% 
+Complete build size    149.3 mb
+Used Assets and files from the Resources folder, sorted by uncompressed size:
+ 6.0 mb	 4.0% Assets/Resources/Banners/energy-wings-v2.png
+ 6.0 mb	 4.0% Assets/Resources/Banners/vip-nameplate-v2.png
+ 5.3 mb	 3.6% Assets/Resources/DJ/Textures/Ch22_1002_Diffuse.png
+ 4.5 mb	 3.0% Assets/Resources/Stage/premium-stage-v2.png
+ 3.3 mb	 2.2% Assets/Resources/DJ/Megan_DJ.fbx
+ 2.7 mb	 1.8% Built-in Texture2D: Splash Screen Unity Logo
+ 2.7 mb	 1.8% Assets/Resources/DJ/Textures/Ch22_1001_Specular.png
+ 2.7 mb	 1.8% Assets/Resources/DJ/Textures/Ch22_1001_Glossiness.png
+ 2.7 mb	 1.8% Assets/Resources/DJ/Textures/Ch22_1001_Diffuse.png
+ 2.7 mb	 1.8% Assets/Resources/DJ/Textures/Ch22_1002_Normal.png
+ 2.7 mb	 1.8% Assets/Resources/DJ/Textures/Ch22_1001_Normal.png
+ 773.8 kb	 0.5% Assets/Resources/Banners/title-royal.png
+ 772.7 kb	 0.5% Assets/Resources/Banners/title-ice.png
+ 772.5 kb	 0.5% Assets/Resources/Banners/title-neon.png
+ 771.6 kb	 0.5% Assets/Resources/Banners/title-fire.png
+ 768.1 kb	 0.5% Assets/Resources/GiftIcons/like-heart.png
+ 739.5 kb	 0.5% Assets/Resources/Banners/wings-fire.png
+ 735.2 kb	 0.5% Assets/Resources/Banners/wings-neon.png
+ 733.9 kb	 0.5% Assets/Resources/Banners/player-wings.png
+ 733.1 kb	 0.5% Assets/Resources/Banners/wings-ice.png
+ 593.0 kb	 0.4% Resources/unity_builtin_extra
+ 256.4 kb	 0.2% Assets/Resources/Characters/g/013.png
+ 256.4 kb	 0.2% Assets/Resources/Characters/g/008.png
+ 256.4 kb	 0.2% Assets/Resources/Characters/g/003.png
+ 256.4 kb	 0.2% Assets/Resources/Characters/g/001.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/014.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/009.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/004.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/010.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/005.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/000.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/011.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/006.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/012.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/007.png
+ 256.3 kb	 0.2% Assets/Resources/Characters/g/002.png
+ 219.2 kb	 0.1% Assets/Resources/Characters/h/004.png
+ 219.0 kb	 0.1% Assets/Resources/Characters/h/001.png
+ 219.0 kb	 0.1% Assets/Resources/Characters/h/008.png
+ 218.9 kb	 0.1% Assets/Resources/Characters/h/006.png
+ 218.9 kb	 0.1% Assets/Resources/Characters/h/005.png
+ 218.9 kb	 0.1% Assets/Resources/Characters/h/007.png
+ 218.9 kb	 0.1% Assets/Resources/Characters/h/003.png
+ 218.9 kb	 0.1% Assets/Resources/Characters/h/000.png
+ 218.9 kb	 0.1% Assets/Resources/Characters/h/002.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-15.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-14.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-13.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-12.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-11.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-10.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-09.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-08.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-07.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-06.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-05.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-04.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-03.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-02.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-01.png
+ 192.6 kb	 0.1% Assets/Resources/NpcAvatars/npc-avatar-00.png
+ 170.8 kb	 0.1% Assets/Resources/Vfx/circle_05.png
+ 170.8 kb	 0.1% Assets/Resources/Vfx/star_04.png
+ 170.8 kb	 0.1% Assets/Resources/Vfx/spark_04.png
+ 170.8 kb	 0.1% Assets/Resources/Vfx/light_02.png
+ 148.7 kb	 0.1% Assets/Resources/GiftIcons/5655.png
+ 148.7 kb	 0.1% Assets/Resources/GiftIcons/5487.png
+ 131.7 kb	 0.1% Assets/Resources/Audio/dragon-studio-fireworks-07-419025.mp3
+ 124.3 kb	 0.1% Assets/Resources/Characters/d/005.png
+ 124.2 kb	 0.1% Assets/Resources/Characters/d/002.png
+ 124.1 kb	 0.1% Assets/Resources/Characters/d/006.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/009.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/013.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/004.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/012.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/007.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/000.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/014.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/003.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/015.png
+ 124.0 kb	 0.1% Assets/Resources/Characters/d/008.png
+ 123.9 kb	 0.1% Assets/Resources/Characters/d/011.png
+ 123.9 kb	 0.1% Assets/Resources/Characters/d/010.png
+ 123.7 kb	 0.1% Assets/Resources/Characters/d/001.png
+ 110.4 kb	 0.1% Assets/Resources/GiftIcons/166583.png
+ 110.4 kb	 0.1% Assets/Resources/GiftIcons/15063.png
+ 110.4 kb	 0.1% Assets/Resources/GiftIcons/8913.png
+ 110.4 kb	 0.1% Assets/Resources/GiftIcons/5269.png
+ 95.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/028.png
+ 95.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/012.png
+ 94.7 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/027.png
+ 94.7 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/013.png
+ 94.6 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/022.png
+ 94.6 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/018.png
+ 94.5 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/026.png
+ 94.5 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/014.png
+ 94.4 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/025.png
+ 94.4 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/015.png
+ 94.4 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/024.png
+ 94.4 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/016.png
+ 94.4 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/034.png
+ 94.4 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/006.png
+ 94.3 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/023.png
+ 94.3 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/017.png
+ 94.3 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/033.png
+ 94.3 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/007.png
+ 94.3 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/021.png
+ 94.3 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/019.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/031.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/009.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/035.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/005.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/029.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/011.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/039.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/037.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/003.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/001.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/020.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/030.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/010.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/032.png
+ 94.2 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/008.png
+ 94.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/038.png
+ 94.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/002.png
+ 94.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/000.png
+ 94.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/036.png
+ 94.1 kb	 0.1% Assets/Resources/Characters/hanhan_video_dance/004.png
+ 65.6 kb	 0.0% Assets/Resources/Characters/k/004.png
+ 65.6 kb	 0.0% Assets/Resources/Characters/k/001.png
+ 65.6 kb	 0.0% Assets/Resources/Characters/k/007.png
+ 65.6 kb	 0.0% Assets/Resources/Characters/k/006.png
+ 65.6 kb	 0.0% Assets/Resources/Characters/k/005.png
+ 65.5 kb	 0.0% Assets/Resources/Characters/k/003.png
+ 65.5 kb	 0.0% Assets/Resources/Characters/k/008.png
+ 65.5 kb	 0.0% Assets/Resources/Characters/k/002.png
+ 65.5 kb	 0.0% Assets/Resources/Characters/k/000.png
+ 65.3 kb	 0.0% Assets/Resources/Characters/c/007.png
+ 65.2 kb	 0.0% Assets/Resources/Characters/c/000.png
+ 65.2 kb	 0.0% Assets/Resources/Characters/c/005.png
+ 65.2 kb	 0.0% Assets/Resources/Characters/c/004.png
+ 65.2 kb	 0.0% Assets/Resources/Characters/c/003.png
+ 65.2 kb	 0.0% Assets/Resources/Characters/c/006.png
+ 65.2 kb	 0.0% Assets/Resources/Characters/c/001.png
+ 65.1 kb	 0.0% Assets/Resources/Characters/c/002.png
+ 58.6 kb	 0.0% Assets/Resources/Characters/a/000.png
+ 58.3 kb	 0.0% Assets/Resources/Characters/a/001.png
+ 58.1 kb	 0.0% Assets/Resources/Characters/a/009.png
+ 57.9 kb	 0.0% Assets/Resources/Characters/a/005.png
+ 57.8 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/005.png
+ 57.7 kb	 0.0% Assets/Resources/Characters/a/006.png
+ 57.6 kb	 0.0% Assets/Resources/Characters/a/003.png
+ 57.6 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/008.png
+ 57.6 kb	 0.0% Assets/Resources/Characters/a/004.png
+ 57.5 kb	 0.0% Assets/Resources/Characters/a/002.png
+ 57.5 kb	 0.0% Assets/Resources/Characters/a/008.png
+ 57.5 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/007.png
+ 57.5 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/004.png
+ 57.5 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/000.png
+ 57.4 kb	 0.0% Assets/Resources/Characters/e/007.png
+ 57.4 kb	 0.0% Assets/Resources/Characters/e/005.png
+ 57.4 kb	 0.0% Assets/Resources/Characters/e/004.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/003.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/002.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/004.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/e/001.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/e/002.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/012.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/006.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/e/000.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/010.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/009.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/015.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/007.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/011.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/a/007.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/j/008.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/005.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/011.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/008.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/007.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/005.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/010.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/j/013.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/e/006.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/014.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/e/003.png
+ 57.3 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/001.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/001.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/012.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/010.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/008.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/002.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/013.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/012.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/009.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/004.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_01/000.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/002.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/006.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/009.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/003.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/001.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/006.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/004.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/001.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/013.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/000.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/010.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_magic_02/003.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/002.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/011.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/009.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/007.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/005.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/000.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/j/006.png
+ 57.2 kb	 0.0% Assets/Resources/Characters/mushroom_dance_15/003.png
+ 53.5 kb	 0.0% Assets/Resources/Characters/b/004.png
+ 53.4 kb	 0.0% Assets/Resources/Characters/b/005.png
+ 53.1 kb	 0.0% Assets/Resources/Characters/b/006.png
+ 53.1 kb	 0.0% Assets/Resources/Characters/b/003.png
+ 53.1 kb	 0.0% Assets/Resources/Characters/b/007.png
+ 53.1 kb	 0.0% Assets/Resources/Characters/b/010.png
+ 53.1 kb	 0.0% Assets/Resources/Characters/b/002.png
+ 53.0 kb	 0.0% Assets/Resources/Characters/b/008.png
+ 53.0 kb	 0.0% Assets/Resources/Characters/b/011.png
+ 53.0 kb	 0.0% Assets/Resources/Characters/b/009.png
+ 53.0 kb	 0.0% Assets/Resources/Characters/b/001.png
+ 53.0 kb	 0.0% Assets/Resources/Characters/b/000.png
+ 25.6 kb	 0.0% Assets/Shaders/ClubLit.shader
+ 7.6 kb	 0.0% Assets/Resources/Shaders/ProceduralSmoke.shader
+ 5.5 kb	 0.0% Assets/Resources/UiPanels/rank-panel.png
+ 5.5 kb	 0.0% Assets/Resources/UiPanels/gift-panel.png
+ 5.5 kb	 0.0% Assets/Resources/UiPanels/brand-panel.png
+ 4.9 kb	 0.0% Assets/Resources/Shaders/LedDanceFloor.shader
+ 4.5 kb	 0.0% Assets/Resources/Shaders/NeonGrid.shader
+ 4.2 kb	 0.0% Assets/Shaders/CircularAvatar.shader
+ 3.9 kb	 0.0% Assets/Shaders/CharacterSprite.shader
+ 3.8 kb	 0.0% Assets/Resources/Shaders/SimpleParticle.shader
+ 3.7 kb	 0.0% Assets/Resources/Shaders/ClubAdditiveVfx.shader
+ 3.5 kb	 0.0% Assets/Shaders/ClubColor.shader
+ 0.7 kb	 0.0% Assets/Resources/Vfx/KENNEY-LICENSE.txt
+ 0.6 kb	 0.0% Assets/Resources/UiPanels/KENNEY-LICENSE.txt
+ 0.6 kb	 0.0% Assets/Resources/GiftIcons/SOURCES.md
+ 0.6 kb	 0.0% Assets/Resources/UiPanels/SOURCES.md
+ 0.4 kb	 0.0% Assets/Resources/DJ/Megan_DJ_Controller.controller
+ 0.4 kb	 0.0% Built-in Sprite: 
+ 0.4 kb	 0.0% Assets/Resources/Vfx/SOURCES.md
+ 0.2 kb	 0.0% Assets/Resources/Materials/ClubLit.mat
+ 0.2 kb	 0.0% Assets/Resources/Materials/CircularAvatar.mat
+ 0.2 kb	 0.0% Assets/Resources/Materials/CharacterSprite.mat
+ 0.1 kb	 0.0% Assets/Resources/Materials/ClubColor.mat
+ 0.1 kb	 0.0% Assets/Scripts/TikTokWebSocketClient.cs
+ 0.1 kb	 0.0% Assets/Scripts/DjPerformerController.cs
+ 0.1 kb	 0.0% Assets/Scripts/VisualCaptureHarness.cs
+ 0.1 kb	 0.0% Assets/Scripts/TikTokGameController.cs
+ 0.1 kb	 0.0% Assets/Scripts/MusicPlaylistPlayer.cs
+ 0.1 kb	 0.0% Assets/Scripts/MovingHeadFixture.cs
+ 0.1 kb	 0.0% Assets/Scripts/GiftEffectManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubPulseController.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubCameraController.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubAudioReactive.cs
+ 0.1 kb	 0.0% Assets/Scripts/SpriteFlipbook.cs
+ 0.1 kb	 0.0% Assets/Scripts/SmokeMachineController.cs
+ 0.1 kb	 0.0% Assets/Scripts/RuntimeBootstrap.cs
+ 0.1 kb	 0.0% Assets/Scripts/PlayerManager.cs
+ 0.1 kb	 0.0% Assets/Scripts/GameMaterials.cs
+ 0.1 kb	 0.0% Assets/Scripts/DjVideoScreen.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubStrobeLight.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubSceneBuilder.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubLaserBeam.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubBeatClock.cs
+ 0.1 kb	 0.0% Assets/Scripts/CharacterLibrary.cs
+ 0.1 kb	 0.0% Assets/Scripts/AvatarService.cs
+ 0.1 kb	 0.0% Assets/Scripts/TikTokEvent.cs
+ 0.1 kb	 0.0% Assets/Scripts/PlayerActor.cs
+ 0.1 kb	 0.0% Assets/Scripts/GifPlayer.cs
+ 0.1 kb	 0.0% Assets/Scripts/DiscoLight.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubLedShow.cs
+ 0.1 kb	 0.0% Assets/Scripts/ClubGiftShow.cs
+-------------------------------------------------------------------------------
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 609 unused Assets / (33.9 MB). Loaded Objects now: 621.
+Memory consumption went from 138.6 MB to 104.7 MB.
+Total: 17.818800 ms (FindLiveObjects: 0.125100 ms CreateObjectMapping: 0.034800 ms MarkObjects: 11.512800 ms  DeleteObjects: 6.141700 ms)
+
+DisplayProgressNotification: Build Successful
+Build Finished, Result: Success.
+##utp:{"type":"PlayerBuildInfo","version":2,"phase":"Immediate","time":1793511616262,"processId":20232,"steps":[{"description":"Preprocess Player","duration":12},{"description":"Prepare For Build","duration":23},{"description":"ProducePlayerScriptAssemblies","duration":4133},{"description":"Verify Build setup","duration":164},{"description":"Prepare assets for target platform","duration":19},{"description":"Prepare splash screen","duration":6},{"description":"Building scenes","duration":854},{"description":"Build scripts DLLs","duration":116},{"description":"Build GlobalGameManagers file","duration":514},{"description":"Writing asset files","duration":934},{"description":"Building Resources/unity_builtin_extra","duration":262},{"description":"Write data build dirty tracking information","duration":98},{"description":"Postprocess built player","duration":5416}],"duration":12551}
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Loaded scene 'Temp/__Backupscenes/0.backup'
+	Deserialize:            1.497 ms
+	Integration:            16.422 ms
+	Integration of assets:  0.004 ms
+	Thread Wait Time:       0.025 ms
+	Total Operation Time:   17.949 ms
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 614.
+Memory consumption went from 102.8 MB to 102.8 MB.
+Total: 12.373200 ms (FindLiveObjects: 0.061000 ms CreateObjectMapping: 0.010200 ms MarkObjects: 12.278300 ms  DeleteObjects: 0.019400 ms)
+
+Batchmode quit successfully invoked - shutting down!
+[Physics::Module] Cleanup current backend.
+[Physics::Module] Id: 0xf2b8ea05
+Input System module state changed to: ShutdownInProgress.
+Input System polling thread exited.
+Input System module state changed to: Shutdown.
+[Licensing::IpcConnector] LicenseClient-Van Kien-notifications channel disconnected successfully.
+[Licensing::IpcConnector] LicenseClient-Van Kien channel disconnected successfully.
+AcceleratorClientConnectionCallback - disconnected - :0
+Cleanup mono
+Exiting batchmode successfully now!
+Exiting without the bug reporter. Application will terminate with return code 0

@@ -25,6 +25,73 @@ namespace TikTokLiveGame
         private float directorShotStartBeat;
         private bool wasFocusing;
         private PlayerManager playerManager;
+        private bool paradeWide;
+        private Bounds paradeBounds;
+        private Transform dragonTarget;
+
+        public bool IsParadeWide => paradeWide;
+        public bool IsDragonFlight => dragonTarget != null;
+
+        public void BeginDragonFlight(Transform target)
+        {
+            dragonTarget = target;
+            welcomeQueue.Clear();
+            welcomeOverflow = false;
+        }
+
+        public void EndDragonFlight()
+        {
+            dragonTarget = null;
+            focusUntil = 0f;
+            focusTarget = null;
+            welcomeQueue.Clear();
+            welcomeOverflow = false;
+            directorShot = 0;
+            directorShotStartBeat = ClubBeatClock.Beat;
+            wasFocusing = false;
+        }
+
+        public void BeginParade(Bounds bounds)
+        {
+            paradeBounds = bounds;
+            paradeWide = true;
+            welcomeQueue.Clear();
+            welcomeOverflow = false;
+        }
+
+        public void UpdateParadeBounds(Bounds bounds) => paradeBounds = bounds;
+
+        public void EndParade()
+        {
+            paradeWide = false;
+            focusUntil = 0f;
+            focusTarget = null;
+            welcomeQueue.Clear();
+            welcomeOverflow = false;
+            directorShot = 0;
+            directorShotStartBeat = ClubBeatClock.Beat;
+            wasFocusing = false;
+        }
+
+        private void ConfigureParadeShot(ref Vector3 position, ref Vector3 lookAt, ref float fov)
+        {
+            fov = 52f;
+            lookAt = paradeBounds.center;
+            Vector3 forward = new Vector3(0f, -0.52f, -0.85f).normalized;
+            Quaternion inverse = Quaternion.Inverse(Quaternion.LookRotation(forward));
+            float vertical = Mathf.Tan(fov * Mathf.Deg2Rad * 0.5f);
+            float horizontal = vertical * Mathf.Max(0.1f, GetComponent<Camera>().aspect);
+            float distance = 14f;
+            for (int x = -1; x <= 1; x += 2)
+                for (int y = -1; y <= 1; y += 2)
+                    for (int z = -1; z <= 1; z += 2)
+                    {
+                        Vector3 local = inverse * Vector3.Scale(paradeBounds.extents, new Vector3(x, y, z));
+                        distance = Mathf.Max(distance, Mathf.Abs(local.x) / horizontal - local.z + 0.7f,
+                            Mathf.Abs(local.y) / vertical - local.z + 0.7f);
+                    }
+            position = lookAt - forward * distance;
+        }
 
         private void Awake()
         {
@@ -61,7 +128,7 @@ namespace TikTokLiveGame
 
         public void QueueWelcome(PlayerActor actor, float seconds = 2f)
         {
-            if (actor == null) return;
+            if (actor == null || paradeWide || dragonTarget != null) return;
             WelcomeRequest request = new(actor, Mathf.Clamp(seconds, 2f, 3f));
             if (Time.time >= focusUntil && welcomeQueue.Count == 0 && !welcomeOverflow)
             {
@@ -99,7 +166,7 @@ namespace TikTokLiveGame
 
         private void StartNextWelcomeIfReady()
         {
-            if (Time.time < focusUntil) return;
+            if (paradeWide || dragonTarget != null || Time.time < focusUntil) return;
             while (welcomeQueue.Count > 0)
             {
                 WelcomeRequest request = welcomeQueue.Dequeue();
@@ -122,7 +189,18 @@ namespace TikTokLiveGame
             float handheldPitch = 0f;
             float handheldYaw = 0f;
             float handheldRoll = 0f;
-            if (focusing)
+            if (dragonTarget != null)
+            {
+                desiredLookAt = dragonTarget.position + Vector3.up * 1.1f;
+                float distance = Mathf.Max(17.5f, 9.8f / Mathf.Max(0.3f, GetComponent<Camera>().aspect));
+                desiredPosition = desiredLookAt + new Vector3(0f, 5f, distance);
+                desiredFov = 48f;
+            }
+            else if (paradeWide)
+            {
+                ConfigureParadeShot(ref desiredPosition, ref desiredLookAt, ref desiredFov);
+            }
+            else if (focusing)
             {
                 wasFocusing = true;
                 if (focusCrowdWelcome)
@@ -204,10 +282,13 @@ namespace TikTokLiveGame
                 // No handheld shake in comfort mode. The dancers and lights
                 // already provide enough motion for a lively frame.
             }
-            float responsiveness = focusing ? 3.8f : 2.25f;
+            float responsiveness = dragonTarget != null ? 10f : paradeWide ? 8f : focusing ? 3.8f : 2.25f;
             // A short bass punch, not continuous handheld shake.
-            desiredFov -= ClubAudioReactive.Pulse * (focusing ? 0.8f : 2.6f) + ClubGiftShow.Accent * 0.7f;
-            handheldPitch += ClubAudioReactive.Pulse * 0.32f;
+            if (!paradeWide && dragonTarget == null)
+            {
+                desiredFov -= ClubAudioReactive.Pulse * (focusing ? 0.8f : 2.6f) + ClubGiftShow.Accent * 0.7f;
+                handheldPitch += ClubAudioReactive.Pulse * 0.32f;
+            }
             float blend = 1f - Mathf.Exp(-responsiveness * Time.deltaTime);
             transform.position = Vector3.Lerp(transform.position, desiredPosition, blend);
             currentLookAt = Vector3.Lerp(currentLookAt, desiredLookAt, blend);

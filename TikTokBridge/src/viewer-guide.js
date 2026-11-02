@@ -1,6 +1,6 @@
 'use strict';
 const { normalizeText } = require('./master/rules');
-const order = new Map([['camera', 0], ['change', 1], ['walk', 2], ['medal', 3], ['fireworks', 4], ['grow', 5], ['topdj', 6]]);
+const order = new Map([['camera', 0], ['change', 1], ['walk', 2], ['medal', 3], ['fireworks', 4], ['grow', 5], ['topdj', 6], ['dragon', 7]]);
 
 function buildViewerGuide(master, observed, catalog, likeThreshold = 100) {
     const join = (master.rules || []).find(r => r.enabled && r.source === 'chat' && r.action === 'join');

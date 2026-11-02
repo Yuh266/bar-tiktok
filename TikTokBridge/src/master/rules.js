@@ -1,7 +1,7 @@
 const crypto = require('node:crypto');
 
 const SOURCES = new Set(['chat', 'gift']);
-const ACTIONS = new Set(['join', 'dance', 'camera', 'change', 'walk', 'grow', 'medal', 'vip', 'topdj', 'fireworks']);
+const ACTIONS = new Set(['join', 'dance', 'camera', 'change', 'walk', 'grow', 'medal', 'vip', 'topdj', 'fireworks', 'dragon']);
 
 function normalizeText(value) {
     return String(value || '')

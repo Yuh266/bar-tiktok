@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -8,8 +9,17 @@ namespace TikTokLiveGame
     {
         private const float MinBreak = 45f;
         private const float MaxBreak = 90f;
-        private const float CrossingSeconds = 15f;
-        private const float FollowDelay = 0.58f;
+        private const float CrossingSeconds = 6f;
+        private const float FollowSpacing = 1.65f;
+        private const int RouteSamples = 128;
+        private const float RouteCenterZ = 7.4f;
+        private const float RouteHalfDepth = 1.8f;
+        private readonly List<PlayerActor> participants = new();
+        private readonly Vector3[] routePoints = new Vector3[RouteSamples + 1];
+        private readonly float[] routeDistances = new float[RouteSamples + 1];
+        private PlayerManager playerManager;
+        private ClubCameraController paradeCamera;
+        private float routeLength;
         private Transform flock;
         private Transform[] ducks;
         private Transform[] leftFeet;
@@ -24,11 +34,10 @@ namespace TikTokLiveGame
         private float nextAt;
         private float startedAt;
         private float nextQuackAt;
-        private float direction;
-        private float lane;
         private float duration;
 
         public int ActiveDuckCount => flock == null ? 0 : ducks.Length;
+        public int ActiveViewerCount => participants.Count;
 
         private void Awake()
         {
@@ -53,14 +62,11 @@ namespace TikTokLiveGame
                 if (Time.unscaledTime >= nextAt) StartParade();
                 return;
             }
+            participants.RemoveAll(actor => actor == null || !actor.IsInParade || actor.IsGuestDj);
             float elapsed = Time.unscaledTime - startedAt;
-            if (elapsed >= duration)
+            if (elapsed >= duration || participants.Count == 0)
             {
-                Destroy(flock.gameObject);
-                flock = null;
-                float pause = UnityEngine.Random.Range(MinBreak, MaxBreak);
-                nextAt = Time.unscaledTime + pause;
-                Debug.Log($"DUCK_PARADE ended nextIn={pause:F1}s active=0");
+                FinishParade();
                 return;
             }
             if (Time.unscaledTime >= nextQuackAt && elapsed < 10f)
@@ -70,46 +76,95 @@ namespace TikTokLiveGame
             }
             for (int index = 0; index < ducks.Length; index++)
             {
-                float progress = (elapsed - index * FollowDelay) / CrossingSeconds;
-                bool visible = progress >= 0f && progress <= 1f;
-                ducks[index].gameObject.SetActive(visible);
-                if (!visible) continue;
-                Vector3 position = Route(progress);
-                Vector3 forward = Route(progress + 0.01f) - position;
+                int slot = index == 0 ? 0 : participants.Count + 1;
+                float distance = elapsed / CrossingSeconds * routeLength - slot * FollowSpacing;
+                Vector3 position = Route(distance);
+                Vector3 forward = Route(distance + 0.05f) - position;
                 float step = elapsed * 13f - index * 0.8f;
+                ducks[index].gameObject.SetActive(true);
                 ducks[index].position = position + Vector3.up * (0.04f + Mathf.Abs(Mathf.Sin(step)) * 0.055f);
                 ducks[index].rotation = Quaternion.LookRotation(forward) * Quaternion.Euler(0f, 0f, Mathf.Sin(step) * 7f);
                 leftFeet[index].localRotation = Quaternion.Euler(Mathf.Sin(step) * 26f, 0f, 0f);
                 rightFeet[index].localRotation = Quaternion.Euler(-Mathf.Sin(step) * 26f, 0f, 0f);
             }
+            for (int index = 0; index < participants.Count; index++)
+                participants[index].FollowParade(Route(elapsed / CrossingSeconds * routeLength - (index + 1) * FollowSpacing));
+            if (paradeCamera != null)
+            {
+                Bounds bounds = new(ducks[0].position + Vector3.up * 1.25f, Vector3.zero);
+                bounds.Encapsulate(ducks[1].position + Vector3.up * 1.25f);
+                for (int index = 0; index < participants.Count; index++)
+                    bounds.Encapsulate(Route(elapsed / CrossingSeconds * routeLength - (index + 1) * FollowSpacing) + Vector3.up * 1.25f);
+                bounds.Expand(new Vector3(2f, 3.6f, 2f));
+                paradeCamera.UpdateParadeBounds(bounds);
+            }
         }
 
-        private Vector3 Route(float progress)
+        private void BuildRoute()
         {
-            return new Vector3(Mathf.LerpUnclamped(-8f, 8f, progress) * direction, 0f,
-                lane + Mathf.Sin(progress * Mathf.PI * 2f) * 0.65f);
+            float direction = UnityEngine.Random.value < 0.5f ? -1f : 1f;
+            float start = UnityEngine.Random.Range(0f, Mathf.PI * 2f);
+            routeDistances[0] = 0f;
+            for (int index = 0; index <= RouteSamples; index++)
+            {
+                float angle = start + direction * index / RouteSamples * Mathf.PI * 2f;
+                routePoints[index] = new Vector3(Mathf.Sin(angle) * 5.5f, 0f, RouteCenterZ + Mathf.Cos(angle) * RouteHalfDepth);
+                if (index > 0) routeDistances[index] = routeDistances[index - 1] + Vector3.Distance(routePoints[index - 1], routePoints[index]);
+            }
+            routeLength = routeDistances[RouteSamples];
+        }
+
+        private Vector3 Route(float distance)
+        {
+            float wrapped = Mathf.Repeat(distance, routeLength);
+            int upper = Array.BinarySearch(routeDistances, wrapped);
+            if (upper < 0) upper = ~upper;
+            upper = Mathf.Clamp(upper, 1, RouteSamples);
+            float progress = Mathf.InverseLerp(routeDistances[upper - 1], routeDistances[upper], wrapped);
+            return Vector3.Lerp(routePoints[upper - 1], routePoints[upper], progress);
         }
 
         private void StartParade()
         {
-            int count = UnityEngine.Random.Range(8, 12);
-            direction = UnityEngine.Random.value < 0.5f ? -1f : 1f;
-            lane = UnityEngine.Random.Range(0.9f, 2.1f);
+            if (flock != null) return;
+            DragonRide flight = FindFirstObjectByType<DragonRide>();
+            if (flight != null && flight.IsActive) { nextAt = Time.unscaledTime + 10f; return; }
+            if (playerManager == null) playerManager = FindFirstObjectByType<PlayerManager>();
+            PlayerActor[] selected = playerManager == null ? Array.Empty<PlayerActor>() : playerManager.PickParadeViewers();
+            if (selected.Length == 0) { nextAt = Time.unscaledTime + 10f; return; }
+            participants.AddRange(selected);
+            foreach (PlayerActor actor in participants) actor.BeginParade();
+            BuildRoute();
             flock = new GameObject("Random Duck Parade").transform;
             flock.SetParent(transform, false);
-            ducks = new Transform[count]; leftFeet = new Transform[count]; rightFeet = new Transform[count];
-            for (int index = 0; index < count; index++) BuildDuck(index);
+            ducks = new Transform[2]; leftFeet = new Transform[2]; rightFeet = new Transform[2];
+            for (int index = 0; index < ducks.Length; index++) BuildDuck(index);
             startedAt = Time.unscaledTime;
-            duration = CrossingSeconds + (count - 1) * FollowDelay;
+            duration = CrossingSeconds;
             nextQuackAt = startedAt;
-            Debug.Log($"DUCK_PARADE started count={count} duration={duration:F1}s");
+            paradeCamera = Camera.main?.GetComponent<ClubCameraController>();
+            paradeCamera?.BeginParade(new Bounds(new Vector3(0f, 1.2f, RouteCenterZ), new Vector3(12.8f, 4f, 5.2f)));
+            Debug.Log($"DUCK_PARADE started ducks=2 viewers={participants.Count} duration={duration:F1}s");
+        }
+
+        private void FinishParade()
+        {
+            foreach (PlayerActor actor in participants) if (actor != null) actor.EndParade();
+            participants.Clear();
+            if (flock != null) Destroy(flock.gameObject);
+            flock = null;
+            if (paradeCamera != null) paradeCamera.EndParade();
+            paradeCamera = null;
+            float pause = UnityEngine.Random.Range(MinBreak, MaxBreak);
+            nextAt = Time.unscaledTime + pause;
+            Debug.Log($"DUCK_PARADE ended nextIn={pause:F1}s active=0");
         }
 
         private void BuildDuck(int index)
         {
             Transform duck = new GameObject($"Parade Duck {index + 1}").transform;
             duck.SetParent(flock, false);
-            duck.localScale = Vector3.one * (index == 0 ? 0.86f : UnityEngine.Random.Range(0.58f, 0.69f));
+            duck.localScale = Vector3.one * (index == 0 ? 0.86f : 0.8f);
             ducks[index] = duck;
             Part(duck, "Body", new Vector3(0f, 0.37f, -0.04f), new Vector3(0.67f, 0.54f, 0.86f), yellow);
             Part(duck, "Head", new Vector3(0f, 0.81f, 0.28f), Vector3.one * 0.49f, yellow);
@@ -163,10 +218,8 @@ namespace TikTokLiveGame
 
         private void OnDisable()
         {
-            if (flock != null) Destroy(flock.gameObject);
-            flock = null;
+            FinishParade();
             if (audioSource != null) audioSource.Stop();
-            nextAt = Time.unscaledTime + UnityEngine.Random.Range(MinBreak, MaxBreak);
         }
 
         private void OnDestroy()

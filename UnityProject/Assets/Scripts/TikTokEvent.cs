@@ -21,6 +21,7 @@ namespace TikTokLiveGame
         public DjScreenSettings screenSettings;
         public DjScreenItem[] screenItems;
         public string userId;
+        public string guestDjUserId;
         public string uniqueId;
         public string nickname;
         public string avatar;

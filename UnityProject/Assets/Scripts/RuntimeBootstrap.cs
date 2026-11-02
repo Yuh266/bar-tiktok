@@ -30,6 +30,7 @@ namespace TikTokLiveGame
             GiftEffectManager giftEffects = root.AddComponent<GiftEffectManager>();
             root.AddComponent<MusicPlaylistPlayer>().Initialize(client);
             root.AddComponent<DuckParade>();
+            root.AddComponent<DragonRide>();
             TikTokGameController game = root.AddComponent<TikTokGameController>();
             game.Initialize(client, players, giftEffects);
             VisualCaptureHarness.InstallIfRequested(root);

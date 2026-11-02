@@ -6,11 +6,15 @@
 
 **Biến phiên TikTok LIVE thành sàn nhảy 3D tương tác** — Người xem gửi gift, chat, like, follow sẽ xuất hiện trên sàn nhảy với avatar TikTok thật, hiệu ứng ánh sáng, DJ booth và pháo hoa.
 
+## Bản dự án đầy đủ
+
+Repo chứa toàn bộ nội dung thư mục dự án hiện tại: source Unity/Node.js, game Windows trong `Build/`, nhạc, ảnh/video, `.env`, dữ liệu LIVE và các bản sao lưu trong `TikTokBridge/data/`. Thư viện đã cài và cache Unity cũng được giữ theo yêu cầu lưu đầy đủ. Cài Node.js 20.9+ rồi chạy `run.bat`; Unity chỉ cần khi tự build lại. Dữ liệu LIVE là bản chụp tại thời điểm commit, không tự đồng bộ lên Git khi LIVE tiếp tục chạy.
+
 ## Tương tác mới
 
 Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khiển các hoạt động. Nhấn **F1** trong game để mở quản trị.
 
-**Tự động bật sẵn:** sự kiện đầu tiên xuất hiện sau khoảng 15 giây. Sau mỗi vòng, nghỉ ngẫu nhiên 30–60 giây rồi tự mở vòng mới. Đấu đội, bình chọn sàn và cùng nhảy được trộn thứ tự, không lặp cùng loại liên tiếp. Mỗi lúc chỉ có một vòng; không bỏ qua màn kết quả. Có thể tạm dừng hoặc chỉnh thời gian nghỉ trong mục **Sự kiện ngẫu nhiên**; thiết lập được nhớ khi khởi động lại.
+**Bật/tắt trò chơi:** trong **Tương tác**, nút **Tắt trò chơi** dừng ngay đấu đội Đỏ–Xanh, bình chọn và cùng nhảy, đồng thời ẩn ô trò chơi trong game. Ô năng lượng vẫn nhận tim và mở tiệc. Trạng thái tắt được nhớ khi mở lại; nút đổi thành **Bật trò chơi** để mở lại. Khi bật tự động, sự kiện đầu tiên xuất hiện sau khoảng 15 giây; các vòng nghỉ ngẫu nhiên 30–60 giây, trộn thứ tự và không lặp cùng loại liên tiếp. Có thể tạm dừng tự chạy hoặc chỉnh thời gian nghỉ riêng trong mục **Sự kiện ngẫu nhiên**.
 
 | Tính năng | Người xem tham gia | Kết quả |
 |---|---|---|
@@ -25,11 +29,13 @@ Mở `http://127.0.0.1:3000/control.html` → **Tương tác** để điều khi
 
 **Bot nhảy:** sàn giữ 5 bot làm nền; người xem thật vào sàn không làm tăng số bot.
 
-**Đàn vịt ngẫu nhiên:** tự xuất hiện lần đầu sau 20–35 giây, mỗi lượt có 8–11 vịt vàng chạy nối đuôi qua sàn kèm tiếng vịt nhẹ. Sau mỗi lượt nghỉ ngẫu nhiên 45–90 giây rồi chạy tiếp. Avatar của Top 3 tặng quà được tăng 20%; khi rời Top 3 trở về kích thước thường.
+**Đoàn vịt và người xem:** tự xuất hiện lần đầu sau 20–35 giây. Một vịt dẫn đầu, 3–8 người xem được chọn ngẫu nhiên nối đuôi ở giữa và một vịt chốt đoàn, cùng đi một vòng trong vùng sàn trống phía dưới khán giả khoảng 6 giây kèm tiếng vịt nhẹ. Phòng ít người thì chọn theo số người đang có; không dùng bot thay người xem và giữ nguyên người đang đứng bàn DJ. Camera tự zoom xa, lấy tâm vùng diễu hành phía dưới để thấy rõ cả đoàn, kể cả khi có quà đang zoom gần. Hết lượt, người xem về vị trí theo thứ hạng hiện tại và camera trở lại bình thường; nghỉ ngẫu nhiên 45–90 giây rồi chạy tiếp. Avatar của Top 5 tặng quà được tăng 20%; khi rời Top 5 trở về kích thước thường.
 
-**Nhạc DJ trong quản trị:** mở tab **Nhạc DJ**, chọn file rồi bấm **Tải nhạc lên** (MP3/WAV/OGG, tối đa 250 MB/file, chọn nhiều bài được). Nhạc lưu trong `DJ_MUSIC/` và phát trực tiếp từ game. Có thể chọn bài, phát/tạm dừng, bài trước/tiếp, tua ±10 giây, kéo thanh tua hoặc nhập thời gian như `02:30`. Hết bài tự chuyển bài và lặp danh sách. Tải thêm nhạc không làm bài đang nghe chạy lại; trạng thái/thời gian trên quản trị được báo từ bộ phát thật. Có thể đổi thư mục nhạc bằng biến môi trường `MUSIC_DIR` của Bridge. File nhạc cá nhân không đưa lên Git.
+**Cưỡi rồng bay:** quà **Finger Heart / Trái tim ngón tay · 5 xu** (ID `5487`) đưa người tặng lên rồng ngọc xanh có cánh tím và sừng vàng, bay quanh sân khấu khoảng 5 giây. Camera theo cả rồng và người cưỡi, sau đó hạ xuống vị trí sàn/bục theo thứ hạng hiện tại. Nhiều người tặng được xếp lượt; không chồng cảnh bay với đoàn vịt, không kéo người giữ bàn DJ xuống và không tự xuất hiện khi chưa có quà. Có thể chọn hành động **Cưỡi rồng bay** trong Master Rules; thời lượng từ 5 đến 300 giây. Trong tab Events có nút thử Finger Heart. Quà này hiện dùng cho rồng bay; lệnh chat `đi vòng`/`walk` vẫn hoạt động.
 
-**Màn hình DJ trong quản trị:** mở tab **Màn hình DJ** để tải ảnh PNG/JPG (tối đa 20 MB, 4096 × 4096 px) hoặc video MP4/WebM/MOV/M4V (tối đa 500 MB, ưu tiên MP4/H.264). Chọn phát một ảnh/video, slideshow trộn ảnh–video có sắp thứ tự và thời gian chuyển 2–120 giây, hiển thị chữ có màu/cỡ chữ/nền/chạy ngang, hoặc tắt màn hình. Bấm **Lưu & áp dụng màn hình** để đổi trực tiếp trong game; cấu hình được giữ khi mở lại. Video tắt tiếng để không chồng nhạc DJ. File riêng lưu trong `DJ_VIDEO/`, cấu hình ở `TikTokBridge/data/dj-screen.json`, không đưa vào Git; đổi thư mục qua `SCREEN_DIR` nếu cần.
+**Nhạc DJ trong quản trị:** mở tab **Nhạc DJ**, chọn file rồi bấm **Tải nhạc lên** (MP3/WAV/OGG, tối đa 250 MB/file, chọn nhiều bài được). Nhạc lưu trong `DJ_MUSIC/` và phát trực tiếp từ game. Có thể chọn bài, phát/tạm dừng, bài trước/tiếp, tua ±10 giây, kéo thanh tua hoặc nhập thời gian như `02:30`. Hết bài tự chuyển bài và lặp danh sách. Tải thêm nhạc không làm bài đang nghe chạy lại; trạng thái/thời gian trên quản trị được báo từ bộ phát thật. Có thể đổi thư mục nhạc bằng biến môi trường `MUSIC_DIR` của Bridge. Bản đầy đủ này có kèm các file nhạc hiện tại.
+
+**Màn hình DJ trong quản trị:** mở tab **Màn hình DJ** để tải ảnh PNG/JPG (tối đa 20 MB, 4096 × 4096 px) hoặc video MP4/WebM/MOV/M4V (tối đa 500 MB, ưu tiên MP4/H.264). Chọn phát một ảnh/video, slideshow trộn ảnh–video có sắp thứ tự và thời gian chuyển 2–120 giây, hiển thị chữ có màu/cỡ chữ/nền/chạy ngang, hoặc tắt màn hình. Bấm **Lưu & áp dụng màn hình** để đổi trực tiếp trong game; cấu hình được giữ khi mở lại. Video tắt tiếng để không chồng nhạc DJ. File riêng lưu trong `DJ_VIDEO/`, cấu hình ở `TikTokBridge/data/dj-screen.json`, được đưa kèm trong bản đầy đủ; đổi thư mục qua `SCREEN_DIR` nếu cần.
 
 **Chống spam combo quà:** cùng người, cùng loại quà chỉ chặn lặp cảm ơn và zoom trong 1 giây tính từ lần kích hoạt gần nhất; hết 1 giây được kích hoạt lại dù vẫn đang gửi liên tục. Đổi loại quà được kích hoạt ngay, kể cả đổi về quà trước đó. Toàn bộ quà và điểm BXH vẫn cộng đủ.
 
@@ -56,9 +62,11 @@ Trong web quản trị → **Người chơi**:
 - **Reset BXH quà tặng** → **Xác nhận reset BXH** để tính lại thứ hạng từ 0. Người chơi, tổng quà thống kê, khách quen và sự kiện đang chạy vẫn được giữ.
 - Danh sách tự cập nhật. Trạng thái đã kick và điểm BXH sau reset được lưu cùng phiên LIVE.
 - Game và danh sách kick dùng cùng danh sách người trên sàn, đồng bộ mỗi giây. Khi có tối đa 80 người, nhân vật được giữ lại dù đã lâu không tương tác. Chỉ khi vượt 80 mới gỡ người không tương tác ít nhất 10 phút, ưu tiên lâu nhất và chỉ gỡ số lượng dư để giữ sàn đông. Nếu mọi người vẫn tương tác, giữ họ trong giới hạn kỹ thuật 400 người. Điểm BXH vẫn giữ, 5 bot nền đếm riêng; khi tìm kiếm, quản trị hiển thị số kết quả trên tổng số người.
-- Bục Top 3 và bảng Top trong game chọn người còn trên sàn theo điểm quà. Khi một người rời, người có điểm cao tiếp theo trên sàn tự lên thay; người quay lại được xét bằng điểm đã giữ. BXH tổng trong quản trị vẫn giữ điểm của cả người đã rời.
+- Bục Top 5 và bảng Top trong game chọn người còn trên sàn theo điểm quà. Từ trái sang phải: Top 4 – Top 2 – Top 1 – Top 3 – Top 5. Khi một người rời, người có điểm cao tiếp theo trên sàn tự lên thay; người quay lại được xét bằng điểm đã giữ. BXH tổng trong quản trị vẫn giữ điểm của cả người đã rời.
 
-Ảnh WebP TikTok được chuyển sang PNG bằng dịch vụ ảnh nội bộ. Dữ liệu người xem, danh hiệu, phiên LIVE và quà đã học được lưu tại `TikTokBridge/data/` và không đưa vào Git. Phiên trong vòng 12 giờ có thể khôi phục BXH và tự kết nối lại sau khi khởi động lại Bridge.
+Ảnh WebP TikTok được chuyển sang PNG bằng dịch vụ ảnh nội bộ. Dữ liệu người xem, danh hiệu, phiên LIVE và quà đã học được lưu tại `TikTokBridge/data/` và được đưa kèm trong bản đầy đủ theo yêu cầu chủ repo. Phiên trong vòng 12 giờ có thể khôi phục BXH và tự kết nối lại sau khi khởi động lại Bridge.
+
+**Sao lưu thủ công:** trong trang quản trị → **Session** → **Sao lưu**. Mỗi lần bấm tạo một file JSON riêng trong `TikTokBridge/data/backups/`, gồm BXH/điểm quà, người trên sàn, người giữ bàn DJ, thống kê và tài khoản LIVE. Trang chỉ báo thành công sau khi ghi file xong. Reset game và tự lưu phiên không ghi đè các bản sao này; các bản sao không tự hết hạn sau 12 giờ. Đây là bản sao dữ liệu phiên, không bao gồm file nhạc/video hoặc toàn bộ cấu hình. Kiểm tra nút sao lưu trên Bridge thử riêng bằng `npm run test:backup-ui` (cần Chrome).
 
 ### Chạy source
 
@@ -69,7 +77,7 @@ npm ci
 npm start
 ```
 
-Cần Node.js **20.9 trở lên**, khuyến nghị bản LTS. Game Windows được build từ `UnityProject/` bằng Unity **6000.2.10f1** (`build.bat`); thư mục `Build/` không nằm trong source Git.
+Cần Node.js **20.9 trở lên**, khuyến nghị bản LTS. Game Windows được build từ `UnityProject/` bằng Unity **6000.2.10f1** (`build.bat`); thư mục `Build/` đã có trong bản đầy đủ này.
 
 Kiểm tra backend bằng `npm test`. Kiểm tra giao diện trên Bridge thử nghiệm riêng bằng `npm run test:ui -- http://127.0.0.1:3100` (cần Chrome đã cài).
 
@@ -89,7 +97,7 @@ Dự án phát triển tiếp từ [cherry9001/tiktok-live-bar](https://github.c
 
 - 🕺 **Sàn nhảy 3D realtime** — Người xem TikTok tham gia sàn nhảy với nhân vật 3D
 - 🎁 **Gift → Hiệu ứng** — Mỗi gift kích hoạt hiệu ứng riêng (zoom camera, pháo hoa, VIP spotlight...)
-- 🏆 **Bảng xếp hạng Top 3** — Top gifter đứng trên bục DJ
+- 🏆 **Bảng xếp hạng Top 5** — Top gifter đứng trên bục DJ, hạng 4 và 5 ở hai bên
 - 🎵 **DJ Booth** — Phát nhạc + video nền tùy chỉnh
 - ⚙️ **Master Rules** — Tùy chỉnh luật game qua giao diện web, không cần code
 - 🧪 **Test Lab** — Demo mode với người xem giả để test trước khi live
@@ -135,8 +143,7 @@ chạy `npm ci`, Bridge/Control Panel/WebSocket hoạt động và game kết n�
 > `run.bat` không tự tắt chương trình khác đang dùng cổng 3000. Nếu launcher báo
 > xung đột cổng, hãy đóng đúng chương trình được báo rồi chạy lại để tránh mất dữ liệu.
 
-> **Không tải “Source code (zip)” nếu bạn chỉ muốn chơi.** File source tự động của
-> GitHub không chứa thư mục `Build`; hãy tải đúng file Windows ở mục Releases.
+> Bản source hiện tại đã kèm thư mục `Build`. Có thể clone repo hoặc tải ZIP của nhánh `main`, giải nén toàn bộ rồi chạy `run.bat`.
 
 ### Dành cho lập trình viên — Clone source
 
@@ -145,8 +152,7 @@ git clone https://github.com/Yuh266/bar-tiktok.git
 cd bar-tiktok
 ```
 
-Source GitHub không chứa game đã biên dịch. Cài Unity `6000.2.10f1`, sau đó chạy
-`build.bat` hoặc mở `UnityProject/` bằng Unity Hub để tạo thư mục `Build`.
+Source hiện tại đã kèm game Windows trong `Build/`. Nếu muốn build lại, cài Unity `6000.2.10f1`, rồi chạy `build.bat` hoặc mở `UnityProject/` bằng Unity Hub.
 
 ### Chạy thủ công — Cài đặt Node Bridge
 
@@ -164,7 +170,7 @@ Truy cập [http://127.0.0.1:3000/control.html](http://127.0.0.1:3000/control.ht
 ### Chạy Unity Game
 
 - **Nếu có file build:** Chạy `run.bat`
-- **Nếu clone source:** Cài Unity `6000.2.10f1`, rồi chạy `build.bat`
+- **Nếu clone bản đầy đủ này:** Chạy `run.bat`; dùng Unity `6000.2.10f1` và `build.bat` khi muốn build lại.
 
 ### Kết nối TikTok LIVE
 
@@ -191,7 +197,7 @@ Truy cập [http://127.0.0.1:3000/control.html](http://127.0.0.1:3000/control.ht
 ├── DJ_MUSIC/              # 🎵 Thả file nhạc MP3/WAV/OGG vào đây
 ├── DJ_VIDEO/              # 🎬 Thả file video MP4/PNG vào đây
 ├── LiveAssets/             # Hình nền, GIF hiệu ứng
-├── Build/                 # Có trong gói Release; không có trong source Git
+├── Build/                 # Bản Windows hiện tại, đã đưa vào Git
 │
 ├── build.bat              # Script build Unity → EXE
 ├── run.bat                # Script chạy Node + Game
@@ -274,7 +280,7 @@ tiên nếu cùng tên. Bản game dựng sẵn kết nối cố định tới c
 - **`node` hoặc `npm` không được nhận diện:** cài Node.js 20+, đóng cửa sổ cũ rồi chạy lại `run.bat`.
 - **`npm ci` thất bại:** kiểm tra kết nối Internet, tắt proxy/VPN lỗi và chạy lại; không sao chép `node_modules` từ máy khác.
 - **Cổng 3000 đang bị chiếm:** đóng đúng ứng dụng/PID được launcher báo; launcher không tự tắt ứng dụng khác.
-- **Không tìm thấy game:** bạn đã tải Source ZIP hoặc clone Git. Hãy tải bản Windows trong Releases hoặc tự build bằng Unity.
+- **Không tìm thấy game:** kiểm tra đã clone/giải nén đủ thư mục `Build`; có thể tự build lại bằng Unity nếu bản tải về thiếu file.
 - **Windows SmartScreen cảnh báo:** chọn **More info → Run anyway** nếu file được tải từ Release chính thức của repo này.
 - **TikTok chưa có sự kiện:** mở TikFinity, kiểm tra WebSocket `ws://127.0.0.1:21213/`, sau đó thử **Test Lab** trước.
 

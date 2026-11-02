@@ -59,16 +59,16 @@
       "fireworkBursts": 0
     },
     {
-      "id": "gift-finger-heart-walk",
+      "id": "gift-finger-heart-dragon",
       "enabled": true,
       "source": "gift",
       "trigger": "finger heart, trái tim ngón tay, trai tim ngon tay",
       "giftId": "5487",
       "match": "exact",
-      "action": "walk",
+      "action": "dragon",
       "displayDiamonds": 5,
       "durationMs": 5000,
-      "label": "ĐI VÒNG",
+      "label": "CƯỠI RỒNG BAY",
       "variant": "",
       "fireworkBursts": 0
     },

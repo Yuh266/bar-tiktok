@@ -5,6 +5,7 @@ namespace TikTokLiveGame
 {
     [Serializable] public class EngagementState
     {
+        public bool gamesEnabled = true;
         public long serverTime, resultUntil;
         public string activity, floorTheme, lastResult;
         public BattleState battle;
@@ -42,7 +43,7 @@ namespace TikTokLiveGame
                 playerManager.DanceAll(10f);
                 giftEffects.PartyBurst();
             }
-            if (state.resultUntil <= state.serverTime) return;
+            if (!state.gamesEnabled || state.resultUntil <= state.serverTime) return;
             if (state.battle != null && state.battle.status == "results" && state.battle.endsAt != celebratedBattle)
             {
                 celebratedBattle = state.battle.endsAt;
@@ -82,6 +83,7 @@ namespace TikTokLiveGame
             GUI.color = new Color(0.04f, 0.12f, 0.2f); GUI.DrawTexture(new Rect(x + 10, 121, 170, 5), Texture2D.whiteTexture);
             GUI.color = new Color(0.12f, 0.85f, 1f); GUI.DrawTexture(new Rect(x + 10, 121, 170 * Mathf.Clamp01(energy.value / (float)Mathf.Max(1, energy.goal)), 5), Texture2D.whiteTexture);
             GUI.color = previous;
+            if (!engagement.gamesEnabled) return;
             if (string.IsNullOrEmpty(engagement.activity) && CommunitySeconds(engagement.resultUntil) == 0) return;
             float y = 142f;
             DrawAssetPanel(new Rect(x, y, 190, 124), brandPanel, new Color(0.65f, 0.35f, 1f));

@@ -35,6 +35,12 @@ namespace TikTokLiveGame
             string comboText = count > 1 ? $"  (COMBO x{count})" : string.Empty;
             BannerText = $"{data.nickname} · {gift}{comboText}";
             BannerUntil = Time.unscaledTime + Mathf.Clamp(data.durationMs / 1000f, 3f, 10f);
+            if (data.action == "dragon")
+            {
+                if (!data.suppressGiftPresentation) FindFirstObjectByType<DragonRide>()?.RequestRide(actor,
+                    data.durationMs > 0 ? data.durationMs / 1000f : 5f);
+                return;
+            }
             specialShow.Trigger(actor, data);
 
             bool spotlightAction = data.action is "camera" or "vip" or "topdj" or "fireworks" or "medal";

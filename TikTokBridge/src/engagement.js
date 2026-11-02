@@ -69,8 +69,9 @@ class EngagementEngine {
             energyGoal: number(config.energyGoal, 2000, 100, 100000)
         };
         this.floorTheme = THEMES.includes(config.floorTheme) ? config.floorTheme : 'neon';
+        this.gamesEnabled = config.gamesEnabled !== false;
         const minGapSeconds = number(config.autoMinGapSeconds, 30, 15, 600);
-        this.auto = { enabled: config.autoEnabled === true, minGapSeconds,
+        this.auto = { enabled: this.gamesEnabled && config.autoEnabled === true, minGapSeconds,
             maxGapSeconds: number(config.autoMaxGapSeconds, 60, minGapSeconds, 900), nextAt: 0 };
         this.members = new Map();
         this.reset();
@@ -94,8 +95,21 @@ class EngagementEngine {
 
     command(action, options = {}) {
         const now = this.now();
-        this.tick(now, false);
-        if (action === 'floor_set') {
+        if (action !== 'games_config' || options.enabled !== false) this.tick(now, false);
+        if (action === 'games_config') {
+            if (typeof options.enabled !== 'boolean') throw new Error('Chọn bật hoặc tắt trò chơi.');
+            this.gamesEnabled = options.enabled;
+            this.auto.enabled = options.enabled;
+            if (!options.enabled) {
+                this.activity = ''; this.lastResult = ''; this.resultUntil = 0;
+                this.auto.nextAt = 0; this.autoQueue = [];
+                this.teams.clear(); this.battleLikes.clear(); this.ballots.clear(); this.dancers.clear();
+                for (const member of this.members.values()) member.team = '';
+                this.battle = { status: 'idle', red: 0, blue: 0, redMembers: 0, blueMembers: 0, endsAt: 0, winner: '', winnerUserIds: [] };
+                this.vote = { status: 'idle', neon: 0, disco: 0, lava: 0, endsAt: 0, winner: '' };
+                this.dance = { status: 'idle', startsAt: 0, endsAt: 0, count: 0, target: this.config.danceTarget, success: false };
+            } else this.auto.nextAt = this.activity ? 0 : now + 15000;
+        } else if (action === 'floor_set') {
             if (!THEMES.includes(options.theme)) throw new Error('Mẫu sàn không hợp lệ.');
             this.floorTheme = options.theme;
         } else if (action === 'energy_goal') {
@@ -103,6 +117,7 @@ class EngagementEngine {
             this.energy.goal = this.config.energyGoal;
             this.energy.value = Math.min(this.energy.value, this.energy.goal - 1);
         } else if (action === 'auto_config') {
+            if (options.enabled === true && !this.gamesEnabled) throw new Error('Bật trò chơi trước khi bật tự chạy.');
             if (typeof options.enabled === 'boolean') this.auto.enabled = options.enabled;
             this.auto.minGapSeconds = number(options.minGapSeconds, this.auto.minGapSeconds, 15, 600);
             this.auto.maxGapSeconds = number(options.maxGapSeconds, this.auto.maxGapSeconds, this.auto.minGapSeconds, 900);
@@ -117,6 +132,7 @@ class EngagementEngine {
     }
 
     begin(action, options, now) {
+        if (!this.gamesEnabled) throw new Error('Trò chơi đang tắt. Bật trò chơi trong trang quản trị để tiếp tục.');
         if (!['battle_start', 'vote_start', 'dance_start'].includes(action)) throw new Error('Hoạt động không hợp lệ.');
         if (this.activity) throw new Error('Hãy kết thúc hoạt động hiện tại trước.');
         this.auto.nextAt = 0;
@@ -155,7 +171,7 @@ class EngagementEngine {
     }
 
     settings() {
-        return { floorTheme: this.floorTheme, energyGoal: this.energy.goal, autoEnabled: this.auto.enabled,
+        return { gamesEnabled: this.gamesEnabled, floorTheme: this.floorTheme, energyGoal: this.energy.goal, autoEnabled: this.auto.enabled,
             autoMinGapSeconds: this.auto.minGapSeconds, autoMaxGapSeconds: this.auto.maxGapSeconds };
     }
 
@@ -248,7 +264,7 @@ class EngagementEngine {
             for (const item of [this.battle, this.vote, this.dance]) if (item.status === 'results') item.status = 'idle';
             this.revision++;
         }
-        if (runAuto && this.auto.enabled && !this.activity && this.auto.nextAt && now >= this.auto.nextAt && now >= this.resultUntil) {
+        if (runAuto && this.gamesEnabled && this.auto.enabled && !this.activity && this.auto.nextAt && now >= this.auto.nextAt && now >= this.resultUntil) {
             const action = this.nextAutomaticActivity();
             const target = Math.min(this.config.danceTarget, Math.max(2, this.members.size));
             this.begin(action, { target }, now);
@@ -257,7 +273,7 @@ class EngagementEngine {
     }
 
     snapshot(now = this.now()) {
-        return { serverTime: now, revision: this.revision, activity: this.activity, floorTheme: this.floorTheme,
+        return { serverTime: now, revision: this.revision, gamesEnabled: this.gamesEnabled, activity: this.activity, floorTheme: this.floorTheme,
             battle: { ...this.battle }, vote: { ...this.vote }, dance: { ...this.dance }, energy: { ...this.energy },
             auto: { ...this.auto },
             lastResult: this.lastResult, resultUntil: this.resultUntil, members: [...this.members.values()] };

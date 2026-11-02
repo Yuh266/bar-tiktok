@@ -20,6 +20,12 @@ namespace TikTokLiveGame
         private LineRenderer teamRing;
         private float performanceUntil;
         private Vector3 performancePosition;
+        private bool guestDj;
+        private bool paradeFollowing;
+        private Vector3 paradePosition;
+        private bool dragonRiding;
+        private Vector3 dragonPosition;
+        private static readonly Vector3 DjPodiumPosition = new(0f, 3f, -7.55f);
         private TextMesh rankLabel;
         private TextMesh titleLabel;
         private TextMesh titleShadowLabel;
@@ -63,6 +69,11 @@ namespace TikTokLiveGame
         public int GiftPower { get; private set; }
         public float LastActiveTime { get; private set; }
         public bool IsTopRanked => topRank > 0;
+        public bool IsGuestDj => guestDj;
+        public bool IsInParade => paradeFollowing;
+        public bool IsDragonRiding => dragonRiding;
+        public Vector3 AssignedHome => AssignedPosition;
+        private Vector3 AssignedPosition => IsGuestDj ? DjPodiumPosition : home;
         public bool IsNpc => !string.IsNullOrEmpty(UserId) && UserId.StartsWith("npc-");
         private bool UsesSyntheticAvatar => !string.IsNullOrEmpty(UserId) &&
             (UserId.StartsWith("npc-") || UserId.StartsWith("demo-") || UserId == "master-test");
@@ -240,6 +251,74 @@ namespace TikTokLiveGame
             Celebrate(seconds);
         }
 
+        public void PerformAsDj()
+        {
+            paradeFollowing = false;
+            dragonRiding = false;
+            spawnDropPending = false;
+            spawnDropping = false;
+            guestDj = true;
+            ReturnToAssignedSlot();
+            Celebrate(12f);
+            ApplyEvolution();
+        }
+
+        public void EndDjPerformance()
+        {
+            guestDj = false;
+            ReturnToAssignedSlot();
+            ApplyEvolution();
+        }
+
+        public void BeginParade()
+        {
+            if (IsNpc || IsGuestDj || dragonRiding) return;
+            paradeFollowing = true;
+            paradePosition = transform.position;
+            spawnDropPending = false;
+            spawnDropping = false;
+            performanceUntil = 0f;
+            SetVisibility(1f);
+        }
+
+        public void FollowParade(Vector3 position) => paradePosition = position;
+
+        public void EndParade()
+        {
+            if (!paradeFollowing) return;
+            paradeFollowing = false;
+            if (action is ActionState.Walk or ActionState.Jump) action = ActionState.Idle;
+            ReturnToAssignedSlot();
+        }
+
+        public bool BeginDragonRide()
+        {
+            if (IsNpc || IsGuestDj || paradeFollowing || dragonRiding) return false;
+            dragonRiding = true;
+            dragonPosition = transform.position;
+            spawnDropPending = false;
+            spawnDropping = false;
+            performanceUntil = 0f;
+            SetVisibility(1f);
+            ApplyEvolution();
+            return true;
+        }
+
+        public void FollowDragon(Vector3 position)
+        {
+            dragonPosition = position;
+            if (dragonRiding) transform.position = position;
+        }
+
+        public void EndDragonRide()
+        {
+            if (!dragonRiding) return;
+            dragonRiding = false;
+            if (action is ActionState.Walk or ActionState.Jump) action = ActionState.Idle;
+            ReturnToAssignedSlot();
+            ApplyEvolution();
+        }
+
         private static int StableAvatarIndex(string value, int count)
         {
             unchecked
@@ -299,7 +378,7 @@ namespace TikTokLiveGame
 
         private float GiftPowerScale()
         {
-            // Ranking controls the size of Top 1-3. Gift totals may only make a
+            // Ranking controls the size of Top 1-5. Gift totals may only make a
             // regular dancer slightly larger so nobody suddenly fills the frame.
             return topRank > 0 ? 1f : 1f + Mathf.Min(0.18f, GiftPower / 3500f);
         }
@@ -307,13 +386,15 @@ namespace TikTokLiveGame
         private void ApplyEvolution()
         {
             if (titleLabel == null) return;
-            string title = GiftPower >= 1000 ? "CHỦ TỊCH"
+            string title = IsGuestDj ? "ON TOP DJ"
+                : dragonRiding ? "KỴ SĨ RỒNG"
+                : GiftPower >= 1000 ? "CHỦ TỊCH"
                 : GiftPower >= 200 ? "VUA SÀN NHẢY"
                 : GiftPower >= 50 ? "DÂN CHƠI"
                 : GiftPower >= 10 ? "TÂN BINH"
                 : string.Empty;
             SetTitleText(title);
-            SetTitleVisible(!string.IsNullOrEmpty(title) && (giftFocused || topRank > 0 || GiftPower >= 10 || crowdScale >= 0.56f));
+            SetTitleVisible(!string.IsNullOrEmpty(title) && (IsGuestDj || dragonRiding || giftFocused || topRank > 0 || GiftPower >= 10 || crowdScale >= 0.56f));
             RefreshDecorations();
         }
 
@@ -346,7 +427,7 @@ namespace TikTokLiveGame
 
         public void SetTopRank(int rank)
         {
-            rank = Mathf.Clamp(rank, 0, 3);
+            rank = Mathf.Clamp(rank, 0, PlayerManager.TopRankCount);
             if (rank == topRank) return;
             int previousRank = topRank;
             topRank = rank;
@@ -366,6 +447,8 @@ namespace TikTokLiveGame
                 1 => new Vector3(0f, 0.76f, -6.15f),
                 2 => new Vector3(-2.05f, 0.76f, -6.05f),
                 3 => new Vector3(2.05f, 0.76f, -6.05f),
+                4 => new Vector3(-4.1f, 0.76f, -6.05f),
+                5 => new Vector3(4.1f, 0.76f, -6.05f),
                 _ => Vector3.zero
             };
         }
@@ -377,6 +460,8 @@ namespace TikTokLiveGame
                 1 => Mathf.Clamp(crowdScale * 1.28f, 0.68f, 0.78f),
                 2 => Mathf.Clamp(crowdScale * 1.18f, 0.64f, 0.72f),
                 3 => Mathf.Clamp(crowdScale * 1.1f, 0.6f, 0.68f),
+                4 => Mathf.Clamp(crowdScale * 1.05f, 0.56f, 0.64f),
+                5 => Mathf.Clamp(crowdScale, 0.54f, 0.62f),
                 _ => crowdScale
             };
         }
@@ -408,7 +493,7 @@ namespace TikTokLiveGame
             // on crowdScale made rear-row players look anonymous.
             nameLabel.gameObject.SetActive(true);
             if (avatarRenderer.sprite != null) avatarRenderer.enabled = true;
-            if (titleLabel != null && !giftFocused && topRank == 0 && GiftPower < 10 && crowdScale < 0.56f) SetTitleVisible(false);
+            if (titleLabel != null && !dragonRiding && !giftFocused && topRank == 0 && GiftPower < 10 && crowdScale < 0.56f) SetTitleVisible(false);
             else ApplyEvolution();
             RefreshDecorations();
         }
@@ -416,7 +501,7 @@ namespace TikTokLiveGame
         private void RefreshDecorations()
         {
             if (wingsRenderer == null || bannerRenderer == null) return;
-            bool decorated = giftFocused || topRank > 0 || GiftPower >= 10;
+            bool decorated = dragonRiding || giftFocused || topRank > 0 || GiftPower >= 10;
             string variant = topRank == 1 || GiftPower >= 1000 ? "royal"
                 : topRank == 2 || GiftPower >= 200 ? "fire"
                 : topRank == 3 || GiftPower >= 50 ? "neon"
@@ -453,7 +538,7 @@ namespace TikTokLiveGame
             titleLabel.transform.localScale = Vector3.one * identityScale * titleScale;
             if (titleShadowLabel != null) titleShadowLabel.transform.localScale = titleLabel.transform.localScale;
             UpdateDecorationPositions(0f);
-            wingsRenderer.enabled = decorated;
+            wingsRenderer.enabled = decorated && !dragonRiding;
             bannerRenderer.enabled = decorated && bannerRenderer.sprite != null && !string.IsNullOrWhiteSpace(titleLabel.text);
         }
 
@@ -533,7 +618,7 @@ namespace TikTokLiveGame
 
         public void SetVisibility(float alpha)
         {
-            targetAlpha = Time.time < victoryUntil ? 1f : Mathf.Clamp01(alpha);
+            targetAlpha = paradeFollowing || dragonRiding || Time.time < victoryUntil ? 1f : Mathf.Clamp01(alpha);
         }
 
         public void SetGiftFocus(bool focused)
@@ -546,7 +631,8 @@ namespace TikTokLiveGame
 
         public void ReturnToAssignedSlot()
         {
-            transform.position = home;
+            if (paradeFollowing || dragonRiding) return;
+            transform.position = AssignedPosition;
         }
 
         private void SetAction(ActionState next, float seconds)
@@ -563,7 +649,19 @@ namespace TikTokLiveGame
             if (victoryLabel != null) victoryLabel.gameObject.SetActive(winning);
             if (teamRing != null) teamRing.enabled = winning || !string.IsNullOrEmpty(Team);
             if (Time.time >= actionUntil && action != ActionState.Idle) action = ActionState.Idle;
-            if (spawnDropping)
+            if (IsGuestDj)
+            {
+                transform.position = AssignedPosition;
+            }
+            else if (dragonRiding)
+            {
+                transform.position = dragonPosition;
+            }
+            else if (paradeFollowing)
+            {
+                transform.position = Vector3.Lerp(transform.position, paradePosition, 1f - Mathf.Exp(-12f * Time.deltaTime));
+            }
+            else if (spawnDropping)
             {
                 float progress = Mathf.Clamp01((Time.time - spawnDropStartedAt) / SpawnDropDuration);
                 float heightOffset;
@@ -628,10 +726,10 @@ namespace TikTokLiveGame
             ApplyAlpha();
 
             float time = Time.time + phase;
-            bool isPerforming = action is ActionState.Dance or ActionState.Jump or ActionState.Celebrate;
-            flipbook.SetPlaybackSpeed(isPerforming ? 2.7f : 1.5f);
-            float bounce = isPerforming ? Mathf.Abs(Mathf.Sin(time * 13.125f)) * 0.16f : 0f;
-            body.localRotation = isPerforming
+            bool isPerforming = paradeFollowing || action is ActionState.Dance or ActionState.Jump or ActionState.Celebrate;
+            flipbook.SetPlaybackSpeed(dragonRiding ? 0.5f : isPerforming ? 2.7f : 1.5f);
+            float bounce = dragonRiding ? 0f : isPerforming ? Mathf.Abs(Mathf.Sin(time * 13.125f)) * (paradeFollowing ? 0.07f : 0.16f) : 0f;
+            body.localRotation = dragonRiding ? Quaternion.Euler(0f, 0f, Mathf.Sin(time * 2.5f) * 3f) : isPerforming
                 ? Quaternion.Euler(0f, Mathf.Sin(time * 3.75f) * 5f, Mathf.Sin(time * 9.375f) * 2.5f)
                 : Quaternion.identity;
             float pulse = action == ActionState.Celebrate ? 1f + Mathf.Sin(time * 16.875f) * 0.08f : 1f;

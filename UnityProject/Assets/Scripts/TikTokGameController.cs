@@ -66,6 +66,7 @@ namespace TikTokLiveGame
             if (liveEvent.type == "floor_roster")
             {
                 playerManager.Handle(liveEvent);
+                playerManager.UpdateGuestDj(liveEvent.guestDjUserId);
                 donors.Clear();
                 foreach (TikTokPlayerData donor in liveEvent.vipScores ?? System.Array.Empty<TikTokPlayerData>())
                     donors[donor.userId] = new Donor(donor.userId, donor.nickname, donor.score);
@@ -153,6 +154,8 @@ namespace TikTokLiveGame
             }
 
             playerManager.Handle(liveEvent);
+            if (liveEvent.type == "snapshot" || (liveEvent.type == "gift" && liveEvent.guestDjUserId != null))
+                playerManager.UpdateGuestDj(liveEvent.guestDjUserId);
             if (liveEvent.type is "gift" or "snapshot" or "leaderboard_reset" or "player_kicked" || liveEvent.joinedNow) UpdateTopPlayers();
             if (liveEvent.type == "gift")
             {
@@ -348,10 +351,10 @@ namespace TikTokLiveGame
 
         private void DrawTopDonors(float width)
         {
-            Donor[] top = ActiveDonors().Take(3).ToArray();
+            Donor[] top = ActiveDonors().Take(PlayerManager.TopRankCount).ToArray();
             float x = width - 358f;
-            GUI.Box(new Rect(x, 84, 340, 150), GUIContent.none, panelStyle);
-            GUI.Label(new Rect(x + 18, 94, 304, 28), "TOP 3 TRÊN SÀN", titleStyle);
+            GUI.Box(new Rect(x, 84, 340, 54 + PlayerManager.TopRankCount * 32), GUIContent.none, panelStyle);
+            GUI.Label(new Rect(x + 18, 94, 304, 28), $"TOP {PlayerManager.TopRankCount} TRÊN SÀN", titleStyle);
             for (int index = 0; index < top.Length; index++)
             {
                 Color old = GUI.color;

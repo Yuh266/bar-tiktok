@@ -12,6 +12,8 @@ const WebSocket = require('ws');
 const { randomBytes } = require('node:crypto');
 const { MusicLibrary } = require('./src/music-library');
 const { DjScreen } = require('./src/dj-screen');
+const { DjSeat } = require('./src/dj-seat');
+const djSeat = new DjSeat();
 const { TikTokLiveConnection } = require('tiktok-live-connector');
 const { getServerSettings, loadEnvironmentFile } = require('./src/config/environment');
 const { startAvatarServer } = require('./src/avatar-server');
@@ -158,13 +160,19 @@ try {
         for (const player of restoredSession.players || []) sessionPlayers.set(player.userId, { ...player, team: '' });
         for (const vip of restoredSession.vipScores || []) sessionVipScores.set(vip.userId, vip);
         for (const id of restoredSession.removedPlayers || []) if (typeof id === 'string') removedPlayers.add(id);
+        if (sessionPlayers.has(restoredSession.guestDjUserId)) djSeat.userId = restoredSession.guestDjUserId;
     }
 } catch (error) { console.warn('Could not restore LIVE session:', error.message); }
 
-function checkpointSession() {
-    sessionStore.schedule({ metrics, players: [...sessionPlayers.values()], vipScores: [...sessionVipScores.values()],
+function sessionState() {
+    return { metrics, players: [...sessionPlayers.values()], vipScores: [...sessionVipScores.values()],
         removedPlayers: [...removedPlayers],
-        username: desiredUsername || connectionStatus.username || null });
+        guestDjUserId: djSeat.userId,
+        username: desiredUsername || connectionStatus.username || null };
+}
+
+function checkpointSession() {
+    sessionStore.schedule(sessionState());
 }
 
 function engagementMessage() {
@@ -174,7 +182,7 @@ function engagementMessage() {
 
 function floorRosterMessage() {
     pruneSessionPlayers();
-    return { type: 'floor_roster', players: [...sessionPlayers.values()].map(player => ({ ...player,
+    return { type: 'floor_roster', guestDjUserId: djSeat.userId, players: [...sessionPlayers.values()].map(player => ({ ...player,
         score: sessionVipScores.get(player.userId)?.score || 0 })),
         vipScores: [...sessionVipScores.values()].sort((a, b) => b.score - a.score) };
 }
@@ -406,6 +414,7 @@ function resetSessionState(source = metrics.source) {
     likeMilestones.clear();
     metrics = { ...createMetrics(), source, startedAt: source === 'idle' ? null : Date.now() };
     sessionPlayers.clear();
+    djSeat.clear();
     sessionVipScores.clear();
     removedPlayers.clear();
     recentEventIds.clear();
@@ -418,6 +427,7 @@ function createSnapshot() {
     pruneSessionPlayers();
     return {
         type: 'snapshot',
+        guestDjUserId: djSeat.userId,
         players: [...sessionPlayers.values()],
         vipScores: [...sessionVipScores.values()],
         removedPlayers: [...removedPlayers]
@@ -425,7 +435,7 @@ function createSnapshot() {
 }
 
 function pruneSessionPlayers(now = Date.now()) {
-    return pruneFloorPlayers(sessionPlayers, { ...gameConfig, now });
+    return pruneFloorPlayers(sessionPlayers, { ...gameConfig, now, protectedUserId: djSeat.userId });
 }
 
 function normalizeUsername(value) {
@@ -506,6 +516,7 @@ function emitGameEvent(event) {
         }
     }
     if (event.userId && !event.spectatorOnly) {
+        if (event.type === 'gift') event.guestDjUserId = djSeat.claim(event);
         const previous = sessionPlayers.get(event.userId) || {};
         const playerState = {
             ...previous,
@@ -915,7 +926,7 @@ async function handleClientMessage(ws, message) {
 
     if (!ws.registered) return send(ws, { type: 'error', message: 'Client chưa đăng ký quyền.' });
 
-    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player', 'music_command', 'music_refresh', 'screen_refresh', 'screen_save', 'screen_command'].includes(message.type);
+    const controlOnly = ['master_save', 'master_test', 'engagement_command', 'speech_claim', 'reset_leaderboard', 'kick_player', 'music_command', 'music_refresh', 'screen_refresh', 'screen_save', 'screen_command', 'session_backup'].includes(message.type);
     const operatorOnly = new Set([
         'set_username', 'disconnect_tiktok', 'demo_start', 'demo_stop', 'demo_event', 'reset_game'
     ]).has(message.type);
@@ -984,6 +995,19 @@ async function handleClientMessage(ws, message) {
         return;
     }
 
+    if (message.type === 'session_backup') {
+        try {
+            const state = sessionState();
+            const backup = sessionStore.backup(state);
+            return send(ws, { type: 'session_backup_saved', ...backup,
+                playerCount: state.players.length, donorCount: state.vipScores.length,
+                diamonds: Number(state.metrics.diamonds) || 0 });
+        } catch (error) {
+            console.error('Could not create session backup:', error.message);
+            return send(ws, { type: 'session_backup_error', message: 'Không sao lưu được. Kiểm tra dung lượng và quyền ghi thư mục dữ liệu rồi thử lại.' });
+        }
+    }
+
     if (message.type === 'reset_leaderboard') {
         sessionVipScores.clear();
         broadcast({ type: 'leaderboard_reset' });
@@ -996,6 +1020,7 @@ async function handleClientMessage(ws, message) {
         const player = sessionPlayers.get(userId);
         if (!player) return send(ws, { type: 'error', message: 'Người này đã rời sàn hoặc không còn trong danh sách.' });
         sessionPlayers.delete(userId);
+        if (djSeat.userId === userId) djSeat.clear();
         removedPlayers.add(userId);
         engagement.members.delete(userId);
         broadcast({ type: 'player_kicked', userId });
@@ -1008,7 +1033,7 @@ async function handleClientMessage(ws, message) {
     if (message.type === 'engagement_command') {
         try {
             engagement.command(message.action, message);
-            if (['floor_set', 'energy_goal', 'auto_config'].includes(message.action)) {
+            if (['floor_set', 'energy_goal', 'auto_config', 'games_config'].includes(message.action)) {
                 await fs.mkdir(dataDir, { recursive: true });
                 await fs.writeFile(path.join(dataDir, 'engagement-settings.json'), JSON.stringify(engagement.settings()));
             }

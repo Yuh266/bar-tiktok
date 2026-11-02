@@ -1,12 +1,13 @@
 'use strict';
 
 function pruneFloorPlayers(players, { now = Date.now(), inactiveCleanupAbove = 80,
-    playerTtlMs = 600000, maxPlayers = 400 } = {}) {
+    playerTtlMs = 600000, maxPlayers = 400, protectedUserId = '' } = {}) {
     const maximum = Math.max(1, Number(maxPlayers) || 400);
     const keep = Math.min(maximum, Math.max(1, Number(inactiveCleanupAbove) || 80));
     if (players.size <= keep) return [];
     const cutoff = now - Math.max(1000, Number(playerTtlMs) || 600000);
-    const oldest = [...players.values()].sort((a, b) => (Number(a.lastActive) || 0) - (Number(b.lastActive) || 0));
+    const oldest = [...players.values()].filter(player => player.userId !== protectedUserId)
+        .sort((a, b) => (Number(a.lastActive) || 0) - (Number(b.lastActive) || 0));
     const removed = [];
     // Keep the room populated: remove only enough inactive avatars to reach 80.
     for (const player of oldest) {

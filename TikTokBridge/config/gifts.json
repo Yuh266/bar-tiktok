@@ -15,9 +15,9 @@
     },
     {
       "aliases": ["finger heart", "trái tim ngón tay", "trai tim ngon tay", "tim ngón tay", "tim ngon tay"],
-      "action": "walk",
+      "action": "dragon",
       "durationMs": 5000,
-      "label": "ĐI VÒNG"
+      "label": "CƯỠI RỒNG BAY"
     },
     {
       "aliases": ["portal", "cổng không gian", "cong khong gian"],
